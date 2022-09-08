@@ -22,7 +22,7 @@ The main colors should be white for background and black (with a slight opacity)
 - Both heading and body text should be sans-serif.
 - Heading and text that is important should use a bolder version of the font to stand out.
 
-#### **Font family Poppins**
+#### **Font family - Poppins**
 
 ![Font family](doc-images/font-family.png)
 
