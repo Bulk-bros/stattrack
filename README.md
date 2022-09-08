@@ -1,2 +1,3 @@
-# flutter-project
-Project during mobile application course in NTNU
+# Bulk bros (to be discussed)
+
+Project developed during mobile application course at NTNU
