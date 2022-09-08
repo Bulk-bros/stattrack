@@ -2,11 +2,11 @@
 
 ## **Theme**
 
-A combination of minimalist/simple and plain/neutral. The users experience should be the main focus and the design should emphasis users self defined goals in fitness. Follows a structural layout that is not confusing for the users.
+A combination of minimalist/simple and plain/neutral. User experience should be the main focus and the design should emphasize the users self defined goals in fitness. The theme should follow a structural layout that is not confusing for the users.
 
 ### **Colors**
 
-The main colors should be white for background and black (with a slight opacity) for foreground like text. To make the app pop a little more, green is used for accent elements
+The main colors will be white for the background and black (with a slight opacity) for the foreground like text. To make the app pop a little more, green is used for accent elements.
 
 #### **Background and foreground colors**
 
@@ -18,7 +18,7 @@ The main colors should be white for background and black (with a slight opacity)
 
 ### **Typography**
 
-- Sans-serif with sharp edges for serious look.
+- Sans-serif with sharp edges for a serious look.
 - Both heading and body text should be sans-serif.
 - Heading and text that is important should use a bolder version of the font to stand out.
 
@@ -35,13 +35,14 @@ _Body text: 16px_
 
 ### **Images**
 
-Images for private use. Like profil picture and pictures for recipes to easily distinguish recipes from each other.
+Images for private use. Like profile picture and pictures for recipes to easily distinguish recipes from each other.
 
 ### **Icons**
 
 Icons will be used for some parts of the page such as navigation.
 
-Icons with as little details as possible should be used, and the icons should not be too round (they should fit the rest of the design, a plain / neutral feel).
+The icons should have as few details as possible, and the icons should not be too round (they should fit the rest of the design, a plain / neutral feel).
+
 
 ### **Borders**
 
