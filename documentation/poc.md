@@ -2,18 +2,21 @@
 
 ## Problems to solve
 
-Quick and easy way to track your meals, calories and nutriens. For achiving your dream physic or just be healthy and structured in general.
+To give people a quick and easy way to track your meals, calories and nutrients. To help achieve your dream physique or just become more healthy and structured in general.
 
 ## Practical use
 
-Logging your meals, and get imidiate feedback on how you are doing.
+Log your meals and get immediate feedback on how your diet is going according to your goals.
+See how your diet and body goals has been going in the long term.
+Track your weight using bluetooth.
 
 ## Target group
 
-People who wants to track their macros to achive their physical goals.
+People who want to track their nutrients to achive their physical goals.
 
 ## Functionallity
 
 - Create meals
 - Log meals
 - Track macros
+- Track weight
