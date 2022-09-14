@@ -14,5 +14,6 @@ jobs:
         with:
           channel: "stable" # or: 'beta', 'dev' or 'master'
           working-directory: ./gr05_mobile_app
-          - run: flutter pub get
-          - run: flutter test
+          - run: |
+            flutter pub get
+            flutter test
