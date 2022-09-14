@@ -19,11 +19,8 @@ jobs:
         with:
           flutter-version: "2.0.5"
 
-      - name: CD to Flutter Directory
-        run: cd ./gr05_mobile_app
-
-      - name: Get all Flutter Packages
-        run: flutter pub get
-
-      - name: Run Flutter Test
-        run: flutter test
+      - name: Run Flutter Tests
+        run: |
+          cd ./gr05_mobile_app
+          flutter pub get
+          flutter test
