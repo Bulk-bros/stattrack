@@ -14,6 +14,6 @@ jobs:
         with:
           channel: "stable" # or: 'beta', 'dev' or 'master'
       - run: |
-        cd ./gr05_mobile_app
-        flutter pub get
-        flutter test
+          cd ./gr05_mobile_app
+          flutter pub get
+          flutter test
