@@ -18,7 +18,9 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: "2.0.5"
-          working-directory: ./gr05_mobile_app
+
+      - name: CD to Flutter Directory
+        run: cd ./gr05_mobile_app
 
       - name: Get all Flutter Packages
         run: flutter pub get
