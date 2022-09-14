@@ -1,0 +1,17 @@
+name: Flutter Test
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable" # or: 'beta', 'dev' or 'master'
+      - run: |
+          cd ./gr05_mobile_app
+          flutter pub get
+          flutter test
