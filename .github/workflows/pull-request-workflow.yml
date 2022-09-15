@@ -12,6 +12,6 @@ jobs:
         with:
           channel: "stable" # or: 'beta', 'dev' or 'master'
       - run: |
-          cd ./gr05_mobile_app
+          cd ./stattrack
           flutter pub get
           flutter test
