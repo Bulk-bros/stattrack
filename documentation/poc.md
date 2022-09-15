@@ -21,3 +21,4 @@ People who want to track their nutrients to achive their physical goals.
 - Track weight
   - Manually (first version)
   - Via bluetooth connection to weight (future version)
+- Google / Apple fitness API
