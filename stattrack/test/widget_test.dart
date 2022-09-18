@@ -7,16 +7,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:stattrack/main.dart';
 
 void main() {
-  testWidgets('Find title', (WidgetTester tester) async {
+  testWidgets('Signin page', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('Stattrack'), findsOneWidget);
+    // Verify we're on login page
+    expect(find.text('Login'), findsOneWidget);
     expect(find.text('Home page'), findsNothing);
+
+    // Check for buttons
+    expect(find.widgetWithText(ElevatedButton, 'Facebook'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Google'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Email'), findsOneWidget);
   });
 }
