@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Stattrak'),
+      home: const MyHomePage(title: 'Stattrack'),
       debugShowCheckedModeBanner: false,
     );
   }
