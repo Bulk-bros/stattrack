@@ -126,7 +126,7 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 # Firebase
-./android/app/google-services.json
+./android/app/json
 ./ios/Runner/GoogleService-Info.plist
 ./macos/Runner/GoogleService-Info.plist
 ./macos/Podfile
