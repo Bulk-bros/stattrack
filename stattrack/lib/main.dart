@@ -17,43 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Colors
         primarySwatch: Palette.accent,
-
-        // Fonts
         // Default font
         fontFamily: 'Inter',
-        // Specific font styles
-        textTheme: TextTheme(
-          headline1: const TextStyle(
-            fontSize: 31.0,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w600,
-          ),
-          headline2: const TextStyle(
-            fontSize: 20.0,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w600,
-          ),
-          headline3: const TextStyle(
-            fontSize: 16.0,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w500,
-          ),
-          bodyText1: const TextStyle(
-            fontSize: 16.0,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.normal,
-          ),
-          bodyText2: const TextStyle(
-            fontSize: 13.0,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.normal,
-          ),
-          bodySmall: const TextStyle(
-            fontSize: 10.0,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.normal,
-          ),
-        ),
       ),
       home: const SignInPage(),
       debugShowCheckedModeBanner: false,
