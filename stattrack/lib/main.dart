@@ -22,11 +22,36 @@ class MyApp extends StatelessWidget {
         // Default font
         fontFamily: 'Inter',
         // Specific font styles
-        textTheme: const TextTheme(
-          headline1: TextStyle(
+        textTheme: TextTheme(
+          headline1: const TextStyle(
             fontSize: 31.0,
             fontFamily: 'Inter',
             fontWeight: FontWeight.w600,
+          ),
+          headline2: const TextStyle(
+            fontSize: 20.0,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w600,
+          ),
+          headline3: const TextStyle(
+            fontSize: 16.0,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w500,
+          ),
+          bodyText1: const TextStyle(
+            fontSize: 16.0,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.normal,
+          ),
+          bodyText2: const TextStyle(
+            fontSize: 13.0,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.normal,
+          ),
+          bodySmall: const TextStyle(
+            fontSize: 10.0,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.normal,
           ),
         ),
       ),
