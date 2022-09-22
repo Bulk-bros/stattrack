@@ -126,11 +126,11 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 # Firebase
-./android/app/json
-./ios/Runner/GoogleService-Info.plist
-./macos/Runner/GoogleService-Info.plist
-./macos/Podfile
-./ios/Podfile
-./ios/firebase_app_id_file.json
-./lib/firebase_options.dart
-./macos/firebase_app_id_file.json
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
+/macos/Runner/GoogleService-Info.plist
+/macos/Podfile
+/ios/Podfile
+/ios/firebase_app_id_file.json
+/lib/firebase_options.dart
+/macos/firebase_app_id_file.json
