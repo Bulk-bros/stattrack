@@ -18,6 +18,17 @@ class MyApp extends StatelessWidget {
         // Colors
         primarySwatch: Palette.accent,
 
+        // Fonts
+        // Default font
+        fontFamily: 'Inter',
+        // Specific font styles
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+            fontSize: 31.0,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       home: const SignInPage(),
       debugShowCheckedModeBanner: false,

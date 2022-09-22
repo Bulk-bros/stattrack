@@ -43,7 +43,7 @@ class SignInPage extends StatelessWidget {
               spacing,
               AuthButton(
                 label: 'Facebook',
-                iconPath: 'assets/square-facebook.svg',
+                iconPath: 'assets/icons/square-facebook.svg',
                 iconAlt: 'Facebook Logo',
                 bgColor: Colors.blue,
                 textColor: Colors.white,
@@ -53,7 +53,7 @@ class SignInPage extends StatelessWidget {
               spacing,
               AuthButton(
                 label: 'Google',
-                iconPath: 'assets/google.svg',
+                iconPath: 'assets/icons/google.svg',
                 iconAlt: 'Google Logo',
                 bgColor: Colors.deepOrange[400],
                 textColor: Colors.white,
@@ -63,7 +63,7 @@ class SignInPage extends StatelessWidget {
               spacing,
               AuthButton(
                 label: 'Email',
-                iconPath: 'assets/envelope-solid.svg',
+                iconPath: 'assets/icons/envelope-solid.svg',
                 iconAlt: 'Mail Icon',
                 bgColor: Colors.white,
                 textColor: Colors.black87,
