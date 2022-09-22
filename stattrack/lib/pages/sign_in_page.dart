@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
 import 'package:stattrack/components/logos/logo.dart';
+import 'package:stattrack/styles/font_styles.dart';
+import 'package:stattrack/styles/palette.dart';
 
 /// The signin page
 class SignInPage extends StatelessWidget {
@@ -36,8 +38,8 @@ class SignInPage extends StatelessWidget {
                 'Login',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: FontStyles.fsTitle1,
+                  fontWeight: FontStyles.fwTitle,
                 ),
               ),
               spacing,
@@ -71,11 +73,11 @@ class SignInPage extends StatelessWidget {
                 onPressed: () {},
               ),
               spacing,
-              const Text(
+              Text(
                 "Don't have an account? Sign up here",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.greenAccent,
+                  color: Palette.accent[200],
                   fontSize: 16.0,
                 ),
               ),

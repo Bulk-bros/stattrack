@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:stattrack/styles/font_styles.dart';
 
 /// Authentication buttons
 /// Used in both signin and signup page
@@ -63,8 +64,9 @@ class AuthButton extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
+                  fontSize: FontStyles.fsBody,
+                  fontWeight: FontStyles.fwBody,
                   color: textColor,
-                  fontSize: 16.0,
                 ),
               ),
             ],
