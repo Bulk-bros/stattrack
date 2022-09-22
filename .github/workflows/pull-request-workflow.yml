@@ -1,7 +1,9 @@
 name: Flutter Test
 on:
   pull_request:
-    branches: [main, dev]
+    branches:
+      - main
+      - dev
 
 jobs:
   build:
