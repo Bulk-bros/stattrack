@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/pages/sign_in_page.dart';
+import 'package:stattrack/styles/palette.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        // Colors
+        primarySwatch: Palette.accent,
+        // Default font
+        fontFamily: 'Inter',
       ),
       home: const SignInPage(),
       debugShowCheckedModeBanner: false,
