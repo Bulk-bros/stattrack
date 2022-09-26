@@ -35,20 +35,20 @@ class _LogPageState extends State<LogPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: _buildBody(),
-      ),
+      body: _buildBody(),
     );
   }
 
   /// Returns the body of the log page
   Widget _buildBody() {
-    return Column(
-      children: <Widget>[
-        _buildNav(),
-        const Text('yoyoyo'),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: <Widget>[
+          _buildNav(),
+          const Text('yoyoyo'),
+        ],
+      ),
     );
   }
 
