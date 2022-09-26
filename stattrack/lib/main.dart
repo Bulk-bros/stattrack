@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stattrack/pages/log_page.dart';
 import 'package:stattrack/pages/sign_in_page.dart';
 import 'package:stattrack/styles/palette.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         // Default font
         fontFamily: 'Inter',
       ),
-      home: const SignInPage(),
+      home: const LogPage(),
       debugShowCheckedModeBanner: false,
     );
   }
