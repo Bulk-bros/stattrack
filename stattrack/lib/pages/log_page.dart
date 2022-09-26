@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
-import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
+
+enum NavItem { daily, weekly, monthly, yearly }
 
 class LogPage extends StatefulWidget {
   const LogPage({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class LogPage extends StatefulWidget {
 }
 
 class _LogPageState extends State<LogPage> {
-  int activeNavItem = 0;
+  NavItem activeNavItem = NavItem.daily;
 
   @override
   Widget build(BuildContext context) {
@@ -66,30 +67,30 @@ class _LogPageState extends State<LogPage> {
             _navItem(
               'Daily',
               () => setState(() {
-                activeNavItem = 0;
+                activeNavItem = NavItem.daily;
               }),
-              activeNavItem == 0,
+              activeNavItem == NavItem.daily,
             ),
             _navItem(
               'Weekly',
               () => setState(() {
-                activeNavItem = 1;
+                activeNavItem = NavItem.weekly;
               }),
-              activeNavItem == 1,
+              activeNavItem == NavItem.weekly,
             ),
             _navItem(
               'monthly',
               () => setState(() {
-                activeNavItem = 2;
+                activeNavItem = NavItem.monthly;
               }),
-              activeNavItem == 2,
+              activeNavItem == NavItem.monthly,
             ),
             _navItem(
               'Yearly',
               () => setState(() {
-                activeNavItem = 3;
+                activeNavItem = NavItem.yearly;
               }),
-              activeNavItem == 3,
+              activeNavItem == NavItem.yearly,
             ),
           ],
         ),
