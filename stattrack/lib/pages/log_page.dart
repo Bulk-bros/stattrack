@@ -14,6 +14,15 @@ class LogPage extends StatefulWidget {
 class _LogPageState extends State<LogPage> {
   NavItem activeNavItem = NavItem.daily;
 
+  /// Handlse the event when nav item is presses
+  ///
+  /// [selected] the nav item presses
+  void _handleNavSelect(NavItem selected) {
+    setState(() {
+      activeNavItem = selected;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,36 +69,28 @@ class _LogPageState extends State<LogPage> {
       elevation: 1.5,
       borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
+        padding: const EdgeInsets.all(5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _navItem(
               'Daily',
-              () => setState(() {
-                activeNavItem = NavItem.daily;
-              }),
+              () => _handleNavSelect(NavItem.daily),
               activeNavItem == NavItem.daily,
             ),
             _navItem(
               'Weekly',
-              () => setState(() {
-                activeNavItem = NavItem.weekly;
-              }),
+              () => _handleNavSelect(NavItem.weekly),
               activeNavItem == NavItem.weekly,
             ),
             _navItem(
               'monthly',
-              () => setState(() {
-                activeNavItem = NavItem.monthly;
-              }),
+              () => _handleNavSelect(NavItem.monthly),
               activeNavItem == NavItem.monthly,
             ),
             _navItem(
               'Yearly',
-              () => setState(() {
-                activeNavItem = NavItem.yearly;
-              }),
+              () => _handleNavSelect(NavItem.yearly),
               activeNavItem == NavItem.yearly,
             ),
           ],
@@ -105,22 +106,22 @@ class _LogPageState extends State<LogPage> {
   /// [active] a boolean describing if the item is currently active or
   /// not. Active items has a change in style
   Widget _navItem(String label, VoidCallback callback, bool active) {
-    return TextButton(
-      onPressed: callback,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
-          color: active ? Palette.accent[400] : Colors.transparent,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 10.0,
-            horizontal: 20.0,
-          ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: active ? Colors.white : Colors.black87,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.0),
+        color: active ? Palette.accent[400] : Colors.transparent,
+      ),
+      child: SizedBox(
+        height: 40.0,
+        child: TextButton(
+          onPressed: callback,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              label,
+              style: TextStyle(
+                color: active ? Colors.white : Colors.black87,
+              ),
             ),
           ),
         ),
