@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
 import 'package:stattrack/components/logos/logo.dart';
