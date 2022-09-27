@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
+import 'package:stattrack/components/stats/StatCard.dart';
 import 'package:stattrack/styles/palette.dart';
 
 enum NavItem { daily, weekly, monthly, yearly }
@@ -56,7 +57,38 @@ class _LogPageState extends State<LogPage> {
       child: Column(
         children: <Widget>[
           _buildNav(),
-          const Text('yoyoyo'),
+          StatCard(
+            date: DateTime.now(),
+            calories: '2500',
+            proteins: '200g',
+            fat: '70g',
+            carbs: '700g',
+            onPress: () => print('View more details'),
+          ),
+          StatCard(
+            date: DateTime.now(),
+            calories: '2500',
+            proteins: '200g',
+            fat: '70g',
+            carbs: '700g',
+            onPress: () => print('View more details'),
+          ),
+          StatCard(
+            date: DateTime.now(),
+            calories: '2500',
+            proteins: '200g',
+            fat: '70g',
+            carbs: '700g',
+            onPress: () => print('View more details'),
+          ),
+          StatCard(
+            date: DateTime.now(),
+            calories: '2500',
+            proteins: '200g',
+            fat: '70g',
+            carbs: '700g',
+            onPress: () => print('View more details'),
+          ),
         ],
       ),
     );
