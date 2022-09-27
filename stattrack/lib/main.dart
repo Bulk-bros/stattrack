@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         // Default font
         fontFamily: 'Inter',
       ),
-      home: const LogPage(),
+      home: const SignInPage(),
       debugShowCheckedModeBanner: false,
     );
   }
