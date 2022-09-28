@@ -116,7 +116,7 @@ class _LogPageState extends State<LogPage> {
               activeNavItem == NavItem.weekly,
             ),
             _navItem(
-              'monthly',
+              'Monthly',
               () => _handleNavSelect(NavItem.monthly),
               activeNavItem == NavItem.monthly,
             ),
