@@ -8,3 +8,4 @@ Have tested colors in the colorblind simulator, everthing looks fine
 
 ## Thumb reachability layout
 Have looked through the app and thought of thumb reachability for easy access. Everything looked fine, a few compremises in "not that important" places.
+
