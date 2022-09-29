@@ -11,6 +11,15 @@ class SignInPage extends StatelessWidget {
 
   final AuthBase auth;
 
+  Future<void> _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      // TODO: Handle google signin exceptions
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +64,7 @@ class SignInPage extends StatelessWidget {
             bgColor: Colors.deepOrange[400],
             textColor: Colors.white,
             // TODO: implement action
-            onPressed: () {},
+            onPressed: _signInWithGoogle,
           ),
           spacing,
           AuthButton(
