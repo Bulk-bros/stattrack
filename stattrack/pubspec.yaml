@@ -36,6 +36,7 @@ dependencies:
   flutter_svg: ^1.1.5
 
   firebase_core: ^1.23.0
+  assorted_layout_widgets: ^6.1.1
 
 
 

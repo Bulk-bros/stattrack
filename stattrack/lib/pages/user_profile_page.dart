@@ -5,6 +5,7 @@ import 'package:stattrack/components/logos/logo.dart';
 import 'package:stattrack/main.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -59,6 +60,8 @@ class UserProfilePage extends StatelessWidget {
       ),
     );
   }
+
+  Widget ColumnSuper() {}
 
   Widget _elevateStatbox(Widget widgetToElevate) {
     return Material(
