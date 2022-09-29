@@ -13,21 +13,22 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-        stream: auth.authStateChange(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            final User? user = snapshot.data;
-            if (user == null) {
-              return SignInPage(auth: auth);
-            } else {
-              return TmpProfilePage(auth: auth);
-            }
+      stream: auth.authStateChange(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final User? user = snapshot.data;
+          if (user == null) {
+            return SignInPage(auth: auth);
+          } else {
+            return TmpProfilePage(auth: auth);
           }
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        });
+        }
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+    );
   }
 }
