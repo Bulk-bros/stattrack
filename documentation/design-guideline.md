@@ -43,7 +43,6 @@ Icons will be used for some parts of the page such as navigation.
 
 The icons should have as few details as possible, and the icons should not be too round (they should fit the rest of the design, a plain / neutral feel).
 
-
 ### **Borders**
 
 Little to none border rounding. Maximum a 5px border rounding on buttons and cards.
@@ -53,3 +52,11 @@ Little to none border rounding. Maximum a 5px border rounding on buttons and car
 Use a tiny box shadow around cards and other elements that needs to stick out from the white background.
 
 _Specific box shadow: x:0, y:5px, blur: 10px, color: #000, opacity: 10%_
+
+## Layout
+
+When designing the layout of a mobile application, it's important to think about how the users use their phone. Normally, people hold there phone with their right hand only, meaning buttons and actions at the bottom left of the screen is easier to reach, while actions near the top are harder to reach:
+
+![Phone screen, ease of access model](doc-images/phone-screen-model.png)
+
+We've tried to design the layout of each page to follow this model as closly as possible as well the position of each component should make sense relative to their functionallity (_Don norman: Mapping_).
