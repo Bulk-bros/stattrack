@@ -13,31 +13,40 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(headerTitle: 'User Profile'),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    const spacing = SizedBox(height: 20.0);
-
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildUserInformation(),
-          spacing,
-          _buildStatbox("Calories", "1236", 150),
-          spacing,
-          _buildStatbox("Proteins", "83g"),
-          spacing,
-          _buildStatbox("Carbs", "340g"),
-          spacing,
-          //_buildStatbox("Fat", "27g"),
-        ],
-      ),
+    const spacing = SizedBox(
+      height: 20,
+    );
+    return Column(
+      children: [
+        ColumnSuper(
+          innerDistance: -55,
+          children: [
+            _buildUserInformation(),
+            spacing,
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildStatbox("Calories", "1236", 230),
+                  spacing,
+                  _buildStatbox("Proteins", "83g"),
+                  spacing,
+                  _buildStatbox("Carbs", "340g"),
+                  spacing,
+                  _buildStatbox("Fat", "27g")
+                ],
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -61,8 +70,6 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 
-  Widget ColumnSuper() {}
-
   Widget _elevateStatbox(Widget widgetToElevate) {
     return Material(
       elevation: 20,
@@ -72,8 +79,20 @@ class UserProfilePage extends StatelessWidget {
 
   Widget _buildUserInformation() {
     return Container(
-      height: 250,
-      color: Colors.red,
+      height: 320,
+      width: 1000,
+      decoration: BoxDecoration(
+        color: Palette.accent[400],
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withOpacity(0.10),
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: Offset(0, 5))
+        ],
+      ),
     );
   }
 }
