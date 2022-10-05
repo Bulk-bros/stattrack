@@ -70,6 +70,7 @@ flutter:
     - assets/icons/envelope-solid.svg
     - assets/icons/google.svg
     - assets/icons/square-facebook.svg
+    - assets/images/eddyboy.jpeg
 
   fonts:
     - family: Inter

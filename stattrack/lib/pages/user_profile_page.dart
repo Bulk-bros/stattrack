@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
@@ -26,7 +28,7 @@ class UserProfilePage extends StatelessWidget {
         ColumnSuper(
           innerDistance: -55,
           children: [
-            _buildUserInformation(),
+            _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm"),
             spacing,
             Padding(
               padding: EdgeInsets.all(20),
@@ -45,7 +47,7 @@ class UserProfilePage extends StatelessWidget {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -64,35 +66,106 @@ class UserProfilePage extends StatelessWidget {
               color: Colors.black.withOpacity(0.10),
               spreadRadius: 5,
               blurRadius: 10,
-              offset: Offset(0, 5))
+              offset: const Offset(0, 5))
         ],
       ),
     );
   }
 
-  Widget _elevateStatbox(Widget widgetToElevate) {
-    return Material(
-      elevation: 20,
-      child: widgetToElevate,
-    );
-  }
-
-  Widget _buildUserInformation() {
+  Widget _buildUserInformation(
+      String name, String age, String weight, String height,
+      [DecorationImage image = const DecorationImage(
+          image: AssetImage("assets/images/eddyboy.jpeg"))]) {
     return Container(
-      height: 320,
-      width: 1000,
-      decoration: BoxDecoration(
-        color: Palette.accent[400],
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.10),
-              spreadRadius: 5,
-              blurRadius: 10,
-              offset: Offset(0, 5))
-        ],
-      ),
+        height: 320,
+        width: 1000,
+        decoration: BoxDecoration(
+          color: Palette.accent[400],
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.10),
+                spreadRadius: 5,
+                blurRadius: 10,
+                offset: Offset(0, 5))
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: RowSuper(
+            fill: true,
+            children: [
+              _encaseProfilePicture(image),
+              WrapSuper(
+                wrapFit: WrapFit.proportional,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                            fontSize: FontStyles.fsTitle1,
+                            color: Colors.white,
+                            fontWeight: FontStyles.fwTitle),
+                      ),
+                      const SizedBox(height: 15),
+                      SizedBox(
+                        width: 190,
+                        child: WrapSuper(
+                          wrapFit: WrapFit.divided,
+                          children: [
+                            _statDetails("age", age, FontStyles.fsBodySmall,
+                                FontStyles.fsBody, Colors.white),
+                            _statDetails(
+                                "weight",
+                                weight,
+                                FontStyles.fsBodySmall,
+                                FontStyles.fsBody,
+                                Colors.white),
+                            _statDetails(
+                                "height",
+                                height,
+                                FontStyles.fsBodySmall,
+                                FontStyles.fsBody,
+                                Colors.white),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 30)
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+        ));
+  }
+
+  Widget _encaseProfilePicture(DecorationImage image) {
+    return Container(
+      width: 110,
+      height: 110,
+      decoration: BoxDecoration(shape: BoxShape.circle, image: image),
+    );
+  }
+
+  Widget _statDetails(String categoryText, String amountText,
+      [double catergoryTextSize = FontStyles.fsBodySmall,
+      double amountTextSize = FontStyles.fsBody,
+      Color color = Colors.black]) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(categoryText,
+            style: TextStyle(fontSize: catergoryTextSize, color: color)),
+        Text(amountText,
+            style: TextStyle(
+                fontSize: amountTextSize,
+                fontWeight: FontStyles.fw600,
+                color: color)),
+      ],
     );
   }
 }
