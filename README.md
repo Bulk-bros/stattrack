@@ -168,7 +168,7 @@ By mail:
 
 - <a href="mailto: falniir@gmail.com">Eduard</a>
 - <a href="mailto: taurstein@gmail.com">Torstein</a>
-- <a href="#">Richi</a>
+- <a href="mailto: richileu.a.bailey@gmail.com">Richileu</a>
 - <a href="mailto: joakimedvardsen2000@gmail.com">Joakim</a>
 
 Project Link: [https://github.com/Bulk-bros/stattrack](https://github.com/Bulk-bros/stattrack)
