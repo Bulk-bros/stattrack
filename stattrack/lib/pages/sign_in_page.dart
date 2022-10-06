@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
-import 'package:stattrack/components/logos/logo.dart';
+import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
 /// The signin page
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+  const SignInPage({Key? key, required this.auth}) : super(key: key);
+
+  final AuthBase auth;
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      // TODO: Handle google signin exceptions
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(headerTitle: 'Sign in'),
+      appBar: CustomAppBar(headerTitle: 'Stattrack'),
       body: _buildBody(),
     );
   }
@@ -53,7 +64,7 @@ class SignInPage extends StatelessWidget {
             bgColor: Colors.deepOrange[400],
             textColor: Colors.white,
             // TODO: implement action
-            onPressed: () {},
+            onPressed: _signInWithGoogle,
           ),
           spacing,
           AuthButton(
