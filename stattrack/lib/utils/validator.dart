@@ -30,4 +30,12 @@ class Validator {
         r"^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$");
     return usernameRegex.hasMatch(username);
   }
+
+  /// Returns [true] if name is valid, [false] otherwise
+  /// All names are valid as long as they arn't empty
+  ///
+  /// [name] name to validate
+  static bool isValidName(String name) {
+    return name.isNotEmpty;
+  }
 }

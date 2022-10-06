@@ -6,20 +6,27 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/palette.dart';
 
 class EmailSignInPage extends StatefulWidget {
-  const EmailSignInPage({Key? key, required this.auth}) : super(key: key);
+  const EmailSignInPage({Key? key, required this.auth, this.showSignUp})
+      : super(key: key);
 
   final AuthBase auth;
+  final bool? showSignUp;
 
   @override
   _EmailSignInPageState createState() => _EmailSignInPageState();
 }
 
 class _EmailSignInPageState extends State<EmailSignInPage> {
-  bool showSignUpForm = false;
+  late bool _showSignUpForm;
+
+  @override
+  void initState() {
+    _showSignUpForm = widget.showSignUp ?? false;
+  }
 
   void _toggleForm() {
     setState(() {
-      showSignUpForm = !showSignUpForm;
+      _showSignUpForm = !_showSignUpForm;
     });
   }
 
@@ -27,21 +34,21 @@ class _EmailSignInPageState extends State<EmailSignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        headerTitle: showSignUpForm ? 'Sign Up' : 'Sign In',
+        headerTitle: _showSignUpForm ? 'Sign Up' : 'Sign In',
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            showSignUpForm
+            _showSignUpForm
                 ? EmailSignUpForm(auth: widget.auth)
                 : EmailSignInForm(auth: widget.auth),
             TextButton(
               onPressed: _toggleForm,
               style: TextButton.styleFrom(primary: Palette.accent[400]),
               child: Text(
-                showSignUpForm
-                    ? 'Don\'t have account? Sign up here'
-                    : 'Already have an account? Sign in here',
+                _showSignUpForm
+                    ? 'Already have an account? Sign in here'
+                    : 'Don\'t have account? Sign up here',
               ),
             ),
           ],

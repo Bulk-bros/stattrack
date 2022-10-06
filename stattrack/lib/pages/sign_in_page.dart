@@ -21,11 +21,12 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-  void _signInWithEmail(BuildContext context) {
+  void _signInWithEmail(BuildContext context, bool showSignUp) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
-        builder: (context) => EmailSignInPage(auth: auth),
+        builder: (context) =>
+            EmailSignInPage(auth: auth, showSignUp: showSignUp),
       ),
     );
   }
@@ -84,15 +85,18 @@ class SignInPage extends StatelessWidget {
             bgColor: Colors.white,
             textColor: Colors.black87,
             // TODO: implement action
-            onPressed: () => _signInWithEmail(context),
+            onPressed: () => _signInWithEmail(context, false),
           ),
           spacing,
-          Text(
-            "Don't have an account? Sign up here",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Palette.accent[200],
-              fontSize: 16.0,
+          TextButton(
+            onPressed: () => _signInWithEmail(context, true),
+            child: Text(
+              "Don't have an account? Sign up here",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Palette.accent[200],
+                fontSize: 16.0,
+              ),
             ),
           ),
         ],
