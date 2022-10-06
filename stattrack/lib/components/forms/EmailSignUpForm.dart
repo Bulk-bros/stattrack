@@ -37,14 +37,33 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       _password == _passwordConfirm;
 
   bool _hasSubmitted = false;
+  bool _isLoading = false;
   bool _isChecked = false;
 
   /// Handles the submition of form
-  void _submit() {
-    print('Submitting');
+  void _submit() async {
     setState(() {
       _hasSubmitted = true;
+      _isLoading = true;
     });
+    try {
+      if (!_isValidName ||
+          !_isValidEmail ||
+          !_isValidPassword ||
+          !_isValidPasswordConfirm) {
+        throw Exception("Invalid inputs");
+      }
+      await widget.auth
+          .createUserWithEmailAndPassword(_name, _email, _password);
+      Navigator.of(context).pop();
+    } catch (e) {
+      // TODO: Handle exceptions
+      print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _updateState() {
@@ -71,11 +90,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
   Widget build(BuildContext context) {
     // Makes sure submit button is only enabled
     // when all criterias are met
-    bool enableSubmit = _isValidName &&
-        _isValidEmail &&
-        _isValidPassword &&
-        _isValidPasswordConfirm &&
-        _isChecked;
+    bool enableSubmit = !_isLoading;
 
     return Padding(
       padding: const EdgeInsets.all(31.0),
