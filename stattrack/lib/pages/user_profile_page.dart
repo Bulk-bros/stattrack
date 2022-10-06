@@ -116,7 +116,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 // move this to component folder
   Widget _buildCard(Widget content, [double size = 100]) {
     return Container(
-        padding: const EdgeInsets.only(left: 20),
+        padding: const EdgeInsets.all(20),
         height: size,
         decoration: BoxDecoration(
           color: Colors.white,
