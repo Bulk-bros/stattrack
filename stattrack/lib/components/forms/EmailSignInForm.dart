@@ -24,13 +24,28 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   bool get _isValidEmail => Validator.isValidEmail(_email);
 
-  bool _hasSubmitted = false;
+  bool _showErrors = false;
+  bool _isLoading = false;
 
-  void _submit() {
-    print('submitting');
+  void _submit() async {
     setState(() {
-      _hasSubmitted = true;
+      _isLoading = true;
     });
+    try {
+      if (!_isValidEmail || _password.isEmpty) {
+        throw Exception('Invalid inputs');
+      }
+      await widget.auth.signInWithEmailAndPassword(_email, _password);
+      Navigator.of(context).pop();
+    } catch (e) {
+      // TODO: Handle firebase exceptions
+      print(e.toString());
+      _showErrors = true;
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _updateState() {
@@ -47,7 +62,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    bool enableButton = _isValidEmail && _password.isNotEmpty;
+    bool enableButton = !_isLoading;
 
     return Padding(
       padding: const EdgeInsets.all(31.0),
@@ -61,7 +76,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
                 labelText: 'Email',
                 hintText: 'Your email address',
                 errorText:
-                    _hasSubmitted && !_isValidEmail ? 'Invalid email' : null,
+                    _showErrors && !_isValidEmail ? 'Invalid email' : null,
               ),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
@@ -75,7 +90,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Your password',
-                errorText: _hasSubmitted && _password.isEmpty
+                errorText: _showErrors && _password.isEmpty
                     ? 'Password cannot be empty'
                     : null,
               ),

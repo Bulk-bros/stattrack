@@ -34,7 +34,7 @@ class TmpProfilePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                'Sign in as: ${auth.currentUser?.displayName}',
+                'Sign in as: ${auth.currentUser?.email}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: FontStyles.fsTitle2,
