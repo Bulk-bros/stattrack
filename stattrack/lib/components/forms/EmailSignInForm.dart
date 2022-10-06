@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
 import 'package:stattrack/services/auth.dart';
@@ -24,11 +25,14 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   bool get _isValidEmail => Validator.isValidEmail(_email);
 
-  bool _showErrors = false;
   bool _isLoading = false;
+  bool _showInputErrors = false;
+  String _authErrorMsg = '';
+  bool _showAuthError = false;
 
   void _submit() async {
     setState(() {
+      _showAuthError = false;
       _isLoading = true;
     });
     try {
@@ -37,10 +41,33 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       }
       await widget.auth.signInWithEmailAndPassword(_email, _password);
       Navigator.of(context).pop();
+    } on FirebaseAuthException catch (e) {
+      String error = '';
+      switch (e.code) {
+        case 'invalid-email':
+          error = 'Invalid email';
+          break;
+        case 'wrong-password':
+          error = 'Wrong password';
+          break;
+        case 'user-not-found':
+          error = 'User was not found';
+          break;
+        case 'user-disabled':
+          error = 'Looks like this user is disabled';
+          break;
+        default:
+          error = 'Something went wront. Please try again';
+          break;
+      }
+      setState(() {
+        _showAuthError = true;
+        _authErrorMsg = error;
+      });
     } catch (e) {
-      // TODO: Handle firebase exceptions
-      print(e.toString());
-      _showErrors = true;
+      setState(() {
+        _showInputErrors = true;
+      });
     } finally {
       setState(() {
         _isLoading = false;
@@ -69,6 +96,13 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       child: Form(
         child: Column(
           children: <Widget>[
+            Text(
+              _showAuthError ? _authErrorMsg : '',
+              style: const TextStyle(
+                color: Colors.redAccent,
+                fontSize: 14.0,
+              ),
+            ),
             TextFormField(
               controller: _emailController,
               focusNode: _emailFocusNode,
@@ -76,7 +110,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
                 labelText: 'Email',
                 hintText: 'Your email address',
                 errorText:
-                    _showErrors && !_isValidEmail ? 'Invalid email' : null,
+                    _showInputErrors && !_isValidEmail ? 'Invalid email' : null,
               ),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
@@ -90,7 +124,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Your password',
-                errorText: _showErrors && _password.isEmpty
+                errorText: _showInputErrors && _password.isEmpty
                     ? 'Password cannot be empty'
                     : null,
               ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
 import 'package:stattrack/services/auth.dart';
@@ -36,14 +37,18 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       Validator.isValidPassword(_passwordConfirm) &&
       _password == _passwordConfirm;
 
-  bool _hasSubmitted = false;
-  bool _isLoading = false;
   bool _isChecked = false;
+
+  bool _isLoading = false;
+  bool _showInputErrors = false;
+  String _inputErrorMsg = '';
+  bool _showAuthError = false;
+  String _authErrorMsg = '';
 
   /// Handles the submition of form
   void _submit() async {
     setState(() {
-      _hasSubmitted = true;
+      _showAuthError = false;
       _isLoading = true;
     });
     try {
@@ -51,14 +56,40 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           !_isValidEmail ||
           !_isValidPassword ||
           !_isValidPasswordConfirm) {
-        throw Exception("Invalid inputs");
+        throw Exception('Invalid inputs');
+      }
+      if (!_isChecked) {
+        throw Exception('unchecked-checkbox');
       }
       await widget.auth
           .createUserWithEmailAndPassword(_name, _email, _password);
       Navigator.of(context).pop();
+    } on FirebaseAuthException catch (e) {
+      String error = '';
+      switch (e.code) {
+        case 'email-already-in-use':
+          error = 'Email is already in use';
+          break;
+        default:
+          error = 'Something went wront. Please try again';
+          break;
+      }
+      setState(() {
+        _showAuthError = true;
+        _authErrorMsg = error;
+      });
     } catch (e) {
-      // TODO: Handle exceptions
-      print(e.toString());
+      if (e.toString() == 'Exception: unchecked-checkbox') {
+        setState(() {
+          _showAuthError = true;
+          _authErrorMsg =
+              'Please read and agree to out terms of service before signing up';
+        });
+      } else {
+        setState(() {
+          _showInputErrors = true;
+        });
+      }
     } finally {
       setState(() {
         _isLoading = false;
@@ -97,13 +128,20 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       child: Form(
         child: Column(
           children: <Widget>[
+            Text(
+              _showAuthError ? _authErrorMsg : '',
+              style: const TextStyle(
+                color: Colors.redAccent,
+                fontSize: 14.0,
+              ),
+            ),
             TextFormField(
               controller: _nameController,
               focusNode: _nameFocusNode,
               decoration: InputDecoration(
                 labelText: 'Full name',
                 hintText: 'Your username',
-                errorText: _hasSubmitted && !_isValidName
+                errorText: _showInputErrors && !_isValidName
                     ? 'Empty name not allowed'
                     : null,
               ),
@@ -118,7 +156,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                 labelText: 'Email',
                 hintText: 'Your email address',
                 errorText:
-                    _hasSubmitted && !_isValidEmail ? 'Invalid email' : null,
+                    _showInputErrors && !_isValidEmail ? 'Invalid email' : null,
               ),
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
@@ -132,7 +170,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Your password',
-                errorText: _hasSubmitted && !_isValidPassword
+                errorText: _showInputErrors && !_isValidPassword
                     ? '8-20 characters, both lower and uppercase and atleast one number'
                     : null,
               ),
@@ -147,7 +185,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               decoration: InputDecoration(
                 labelText: 'Confirm password',
                 hintText: 'Confirm password',
-                errorText: _hasSubmitted && !_isValidPasswordConfirm
+                errorText: _showInputErrors && !_isValidPasswordConfirm
                     ? 'Both passwords must match'
                     : null,
               ),
