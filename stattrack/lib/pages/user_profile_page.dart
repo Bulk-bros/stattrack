@@ -15,6 +15,10 @@ enum NavButtons {
   meals,
 }
 
+const spacing = SizedBox(
+  height: 20,
+);
+
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
 
@@ -32,64 +36,43 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
+  // Returns the body of the profile page.
+  // Returns a ColumnSuper with a Header containing user information and a content body with macro details.
   Widget _buildBody() {
-    const spacing = SizedBox(
-      height: 20,
-    );
-    return Column(
-      children: [
-        ColumnSuper(
-          innerDistance: -55,
-          children: [
-            _buildBaseContainer(
-                _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm")),
+    return SingleChildScrollView(
+      child: ColumnSuper(
+        innerDistance: -55,
+        children: [
+          _buildBodyHeader(
+              _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm")),
+          spacing,
+          _buildBodyContent([
+            _buildCard(
+                _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
+                230),
             spacing,
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _buildCard(
-                      _buildProfilePageMainStatContent(
-                          "Calories", "GRAPH HERE"),
-                      230),
-                  spacing,
-                  _buildCard(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _statDetails("Proteins", "83g", FontStyles.fsTitle3,
-                            FontStyles.fsTitle1)
-                      ],
-                    ),
-                  ),
-                  spacing,
-                  _buildCard(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _statDetails("Carbs", "340g", FontStyles.fsTitle3,
-                            FontStyles.fsTitle1)
-                      ],
-                    ),
-                  ),
-                  spacing,
-                  _buildCard(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _statDetails("Fat", "27g", FontStyles.fsTitle3,
-                            FontStyles.fsTitle1)
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
+            _buildCard(_statDetails(
+                "Proteins", "83g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+            spacing,
+            _buildCard(_statDetails(
+                "Carbs", "340g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+            spacing,
+            _buildCard(_statDetails(
+                "Fat", "27g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+          ])
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBodyContent(List<Widget> bodyWidgets) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [...bodyWidgets],
+      ),
     );
   }
 
@@ -115,21 +98,26 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
 // move this to component folder
   Widget _buildCard(Widget content, [double size = 100]) {
-    return Container(
-        padding: const EdgeInsets.all(20),
-        height: size,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.10),
-                spreadRadius: 5,
-                blurRadius: 10,
-                offset: const Offset(0, 5))
-          ],
-        ),
-        child: content);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+            padding: const EdgeInsets.all(20),
+            height: size,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.10),
+                    spreadRadius: 5,
+                    blurRadius: 10,
+                    offset: const Offset(0, 5))
+              ],
+            ),
+            child: content)
+      ],
+    );
   }
 
   Widget _buildUserInformation(
@@ -224,7 +212,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   //Base Container
   //Takes a widget parameter which is the body to be displayed on top
   //Widget makes sure the body has a padding
-  Widget _buildBaseContainer(Widget body) {
+  Widget _buildBodyHeader(Widget body) {
     return Container(
       height: 320,
       width: 1000,
