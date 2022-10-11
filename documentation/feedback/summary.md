@@ -12,7 +12,7 @@
 - Good layout, simple and clear
 - Logically information distribution
 - Intuitive navigation
-- Nice color palett
+- Nice color palett, healthy color
 - Good contrasts, some grey color was a little bit hard to read
 
 ## Improvment
@@ -28,6 +28,7 @@
 - Settings icon on profile page -> redirect to settins page
 - Replace yearly with quartly or just add it
 - Ability to scan barcode to add ingredient
+- Unclear waht "add instruction" when creating meal is for
 
 ### Design
 
@@ -36,7 +37,8 @@
 - Clearer units in general
 - Add editing icon to setup estimated page
 - "Create new button" could be more clear
-- Log page bigger (text)P
+- Log page bigger (text)
+- Not always intuitivt that the pluss icon always had the same functionallity
 
 ## To be considered
 
