@@ -140,7 +140,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               focusNode: _nameFocusNode,
               decoration: InputDecoration(
                 labelText: 'Full name',
-                hintText: 'Your username',
+                hintText: 'Your full name',
                 errorText: _showInputErrors && !_isValidName
                     ? 'Empty name not allowed'
                     : null,
