@@ -14,5 +14,6 @@ jobs:
         with:
           channel: 'stable' # or: 'beta', 'dev' or 'master'
       - run: |
+          cd stattrack/
           flutter pub get
           flutter test
