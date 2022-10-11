@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         // Default font
         fontFamily: 'Inter',
       ),
-      home: LandingPage(auth: Auth()),
+      home: UserProfilePage(),
       debugShowCheckedModeBanner: false,
     );
   }
