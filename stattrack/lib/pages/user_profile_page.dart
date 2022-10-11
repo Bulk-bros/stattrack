@@ -9,6 +9,7 @@ import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'dart:math' as math;
+import 'package:stattrack/components/CustomBody.dart';
 
 enum NavButtons {
   macros,
@@ -39,40 +40,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
   // Returns the body of the profile page.
   // Returns a ColumnSuper with a Header containing user information and a content body with macro details.
   Widget _buildBody() {
-    return SingleChildScrollView(
-      child: ColumnSuper(
-        innerDistance: -55,
-        children: [
-          _buildBodyHeader(
-              _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm")),
-          spacing,
-          _buildBodyContent([
-            _buildCard(
-                _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
-                230),
-            spacing,
-            _buildCard(_statDetails(
-                "Proteins", "83g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
-            spacing,
-            _buildCard(_statDetails(
-                "Carbs", "340g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
-            spacing,
-            _buildCard(_statDetails(
-                "Fat", "27g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
-          ])
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBodyContent(List<Widget> bodyWidgets) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [...bodyWidgets],
-      ),
+    return CustomBody(
+      header: _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm"),
+      bodyWidgets: [
+        _buildCard(
+            _buildProfilePageMainStatContent("Calories", "GRAPH HERE"), 230),
+        spacing,
+        _buildCard(_statDetails(
+            "Proteins", "83g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+        spacing,
+        _buildCard(_statDetails(
+            "Carbs", "340g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+        spacing,
+        _buildCard(_statDetails(
+            "Fat", "27g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+      ],
     );
   }
 
@@ -106,7 +88,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             height: size,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: const BorderRadius.all(Radius.circular(5)),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.10),
@@ -206,25 +188,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ],
         ),
       ],
-    );
-  }
-
-  //Base Container
-  //Takes a widget parameter which is the body to be displayed on top
-  //Widget makes sure the body has a padding
-  Widget _buildBodyHeader(Widget body) {
-    return Container(
-      height: 320,
-      width: 1000,
-      decoration: BoxDecoration(
-        color: Palette.accent[400],
-        borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: body,
-      ),
     );
   }
 
