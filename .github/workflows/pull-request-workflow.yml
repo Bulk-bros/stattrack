@@ -15,6 +15,7 @@ jobs:
           channel: 'stable' # or: 'beta', 'dev' or 'master'
       - run: |
           cd ./stattrack
-          pwd
-      - run: flutter pub get
-      - run: flutter test
+          flutter upgrade
+          flutter pub get
+          flutter clean
+          flutter test
