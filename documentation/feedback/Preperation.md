@@ -4,7 +4,10 @@
 
 We have picked people with fitness interests, as they might have more relevant feedback
 
-- Sebastian Sandviksen
+- Sebastian
+- Martin
+- Anton
+- Margarida
 
 ## Walk-through scenario
 
