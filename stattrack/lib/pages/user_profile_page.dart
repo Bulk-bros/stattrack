@@ -11,6 +11,7 @@ import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'dart:math' as math;
 import 'package:stattrack/components/CustomBody.dart';
 import 'package:stattrack/components/stats/SingleStatCard.dart';
+import 'package:stattrack/components/stats/SingleStatLayout.dart';
 
 enum NavButtons {
   macros,
@@ -21,6 +22,7 @@ const spacing = SizedBox(
   height: 20,
 );
 
+/// Page displaying a users profile and their macros
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
 
@@ -38,8 +40,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  // Returns the body of the profile page.
-  // Returns a ColumnSuper with a Header containing user information and a content body with macro details.
+  /// Builds the body of the profile page
   Widget _buildBody() {
     return CustomBody(
       header: _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm"),
@@ -49,20 +50,30 @@ class _UserProfilePageState extends State<UserProfilePage> {
             size: 230),
         spacing,
         SingleStatCard(
-            content: _statDetails(
-                "Proteins", "83g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+            content: SingleStatLayout(
+                categoryText: "Proteins",
+                amountText: "83g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
         spacing,
         SingleStatCard(
-            content: _statDetails(
-                "Carbs", "340g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+            content: SingleStatLayout(
+                categoryText: "Carbs",
+                amountText: "340g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
         spacing,
         SingleStatCard(
-            content: _statDetails(
-                "Fat", "27g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+            content: SingleStatLayout(
+                categoryText: "Fat",
+                amountText: "27g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
       ],
     );
   }
 
+  /// Builds the main content of a user page
   Widget _buildProfilePageMainStatContent(String text, String amountText) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -83,6 +94,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
+  /// Creates user information for the header in the custombody
   Widget _buildUserInformation(
       String name, String age, String weight, String height,
       [DecorationImage image = const DecorationImage(
@@ -116,21 +128,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _statDetails("age", age, FontStyles.fsBodySmall,
-                              FontStyles.fsBody, Colors.white),
-                          _statDetails(
-                              "weight",
-                              weight,
-                              FontStyles.fsBodySmall,
-                              FontStyles.fsBody,
-                              Colors.white,
-                              const Icon(
+                          SingleStatLayout(
+                              categoryText: "age",
+                              amountText: age,
+                              color: Colors.white),
+                          SingleStatLayout(
+                              categoryText: "weight",
+                              amountText: weight,
+                              color: Colors.white,
+                              icon: const Icon(
                                 Icons.play_arrow,
                                 color: Colors.white,
                                 size: 16,
                               )),
-                          _statDetails("height", height, FontStyles.fsBodySmall,
-                              FontStyles.fsBody, Colors.white),
+                          SingleStatLayout(
+                              categoryText: "height",
+                              amountText: height,
+                              color: Colors.white),
                         ],
                       ),
                     ),
@@ -203,35 +217,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
       width: 110,
       height: 110,
       decoration: BoxDecoration(shape: BoxShape.circle, image: image),
-    );
-  }
-
-  Widget _statDetails(String categoryText, String amountText,
-      [double catergoryTextSize = FontStyles.fsBodySmall,
-      double amountTextSize = FontStyles.fsBody,
-      Color color = Colors.black,
-      Icon? icon]) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(categoryText,
-            style: TextStyle(fontSize: catergoryTextSize, color: color)),
-        Row(
-          children: [
-            Text(
-              amountText,
-              style: TextStyle(
-                  fontSize: amountTextSize,
-                  fontWeight: FontStyles.fw600,
-                  color: color),
-            ),
-            Transform.rotate(
-              angle: -90 * math.pi / 180,
-              child: icon ?? Text(""),
-            )
-          ],
-        )
-      ],
     );
   }
 }

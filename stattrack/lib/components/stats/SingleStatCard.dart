@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:stattrack/components/stats/SingleStatLayout.dart';
 
+import '../../styles/font_styles.dart';
+
+/// A card that should display a single stat, placing it in the center of the main axis
+/// [content] A widget that is to be displayed in the single stat card
+/// [size] Size of the card, default is set to 100px
+///
 class SingleStatCard extends StatelessWidget {
   SingleStatCard({Key? key, required this.content, this.size = 100})
       : super(key: key);
@@ -7,7 +14,6 @@ class SingleStatCard extends StatelessWidget {
   Widget content;
   double? size;
 
-// move this to component folder
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -3,6 +3,11 @@ import 'package:flutter/cupertino.dart';
 
 import '../styles/palette.dart';
 
+/// A custom body that contains a header and a body, places the header within a theme box
+/// and the body is placed in a ColumnSuper overlapping the theme box
+/// [header] A widget to be placed on top of the body, acting as a header
+/// [bodyWidgets] A list of widgets that is to be placed in the body (ColumnSuper
+/// )
 class CustomBody extends StatelessWidget {
   CustomBody({Key? key, required this.header, required this.bodyWidgets})
       : super(key: key);
@@ -38,7 +43,7 @@ class CustomBody extends StatelessWidget {
     );
   }
 
-  //Base Container
+  //Theme box
   //Takes a widget parameter which is the body to be displayed on top
   //Widget makes sure the body has a padding
   Widget _buildBodyHeader(Widget body) {
