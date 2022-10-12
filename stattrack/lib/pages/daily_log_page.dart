@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stattrack/components/MealCard.dart';
 
 import '../components/CustomAppBar.dart';
+import '../styles/font_styles.dart';
+import '../styles/palette.dart';
 
 
 
@@ -22,7 +24,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        headerTitle: 'Log',
+        headerTitle: 'Daily log',
         navButton: IconButton(
           // TODO: Nav back one page
           onPressed: () => print('going back'),
@@ -50,20 +52,42 @@ class _DailyLogPageState extends State<DailyLogPage> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Calories \n 2500"),
-              Text("Protein \n 200g"),
-              Text("Fat \n 70g"),
-              Text("Carbs \n 700"),
-            ],
+        Container(
+          alignment: Alignment.bottomLeft,
+          child: Text(" Overiew",
+            style: TextStyle(fontSize: FontStyles.fsTitle3,
+              fontWeight: FontStyles.fwTitle,),
+            textAlign: TextAlign.left,),),
+        Material(
+          elevation: 2.0,
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+            width: 375,
+            height: 60,
+            decoration:  BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(4)),
+              color: Palette.accent[400],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("Calories \n 2500", style: TextStyle(color: Colors.white),),
+                Text("Protein \n 200g", style: TextStyle(color: Colors.white),),
+                Text("fat \n 70g", style: TextStyle(color: Colors.white),),
+                Text("Carbs \n 700", style: TextStyle(color: Colors.white),),
+              ],
+            ),
           ),
         ),
-        Text(" Meals", style: TextStyle(),),
+         SizedBox(height: 24.0,),
+         Container(
+           alignment: Alignment.bottomLeft,
+           child: Text(" Meals",
+           style: TextStyle(fontSize: FontStyles.fsTitle3,
+             fontWeight: FontStyles.fwTitle,),
+           textAlign: TextAlign.left,),),
         MealCard(
           assetName: "assets/foodstockpic.jpg",
           foodName: "Salad",
@@ -73,6 +97,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
           carbValue: 150,
           timeValue: "08:45",
         ),
+        SizedBox(height: 8.0,),
         MealCard(
           assetName: "assets/foodstockpic.jpg",
           foodName: "Egg sandwich",
@@ -81,7 +106,9 @@ class _DailyLogPageState extends State<DailyLogPage> {
           fatValue: 19,
           carbValue: 190,
           timeValue: "11:30",
-        ),MealCard(
+        ),
+        SizedBox(height: 8.0,),
+        MealCard(
           assetName: "assets/foodstockpic.jpg",
           foodName: "Taco wrap",
           calorieValue: 638,

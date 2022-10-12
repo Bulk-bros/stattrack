@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../styles/font_styles.dart';
+
 
 
 
@@ -53,23 +55,72 @@ class MealCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(foodName)
+                      Text(foodName, style: TextStyle(fontSize: FontStyles.fsTitle3,
+                          fontWeight: FontStyles.fwTitle, color: Colors.black87))
                     ],),
-                  Text("Time \n $timeValue"),
                   Column(
-                    children: const [
-                      Text(calorieLabel),
-                      Text(proteinLabel),
-                      Text(fatLabel),
-                      Text(carbsLabel),
+                    children: [
+                      Text("Time:", style: TextStyle(fontSize: FontStyles.fsTitle3,
+                          fontWeight: FontStyles.fwTitle, color: Colors.black87)),
+                      Text("$timeValue", style: TextStyle(fontSize: FontStyles.fsBody,
+                          fontWeight: FontStyles.fwBody, color: Colors.black87)),
+                    ],
+
+                  ),
+                  Column(
+                    children:  [
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerLeft,
+                        child: Text(calorieLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
+                          fontWeight: FontStyles.fwTitle, color: Colors.black87), textAlign: TextAlign.left,),
+                      ),
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerLeft,
+                        child: Text(proteinLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
+                          fontWeight: FontStyles.fwTitle, color: Colors.black87),),
+                      ),
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerLeft,
+                        child: Text(fatLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
+                          fontWeight: FontStyles.fwTitle, color: Colors.black87),  textAlign: TextAlign.left,),
+                      ),
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerLeft,
+                        child: Text(carbsLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
+                          fontWeight: FontStyles.fwTitle, color: Colors.black87),),
+                      ),
                     ],
                   ),
                   Column(
                     children: [
-                      Text("$calorieValue kcal"),
-                      const Text("$proteinLabel g"),
-                      const Text("$fatLabel g"),
-                      const Text("$carbsLabel g"),
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerRight,
+                        child: Text("$calorieValue kcal", style: TextStyle(fontSize: FontStyles.fsBody,
+                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                      ),
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerRight,
+                        child: Text("$proteinValue g", style: TextStyle(fontSize: FontStyles.fsBody,
+                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                      ),
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerRight,
+                        child: Text("$fatValue g", style: TextStyle(fontSize: FontStyles.fsBody,
+                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                      ),
+                      Container(
+                        width: 70,
+                        alignment: Alignment.centerRight,
+                        child: Text("$carbValue g", style: TextStyle(fontSize: FontStyles.fsBody,
+                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                      ),
                     ],
                   ),
                 ],
