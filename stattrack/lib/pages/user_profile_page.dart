@@ -10,6 +10,7 @@ import 'package:stattrack/styles/palette.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'dart:math' as math;
 import 'package:stattrack/components/CustomBody.dart';
+import 'package:stattrack/components/stats/SingleStatCard.dart';
 
 enum NavButtons {
   macros,
@@ -43,17 +44,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return CustomBody(
       header: _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm"),
       bodyWidgets: [
-        _buildCard(
-            _buildProfilePageMainStatContent("Calories", "GRAPH HERE"), 230),
+        SingleStatCard(
+            content: _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
+            size: 230),
         spacing,
-        _buildCard(_statDetails(
-            "Proteins", "83g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+        SingleStatCard(
+            content: _statDetails(
+                "Proteins", "83g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
         spacing,
-        _buildCard(_statDetails(
-            "Carbs", "340g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+        SingleStatCard(
+            content: _statDetails(
+                "Carbs", "340g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
         spacing,
-        _buildCard(_statDetails(
-            "Fat", "27g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
+        SingleStatCard(
+            content: _statDetails(
+                "Fat", "27g", FontStyles.fsTitle3, FontStyles.fsTitle1)),
       ],
     );
   }
@@ -74,30 +79,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
             style: const TextStyle(fontSize: FontStyles.fsTitle1),
           ),
         )
-      ],
-    );
-  }
-
-// move this to component folder
-  Widget _buildCard(Widget content, [double size = 100]) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-            padding: const EdgeInsets.all(20),
-            height: size,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.10),
-                    spreadRadius: 5,
-                    blurRadius: 10,
-                    offset: const Offset(0, 5))
-              ],
-            ),
-            child: content)
       ],
     );
   }
