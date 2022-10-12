@@ -1,14 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/CustomAppBar.dart';
-import 'package:stattrack/components/buttons/auth_button.dart';
-import 'package:stattrack/components/logos/logo.dart';
-import 'package:stattrack/main.dart';
 import 'package:stattrack/styles/font_styles.dart';
-import 'package:stattrack/styles/palette.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'dart:math' as math;
 import 'package:stattrack/components/CustomBody.dart';
 import 'package:stattrack/components/stats/SingleStatCard.dart';
 import 'package:stattrack/components/stats/SingleStatLayout.dart';

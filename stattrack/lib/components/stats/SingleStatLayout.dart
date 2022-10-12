@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import '../../styles/font_styles.dart';
+
+import 'package:stattrack/styles/font_styles.dart';
 
 /// Widget creating the layout for displaying a stat category and its amount
 /// [categoryText] the name of the stat category
