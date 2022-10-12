@@ -36,6 +36,9 @@ dependencies:
   flutter_svg: ^1.1.5
 
   firebase_core: ^1.23.0
+
+  assorted_layout_widgets: ^6.1.1
+
   firebase_auth: ^3.10.0
   google_sign_in: ^5.4.2
 
@@ -71,6 +74,7 @@ flutter:
     - assets/icons/envelope-solid.svg
     - assets/icons/google.svg
     - assets/icons/square-facebook.svg
+    - assets/images/eddyboy.jpeg
 
   fonts:
     - family: Inter
