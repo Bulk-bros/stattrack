@@ -69,6 +69,7 @@ flutter:
     - assets/icons/envelope-solid.svg
     - assets/icons/google.svg
     - assets/icons/square-facebook.svg
+    - assets/foodstockpic.jpg
 
   fonts:
     - family: Inter

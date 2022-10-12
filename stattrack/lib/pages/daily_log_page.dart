@@ -16,6 +16,8 @@ class DailyLogPage extends StatefulWidget {
 class _DailyLogPageState extends State<DailyLogPage> {
 
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,16 +49,48 @@ class _DailyLogPageState extends State<DailyLogPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
     child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Meals"),
+        SizedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text("Calories \n 2500"),
+              Text("Protein \n 200g"),
+              Text("Fat \n 70g"),
+              Text("Carbs \n 700"),
+            ],
+          ),
+        ),
+        Text(" Meals", style: TextStyle(),),
         MealCard(
-          assetName: ,
-          calorieValue: ,
-          proteinValue: ,
-          fatValue: ,
-          carbValue: ,
-          timeValue: ,
-        )
+          assetName: "assets/foodstockpic.jpg",
+          foodName: "Salad",
+          calorieValue: 500,
+          proteinValue: 50,
+          fatValue: 5,
+          carbValue: 150,
+          timeValue: "08:45",
+        ),
+        MealCard(
+          assetName: "assets/foodstockpic.jpg",
+          foodName: "Egg sandwich",
+          calorieValue: 359,
+          proteinValue: 27,
+          fatValue: 19,
+          carbValue: 190,
+          timeValue: "11:30",
+        ),MealCard(
+          assetName: "assets/foodstockpic.jpg",
+          foodName: "Taco wrap",
+          calorieValue: 638,
+          proteinValue: 38,
+          fatValue: 32,
+          carbValue: 241,
+          timeValue: "16:13",
+        ),
+
       ],
     ),
     );
