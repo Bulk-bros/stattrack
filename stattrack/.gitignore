@@ -99,6 +99,9 @@ unlinked_spec.ds
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+stattrack/ios/Runner.xcodeproj/project.pbxproj
+stattrack/ios/Flutter/AppFrameworkInfo.plist
+
 
 # macOS
 **/Flutter/ephemeral/
