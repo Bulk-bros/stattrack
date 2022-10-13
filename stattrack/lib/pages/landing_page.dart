@@ -20,7 +20,7 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return SignInPage(auth: auth);
           } else {
-            return const UserProfilePage();
+            return UserProfilePage(auth: auth);
           }
         }
         return const Scaffold(
