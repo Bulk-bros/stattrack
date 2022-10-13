@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/pages/log_page.dart';
 import 'package:stattrack/pages/sign_in_page.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         // Default font
         fontFamily: 'Inter',
       ),
-      home: UserProfilePage(),
+      home: LandingPage(auth: Auth()),
       debugShowCheckedModeBanner: false,
     );
   }

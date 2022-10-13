@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/pages/settings_page.dart';
+import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/CustomBody.dart';
@@ -16,7 +19,9 @@ const spacing = SizedBox(
 
 /// Page displaying a users profile and their macros
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+  const UserProfilePage({Key? key, required this.auth}) : super(key: key);
+
+  final AuthBase auth;
 
   @override
   _UserProfilePageState createState() => _UserProfilePageState();
@@ -25,17 +30,30 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   NavButtons activeButton = NavButtons.macros;
 
+  /// Displays the settings page
+  ///
+  /// [context] the build context to show the settings page over
+  void _showSettings(BuildContext context) {
+    Navigator.push(
+        context,
+        PageTransition(
+          type: PageTransitionType.rightToLeft,
+          child: SettingsPage(auth: widget.auth),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBody(),
+      body: _buildBody(context),
     );
   }
 
   /// Builds the body of the profile page
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return CustomBody(
-      header: _buildUserInformation("Jenny Nilsen", "23", "62kg", "173cm"),
+      header:
+          _buildUserInformation(context, "Jenny Nilsen", "23", "62kg", "173cm"),
       bodyWidgets: [
         SingleStatCard(
             content: _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
@@ -87,8 +105,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   /// Creates user information for the header in the custombody
-  Widget _buildUserInformation(
-      String name, String age, String weight, String height,
+  Widget _buildUserInformation(BuildContext context, String name, String age,
+      String weight, String height,
       [DecorationImage image = const DecorationImage(
           image: AssetImage("assets/images/eddyboy.jpeg"))]) {
     return ColumnSuper(
@@ -107,12 +125,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                          fontSize: FontStyles.fsTitle1,
-                          color: Colors.white,
-                          fontWeight: FontStyles.fwTitle),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          name,
+                          style: const TextStyle(
+                              fontSize: FontStyles.fsTitle1,
+                              color: Colors.white,
+                              fontWeight: FontStyles.fwTitle),
+                        ),
+                        TextButton(
+                          onPressed: () => _showSettings(context),
+                          child: const Icon(
+                            Icons.settings,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 25),
                     SizedBox(
