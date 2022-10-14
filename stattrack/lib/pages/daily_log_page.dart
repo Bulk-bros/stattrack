@@ -47,7 +47,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
         children: [
           Container(
             alignment: Alignment.bottomLeft,
-            child: Text(
+            child: const Text(
               " Overiew",
               style: TextStyle(
                 fontSize: FontStyles.fsTitle3,
@@ -69,7 +69,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: const <Widget>[
                   Text(
                     "Calories \n 2500",
                     style: TextStyle(color: Colors.white),
@@ -90,12 +90,12 @@ class _DailyLogPageState extends State<DailyLogPage> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 24.0,
           ),
           Container(
             alignment: Alignment.bottomLeft,
-            child: Text(
+            child: const Text(
               " Meals",
               style: TextStyle(
                 fontSize: FontStyles.fsTitle3,
@@ -105,7 +105,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
             ),
           ),
           MealCard(
-            assetName: "assets/foodstockpic.jpg",
+            assetName: "assets/images/foodstockpic.jpg",
             foodName: "Salad",
             calorieValue: 500,
             proteinValue: 50,
@@ -113,11 +113,11 @@ class _DailyLogPageState extends State<DailyLogPage> {
             carbValue: 150,
             timeValue: "08:45",
           ),
-          SizedBox(
+          const SizedBox(
             height: 8.0,
           ),
           MealCard(
-            assetName: "assets/foodstockpic.jpg",
+            assetName: "assets/images/foodstockpic.jpg",
             foodName: "Egg sandwich",
             calorieValue: 359,
             proteinValue: 27,
@@ -125,11 +125,11 @@ class _DailyLogPageState extends State<DailyLogPage> {
             carbValue: 190,
             timeValue: "11:30",
           ),
-          SizedBox(
+          const SizedBox(
             height: 8.0,
           ),
           MealCard(
-            assetName: "assets/foodstockpic.jpg",
+            assetName: "assets/images/foodstockpic.jpg",
             foodName: "Taco wrap",
             calorieValue: 638,
             proteinValue: 38,
