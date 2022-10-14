@@ -89,7 +89,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
              fontWeight: FontStyles.fwTitle,),
            textAlign: TextAlign.left,),),
         MealCard(
-          assetName: "assets/foodstockpic.jpg",
+          assetName: "assets/images/foodstockpic.jpg",
           foodName: "Salad",
           calorieValue: 500,
           proteinValue: 50,
@@ -99,7 +99,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
         ),
         SizedBox(height: 8.0,),
         MealCard(
-          assetName: "assets/foodstockpic.jpg",
+          assetName: "assets/images/foodstockpic.jpg",
           foodName: "Egg sandwich",
           calorieValue: 359,
           proteinValue: 27,
@@ -109,7 +109,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
         ),
         SizedBox(height: 8.0,),
         MealCard(
-          assetName: "assets/foodstockpic.jpg",
+          assetName: "assets/images/foodstockpic.jpg",
           foodName: "Taco wrap",
           calorieValue: 638,
           proteinValue: 38,
