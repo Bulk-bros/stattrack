@@ -44,17 +44,18 @@ class _DailyLogPageState extends State<DailyLogPage> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            alignment: Alignment.bottomLeft,
-            child: const Text(
-              " Overiew",
-              style: TextStyle(
-                fontSize: FontStyles.fsTitle3,
-                fontWeight: FontStyles.fwTitle,
-              ),
-              textAlign: TextAlign.left,
+          const Text(
+            "Overiew",
+            style: TextStyle(
+              fontSize: FontStyles.fsTitle3,
+              fontWeight: FontStyles.fwTitle,
             ),
+            textAlign: TextAlign.left,
+          ),
+          const SizedBox(
+            height: 16.0,
           ),
           Material(
             elevation: 2.0,
@@ -68,7 +69,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
                 color: Palette.accent[400],
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const <Widget>[
                   Text(
                     "Calories \n 2500",
