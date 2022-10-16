@@ -21,6 +21,9 @@ class MealCard extends StatelessWidget {
 
   get onPressed => null;
 
+  void mealCardClicked() {
+    print("the button is clickable");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +32,7 @@ class MealCard extends StatelessWidget {
     const fatLabel = 'Fat';
     const carbsLabel = 'Carbs';
     return
-      Card(
-        elevation: 2.0,
-        child: Column(
-          children: [
-            ElevatedButton(onPressed: onPressed,
+            ElevatedButton(onPressed: mealCardClicked,
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.white),),
               child: Row(
@@ -125,9 +124,6 @@ class MealCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 12.0,)],
-        ),
       );
   }
 }
