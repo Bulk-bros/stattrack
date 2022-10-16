@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-
-import '../styles/font_styles.dart';
-
-
-
+import 'package:stattrack/styles/font_styles.dart';
 
 class MealCard extends StatelessWidget {
-  MealCard({Key? key, required this.assetName, required this.calorieValue, required this.carbValue,
-  required this.fatValue, required this.proteinValue, required this.timeValue,
-  required this.foodName}) : super(key: key);
+  MealCard(
+      {Key? key,
+      required this.assetName,
+      required this.calorieValue,
+      required this.carbValue,
+      required this.fatValue,
+      required this.proteinValue,
+      required this.timeValue,
+      required this.foodName})
+      : super(key: key);
 
   String assetName;
   String timeValue; //change to date later on
@@ -54,71 +57,122 @@ class MealCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Text(foodName, style: TextStyle(fontSize: FontStyles.fsTitle3,
-                          fontWeight: FontStyles.fwTitle, color: Colors.black87))
-                    ],),
-                  Column(
-                    children: [
-                      Text("Time:", style: TextStyle(fontSize: FontStyles.fsTitle3,
-                          fontWeight: FontStyles.fwTitle, color: Colors.black87)),
-                      Text("$timeValue", style: TextStyle(fontSize: FontStyles.fsBody,
-                          fontWeight: FontStyles.fwBody, color: Colors.black87)),
-                    ],
-
-                  ),
-                  Column(
-                    children:  [
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerLeft,
-                        child: Text(calorieLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
-                          fontWeight: FontStyles.fwTitle, color: Colors.black87), textAlign: TextAlign.left,),
+                    ),
+                    Text(foodName,
+                        style: TextStyle(
+                            fontSize: FontStyles.fsTitle3,
+                            fontWeight: FontStyles.fwTitle,
+                            color: Colors.black87))
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text("Time:",
+                        style: TextStyle(
+                            fontSize: FontStyles.fsTitle3,
+                            fontWeight: FontStyles.fwTitle,
+                            color: Colors.black87)),
+                    Text("$timeValue",
+                        style: TextStyle(
+                            fontSize: FontStyles.fsBody,
+                            fontWeight: FontStyles.fwBody,
+                            color: Colors.black87)),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        calorieLabel,
+                        style: TextStyle(
+                            fontSize: FontStyles.fsTitle3,
+                            fontWeight: FontStyles.fwTitle,
+                            color: Colors.black87),
+                        textAlign: TextAlign.left,
                       ),
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerLeft,
-                        child: Text(proteinLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
-                          fontWeight: FontStyles.fwTitle, color: Colors.black87),),
+                    ),
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        proteinLabel,
+                        style: TextStyle(
+                            fontSize: FontStyles.fsTitle3,
+                            fontWeight: FontStyles.fwTitle,
+                            color: Colors.black87),
                       ),
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerLeft,
-                        child: Text(fatLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
-                          fontWeight: FontStyles.fwTitle, color: Colors.black87),  textAlign: TextAlign.left,),
+                    ),
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        fatLabel,
+                        style: TextStyle(
+                            fontSize: FontStyles.fsTitle3,
+                            fontWeight: FontStyles.fwTitle,
+                            color: Colors.black87),
+                        textAlign: TextAlign.left,
                       ),
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerLeft,
-                        child: Text(carbsLabel, style: TextStyle(fontSize: FontStyles.fsTitle3,
-                          fontWeight: FontStyles.fwTitle, color: Colors.black87),),
+                    ),
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        carbsLabel,
+                        style: TextStyle(
+                            fontSize: FontStyles.fsTitle3,
+                            fontWeight: FontStyles.fwTitle,
+                            color: Colors.black87),
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerRight,
-                        child: Text("$calorieValue kcal", style: TextStyle(fontSize: FontStyles.fsBody,
-                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "$calorieValue kcal",
+                        style: TextStyle(
+                            fontSize: FontStyles.fsBody,
+                            fontWeight: FontStyles.fwBody,
+                            color: Colors.black87),
                       ),
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerRight,
-                        child: Text("$proteinValue g", style: TextStyle(fontSize: FontStyles.fsBody,
-                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                    ),
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "$proteinValue g",
+                        style: TextStyle(
+                            fontSize: FontStyles.fsBody,
+                            fontWeight: FontStyles.fwBody,
+                            color: Colors.black87),
                       ),
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerRight,
-                        child: Text("$fatValue g", style: TextStyle(fontSize: FontStyles.fsBody,
-                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                    ),
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "$fatValue g",
+                        style: TextStyle(
+                            fontSize: FontStyles.fsBody,
+                            fontWeight: FontStyles.fwBody,
+                            color: Colors.black87),
                       ),
-                      Container(
-                        width: 70,
-                        alignment: Alignment.centerRight,
-                        child: Text("$carbValue g", style: TextStyle(fontSize: FontStyles.fsBody,
-                          fontWeight: FontStyles.fwBody, color: Colors.black87),),
+                    ),
+                    Container(
+                      width: 70,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "$carbValue g",
+                        style: TextStyle(
+                            fontSize: FontStyles.fsBody,
+                            fontWeight: FontStyles.fwBody,
+                            color: Colors.black87),
                       ),
                     ],
                   ),
