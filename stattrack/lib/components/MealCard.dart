@@ -57,7 +57,6 @@ class MealCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
                     Text(foodName,
                         style: TextStyle(
                             fontSize: FontStyles.fsTitle3,
@@ -174,6 +173,7 @@ class MealCard extends StatelessWidget {
                             fontWeight: FontStyles.fwBody,
                             color: Colors.black87),
                       ),
+                    ),
                     ],
                   ),
                 ],
