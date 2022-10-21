@@ -94,16 +94,16 @@ class _DailyLogPageState extends State<DailyLogPage> {
           const SizedBox(
             height: 24.0,
           ),
-          Container(
-            alignment: Alignment.bottomLeft,
-            child: const Text(
-              " Meals",
-              style: TextStyle(
-                fontSize: FontStyles.fsTitle3,
-                fontWeight: FontStyles.fwTitle,
-              ),
-              textAlign: TextAlign.left,
+          const Text(
+            " Meals",
+            style: TextStyle(
+              fontSize: FontStyles.fsTitle3,
+              fontWeight: FontStyles.fwTitle,
             ),
+            textAlign: TextAlign.left,
+          ),
+          const SizedBox(
+            height: 16.0,
           ),
           MealCard(
             assetName: "assets/images/foodstockpic.jpg",

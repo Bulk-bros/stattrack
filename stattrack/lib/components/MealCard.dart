@@ -34,150 +34,153 @@ class MealCard extends StatelessWidget {
     const proteinLabel = 'Proteins';
     const fatLabel = 'Fat';
     const carbsLabel = 'Carbs';
-    return
-            ElevatedButton(onPressed: mealCardClicked,
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column( mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 50.0,
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          decoration:  BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage(assetName),
-                                fit: BoxFit.fill
-                            ),
-                          ),
-                        ),
-                      ),
-                    Text(foodName,
-                        style: TextStyle(
-                            fontSize: FontStyles.fsTitle3,
-                            fontWeight: FontStyles.fwTitle,
-                            color: Colors.black87))
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text("Time:",
-                        style: TextStyle(
-                            fontSize: FontStyles.fsTitle3,
-                            fontWeight: FontStyles.fwTitle,
-                            color: Colors.black87)),
-                    Text("$timeValue",
-                        style: TextStyle(
-                            fontSize: FontStyles.fsBody,
-                            fontWeight: FontStyles.fwBody,
-                            color: Colors.black87)),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        calorieLabel,
-                        style: TextStyle(
-                            fontSize: FontStyles.fsTitle3,
-                            fontWeight: FontStyles.fwTitle,
-                            color: Colors.black87),
-                        textAlign: TextAlign.left,
-                      ),
+    return ElevatedButton(
+      onPressed: mealCardClicked,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.white),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 50.0,
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: AssetImage(assetName), fit: BoxFit.fill),
                     ),
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        proteinLabel,
-                        style: TextStyle(
-                            fontSize: FontStyles.fsTitle3,
-                            fontWeight: FontStyles.fwTitle,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        fatLabel,
-                        style: TextStyle(
-                            fontSize: FontStyles.fsTitle3,
-                            fontWeight: FontStyles.fwTitle,
-                            color: Colors.black87),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        carbsLabel,
-                        style: TextStyle(
-                            fontSize: FontStyles.fsTitle3,
-                            fontWeight: FontStyles.fwTitle,
-                            color: Colors.black87),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "$calorieValue kcal",
-                        style: TextStyle(
-                            fontSize: FontStyles.fsBody,
-                            fontWeight: FontStyles.fwBody,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "$proteinValue g",
-                        style: TextStyle(
-                            fontSize: FontStyles.fsBody,
-                            fontWeight: FontStyles.fwBody,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "$fatValue g",
-                        style: TextStyle(
-                            fontSize: FontStyles.fsBody,
-                            fontWeight: FontStyles.fwBody,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    Container(
-                      width: 70,
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "$carbValue g",
-                        style: TextStyle(
-                            fontSize: FontStyles.fsBody,
-                            fontWeight: FontStyles.fwBody,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    ],
                   ),
-                ],
-              ),
-      );
+                ),
+                Text(foodName,
+                    style: TextStyle(
+                        fontSize: FontStyles.fsTitle3,
+                        fontWeight: FontStyles.fwTitle,
+                        color: Colors.black87))
+              ],
+            ),
+            Column(
+              children: [
+                Text("Time:",
+                    style: TextStyle(
+                        fontSize: FontStyles.fsTitle3,
+                        fontWeight: FontStyles.fwTitle,
+                        color: Colors.black87)),
+                Text("$timeValue",
+                    style: TextStyle(
+                        fontSize: FontStyles.fsBody,
+                        fontWeight: FontStyles.fwBody,
+                        color: Colors.black87)),
+              ],
+            ),
+            Column(
+              children: [
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    calorieLabel,
+                    style: TextStyle(
+                        fontSize: FontStyles.fsTitle3,
+                        fontWeight: FontStyles.fwTitle,
+                        color: Colors.black87),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    proteinLabel,
+                    style: TextStyle(
+                        fontSize: FontStyles.fsTitle3,
+                        fontWeight: FontStyles.fwTitle,
+                        color: Colors.black87),
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    fatLabel,
+                    style: TextStyle(
+                        fontSize: FontStyles.fsTitle3,
+                        fontWeight: FontStyles.fwTitle,
+                        color: Colors.black87),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    carbsLabel,
+                    style: TextStyle(
+                        fontSize: FontStyles.fsTitle3,
+                        fontWeight: FontStyles.fwTitle,
+                        color: Colors.black87),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "$calorieValue kcal",
+                    style: TextStyle(
+                        fontSize: FontStyles.fsBody,
+                        fontWeight: FontStyles.fwBody,
+                        color: Colors.black87),
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "$proteinValue g",
+                    style: TextStyle(
+                        fontSize: FontStyles.fsBody,
+                        fontWeight: FontStyles.fwBody,
+                        color: Colors.black87),
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "$fatValue g",
+                    style: TextStyle(
+                        fontSize: FontStyles.fsBody,
+                        fontWeight: FontStyles.fwBody,
+                        color: Colors.black87),
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "$carbValue g",
+                    style: TextStyle(
+                        fontSize: FontStyles.fsBody,
+                        fontWeight: FontStyles.fwBody,
+                        color: Colors.black87),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
