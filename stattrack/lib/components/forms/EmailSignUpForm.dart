@@ -128,13 +128,6 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       child: Form(
         child: Column(
           children: <Widget>[
-            Text(
-              _showAuthError ? _authErrorMsg : '',
-              style: const TextStyle(
-                color: Colors.redAccent,
-                fontSize: 14.0,
-              ),
-            ),
             TextFormField(
               controller: _nameController,
               focusNode: _nameFocusNode,
@@ -216,6 +209,22 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             FormButton(
               onPressed: enableSubmit ? _submit : null,
               label: 'Sign Up',
+            ),
+            Column(
+              children: _showAuthError
+                  ? <Widget>[
+                      const SizedBox(
+                        height: 25.0,
+                      ),
+                      Text(
+                        _showAuthError ? _authErrorMsg : '',
+                        style: const TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ]
+                  : [],
             ),
           ],
         ),
