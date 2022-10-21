@@ -1,7 +1,6 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../styles/palette.dart';
+import 'package:stattrack/styles/palette.dart';
 
 /// A custom body that contains a header and a body, places the header within a theme box
 /// and the body is placed in a ColumnSuper overlapping the theme box
