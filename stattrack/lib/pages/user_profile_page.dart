@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/pages/settings_page.dart';
+import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
@@ -23,9 +24,7 @@ const spacing = SizedBox(
 
 /// Page displaying a users profile and their macros
 class UserProfilePage extends ConsumerStatefulWidget {
-  const UserProfilePage({Key? key, required this.auth}) : super(key: key);
-
-  final AuthBase auth;
+  const UserProfilePage({Key? key}) : super(key: key);
 
   @override
   _UserProfilePageState createState() => _UserProfilePageState();
@@ -38,11 +37,13 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   ///
   /// [context] the build context to show the settings page over
   void _showSettings(BuildContext context) {
+    final AuthBase auth = ref.read(authProvider);
+
     Navigator.push(
         context,
         PageTransition(
           type: PageTransitionType.rightToLeft,
-          child: SettingsPage(auth: widget.auth),
+          child: SettingsPage(auth: auth),
         ));
   }
 
@@ -55,11 +56,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// Builds the body of the profile page
   Widget _buildBody(BuildContext context) {
-    Repository repo = ref.read(repositoryProvider);
+    final AuthBase auth = ref.read(authProvider);
+    final Repository repo = ref.read(repositoryProvider);
 
     return CustomBody(
       header: StreamBuilder<User?>(
-        stream: repo.getUsers(widget.auth.currentUser!.uid),
+        stream: repo.getUsers(auth.currentUser!.uid),
         builder: ((context, snapshot) {
           if (snapshot.connectionState != ConnectionState.active) {
             return const Center(
