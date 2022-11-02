@@ -11,6 +11,20 @@ abstract class AuthBase {
   /// Signs in using the google auth API
   Future<User?> signInWithGoogle();
 
+  /// Signs in using email and password
+  ///
+  /// [email] the email of the user to sign in
+  /// [password] the password of the user to sign in
+  Future<User?> signInWithEmailAndPassword(String email, String password);
+
+  /// Creates a new user with email and password
+  ///
+  /// [name] the full name of the user to create
+  /// [email] the email of the user to create
+  /// [password] the password of the user to create
+  Future<User?> createUserWithEmailAndPassword(
+      String name, String email, String password);
+
   /// Signs out the currently logged in user
   Future<void> signOut();
 }
@@ -49,6 +63,24 @@ class Auth implements AuthBase {
         message: 'Sign in aborted by user',
       );
     }
+  }
+
+  @override
+  Future<User?> signInWithEmailAndPassword(
+      String email, String password) async {
+    final userCredential = await _firebaseAuth.signInWithCredential(
+      EmailAuthProvider.credential(email: email, password: password),
+    );
+    return userCredential.user;
+  }
+
+  // TODO: Store name of user
+  @override
+  Future<User?> createUserWithEmailAndPassword(
+      String name, String email, String password) async {
+    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return userCredential.user;
   }
 
   @override
