@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/models/user.dart';
 import 'package:stattrack/pages/settings_page.dart';
+import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/CustomBody.dart';
@@ -18,7 +22,7 @@ const spacing = SizedBox(
 );
 
 /// Page displaying a users profile and their macros
-class UserProfilePage extends StatefulWidget {
+class UserProfilePage extends ConsumerStatefulWidget {
   const UserProfilePage({Key? key, required this.auth}) : super(key: key);
 
   final AuthBase auth;
@@ -27,7 +31,7 @@ class UserProfilePage extends StatefulWidget {
   _UserProfilePageState createState() => _UserProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
+class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   NavButtons activeButton = NavButtons.macros;
 
   /// Displays the settings page
@@ -51,9 +55,28 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   /// Builds the body of the profile page
   Widget _buildBody(BuildContext context) {
+    Repository repo = ref.read(repositoryProvider);
+
     return CustomBody(
-      header:
-          _buildUserInformation(context, "Jenny Nilsen", "23", "62kg", "173cm"),
+      header: StreamBuilder<User?>(
+        stream: repo.getUsers(widget.auth.currentUser!.uid),
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.active) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          }
+          if (!snapshot.hasData) {
+            return const Text("No data");
+          }
+          final User user = snapshot.data!;
+          return _buildUserInformation(
+              context, user.name, user.getAge(), user.weight, user.height);
+        }),
+      ),
       bodyWidgets: [
         SingleStatCard(
             content: _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
@@ -105,8 +128,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   /// Creates user information for the header in the custombody
-  Widget _buildUserInformation(BuildContext context, String name, String age,
-      String weight, String height,
+  Widget _buildUserInformation(
+      BuildContext context, String name, num age, num weight, num height,
       [DecorationImage image = const DecorationImage(
           image: AssetImage("assets/images/eddyboy.jpeg"))]) {
     return ColumnSuper(
@@ -131,7 +154,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         Text(
                           name,
                           style: const TextStyle(
-                              fontSize: FontStyles.fsTitle1,
+                              fontSize: FontStyles.fsTitle2,
                               color: Colors.white,
                               fontWeight: FontStyles.fwTitle),
                         ),
@@ -152,11 +175,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         children: [
                           SingleStatLayout(
                               categoryText: "age",
-                              amountText: age,
+                              amountText: "$age",
                               color: Colors.white),
                           SingleStatLayout(
                               categoryText: "weight",
-                              amountText: weight,
+                              amountText: "$weight",
                               color: Colors.white,
                               icon: const Icon(
                                 Icons.play_arrow,
@@ -165,7 +188,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               )),
                           SingleStatLayout(
                               categoryText: "height",
-                              amountText: height,
+                              amountText: "$height",
                               color: Colors.white),
                         ],
                       ),

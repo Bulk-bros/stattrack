@@ -5,7 +5,7 @@ import 'package:stattrack/services/api_paths.dart';
 
 class FirestoreRepository implements Repository {
   @override
-  Stream<User?> getUsers(int uid) =>
+  Stream<User?> getUsers(String uid) =>
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
 
   Stream<T?> _getDocumentStream<T>(

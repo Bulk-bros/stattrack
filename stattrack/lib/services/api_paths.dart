@@ -1,3 +1,3 @@
 class ApiPaths {
-  static String user(int uid) => '/users/$uid';
+  static String user(String uid) => '/users/$uid';
 }

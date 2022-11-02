@@ -29,6 +29,7 @@ abstract class AuthBase {
   Future<void> signOut();
 }
 
+// TODO: For each auth method, create a user in the database if it doesn't exist
 class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
 
