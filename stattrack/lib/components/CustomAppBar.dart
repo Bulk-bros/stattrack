@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/styles/font_styles.dart';
-import 'package:stattrack/styles/palette.dart';
 
 /// Represents a header
 /// A header need a title

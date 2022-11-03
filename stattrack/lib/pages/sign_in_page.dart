@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
+import 'package:stattrack/pages/email_sign_in_page.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
@@ -20,6 +21,7 @@ class SignInPage extends StatelessWidget {
     }
   }
 
+
   Future<void> _signInWithFacebook() async {
     try {
       await auth.signInWithFacebook();
@@ -27,18 +29,28 @@ class SignInPage extends StatelessWidget {
       // TODO: Handle google signin exceptions
       print(e.toString());
     }
+
+  void _signInWithEmail(BuildContext context, bool showSignUp) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (context) =>
+            EmailSignInPage(auth: auth, showSignUp: showSignUp),
+      ),
+    );
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(headerTitle: 'Stattrack'),
-      body: _buildBody(),
+      body: _buildBody(context),
     );
   }
 
   // Returns the body of the sign in page
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     const spacing = SizedBox(height: 20.0);
 
     return Padding(
@@ -83,15 +95,18 @@ class SignInPage extends StatelessWidget {
             bgColor: Colors.white,
             textColor: Colors.black87,
             // TODO: implement action
-            onPressed: () {},
+            onPressed: () => _signInWithEmail(context, false),
           ),
           spacing,
-          Text(
-            "Don't have an account? Sign up here",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Palette.accent[200],
-              fontSize: 16.0,
+          TextButton(
+            onPressed: () => _signInWithEmail(context, true),
+            child: Text(
+              "Don't have an account? Sign up here",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Palette.accent[200],
+                fontSize: 16.0,
+              ),
             ),
           ),
         ],

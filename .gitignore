@@ -1,0 +1,7 @@
+.idea/
+
+# Linux
+stattrack/linux/flutter/
+
+# Windows
+stattrack/windows/flutter/
