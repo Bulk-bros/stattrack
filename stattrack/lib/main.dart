@@ -1,12 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stattrack/pages/daily_log_page.dart';
-import 'package:stattrack/pages/log_page.dart';
-import 'package:stattrack/pages/sign_in_page.dart';
-import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/pages/landing_page.dart';
-import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -35,7 +29,7 @@ class MyApp extends StatelessWidget {
         // Default font
         fontFamily: 'Inter',
       ),
-      home: LandingPage(auth: Auth()),
+      home: const LandingPage(),
       debugShowCheckedModeBanner: false,
     );
   }
