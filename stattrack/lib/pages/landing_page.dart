@@ -4,6 +4,7 @@ import 'package:stattrack/pages/daily_log_page.dart';
 import 'package:stattrack/pages/sign_in_page.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/pages/sign_in_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key, required this.auth}) : super(key: key);
@@ -18,7 +19,9 @@ class LandingPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;
           if (user == null) {
-            return DailyLogPage();
+            return SignInPage(
+              auth: auth,
+            );
           } else {
             return UserProfilePage(auth: auth);
           }
