@@ -125,6 +125,8 @@ class Auth implements AuthBase {
 
   @override
   Future<void> signOut() async {
+    final facebookLogin = FacebookLogin();
+    await facebookLogin.logOut();
     await _firebaseAuth.signOut();
   }
 }
