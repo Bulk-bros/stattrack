@@ -12,6 +12,9 @@ abstract class AuthBase {
   /// Signs in using the google auth API
   Future<User?> signInWithGoogle();
 
+  /// Signs in using the facebook auth API
+  Future<User> signInWithFacebook();
+
   /// Signs out the currently logged in user
   Future<void> signOut();
 }
@@ -52,6 +55,7 @@ class Auth implements AuthBase {
     }
   }
 
+  @override
   Future<User> signInWithFacebook() async {
     final fb = FacebookLogin();
     final response = await fb.logIn(permissions: [
@@ -61,9 +65,13 @@ class Auth implements AuthBase {
     switch (response.status) {
       case FacebookLoginStatus.success:
         final accessToken = response.accessToken;
-        final userCredential = await _firebaseAuth.signInWithCredential(
-            FacebookAuthProvider.credential(accessToken.token));
-        return userCredential.user;
+        final userCredential;
+        if (accessToken != null) {
+          userCredential = await _firebaseAuth.signInWithCredential(
+              FacebookAuthProvider.credential(accessToken.token));
+          return userCredential.user;
+        }
+        throw NullThrownError();
       case FacebookLoginStatus.cancel:
         throw FirebaseAuthException(
           code: 'ERROR_ABORTED_BY_USER',
@@ -72,7 +80,7 @@ class Auth implements AuthBase {
       case FacebookLoginStatus.error:
         throw FirebaseAuthException(
           code: 'ERROR_FACEBOOK_LOGIN_FAILED',
-          message: response.error.developerMessage,
+          message: response.error!.developerMessage,
         );
       default:
         throw UnimplementedError();
@@ -81,6 +89,8 @@ class Auth implements AuthBase {
 
   @override
   Future<void> signOut() async {
+    final facebookLogin = FacebookLogin();
+    await facebookLogin.logOut();
     await _firebaseAuth.signOut();
   }
 }
