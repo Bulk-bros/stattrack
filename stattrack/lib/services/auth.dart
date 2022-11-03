@@ -28,7 +28,6 @@ abstract class AuthBase {
   Future<void> signOut();
 }
 
-// TODO: For each auth method, create a user in the database if it doesn't exist
 class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
 
@@ -74,7 +73,6 @@ class Auth implements AuthBase {
     return userCredential.user;
   }
 
-  // TODO: Store name of user
   @override
   Future<User?> createUserWithEmailAndPassword(
       String email, String password) async {
