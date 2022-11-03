@@ -73,7 +73,6 @@ class SignInPage extends StatelessWidget {
             iconAlt: 'Facebook Logo',
             bgColor: Colors.blue,
             textColor: Colors.white,
-            // TODO: implement action
             onPressed: _signInWithFacebook,
           ),
           spacing,

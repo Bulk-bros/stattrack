@@ -69,9 +69,13 @@ class Auth implements AuthBase {
     }
   }
 
+  ///
+  /// Handles sign in with facebook
+  /// Uses the facebook API to
   @override
   Future<User> signInWithFacebook() async {
     final fb = FacebookLogin();
+    // Permissions the app asks for when signing in
     final response = await fb.logIn(permissions: [
       FacebookPermission.publicProfile,
       FacebookPermission.email,
