@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name"> StatTrack</string>
-    <string name="facebook_app_id">1234</string>
-    <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">56789</string>
+<string name="app_name">StatTrack</string>
+<string name="facebook_app_id">847624130003285</string>
+<string name="fb_login_protocol_scheme">fb847624130003285</string>
+<string name="facebook_client_token">446b76cbd0320271b207ba3fd4201569</string>
 </resources>
