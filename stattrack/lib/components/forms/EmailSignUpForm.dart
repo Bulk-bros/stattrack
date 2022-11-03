@@ -14,23 +14,19 @@ class EmailSignUpForm extends StatefulWidget {
 }
 
 class _EmailSignUpFormState extends State<EmailSignUpForm> {
-  final FocusNode _nameFocusNode = FocusNode();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _passwordConfirmFocusNode = FocusNode();
 
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController =
       TextEditingController();
 
-  String get _name => _nameController.text;
   String get _email => _emailController.text;
   String get _password => _passwordController.text;
   String get _passwordConfirm => _passwordConfirmController.text;
 
-  bool get _isValidName => Validator.isValidName(_name);
   bool get _isValidEmail => Validator.isValidEmail(_email);
   bool get _isValidPassword => Validator.isValidPassword(_password);
   bool get _isValidPasswordConfirm =>
@@ -52,17 +48,13 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
       _isLoading = true;
     });
     try {
-      if (!_isValidName ||
-          !_isValidEmail ||
-          !_isValidPassword ||
-          !_isValidPasswordConfirm) {
+      if (!_isValidEmail || !_isValidPassword || !_isValidPasswordConfirm) {
         throw Exception('Invalid inputs');
       }
       if (!_isChecked) {
         throw Exception('unchecked-checkbox');
       }
-      await widget.auth
-          .createUserWithEmailAndPassword(_name, _email, _password);
+      await widget.auth.createUserWithEmailAndPassword(_email, _password);
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       String error = '';
@@ -101,17 +93,12 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     setState(() {});
   }
 
-  void _nameEditingCompelte() {
-    final newFocus = _isValidName ? _emailFocusNode : _nameFocusNode;
-    FocusScope.of(context).requestFocus(newFocus);
-  }
-
-  void _emailEditingCompelte() {
+  void _emailEditingComplete() {
     final newFocus = _isValidEmail ? _passwordFocusNode : _emailFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
-  void _passwordEditingCompelte() {
+  void _passwordEditingComplete() {
     final newFocus =
         _isValidPassword ? _passwordConfirmFocusNode : _passwordFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
@@ -129,20 +116,6 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         child: Column(
           children: <Widget>[
             TextFormField(
-              controller: _nameController,
-              focusNode: _nameFocusNode,
-              decoration: InputDecoration(
-                labelText: 'Full name',
-                hintText: 'Your full name',
-                errorText: _showInputErrors && !_isValidName
-                    ? 'Empty name not allowed'
-                    : null,
-              ),
-              textInputAction: TextInputAction.next,
-              onEditingComplete: _nameEditingCompelte,
-              onChanged: (name) => _updateState(),
-            ),
-            TextFormField(
               controller: _emailController,
               focusNode: _emailFocusNode,
               decoration: InputDecoration(
@@ -154,7 +127,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              onEditingComplete: _emailEditingCompelte,
+              onEditingComplete: _emailEditingComplete,
               onChanged: (email) => _updateState(),
             ),
             TextFormField(
@@ -169,7 +142,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.next,
-              onEditingComplete: _passwordEditingCompelte,
+              onEditingComplete: _passwordEditingComplete,
               onChanged: (pwd) => _updateState(),
             ),
             TextFormField(
