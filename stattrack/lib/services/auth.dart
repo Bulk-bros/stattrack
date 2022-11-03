@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 abstract class AuthBase {
   /// Returns a stream that emits events when auth state changes
@@ -48,6 +49,33 @@ class Auth implements AuthBase {
         code: 'ERROR_ABORTED_BY_USEr',
         message: 'Sign in aborted by user',
       );
+    }
+  }
+
+  Future<User> signInWithFacebook() async {
+    final fb = FacebookLogin();
+    final response = await fb.logIn(permissions: [
+      FacebookPermission.publicProfile,
+      FacebookPermission.email,
+    ]);
+    switch (response.status) {
+      case FacebookLoginStatus.success:
+        final accessToken = response.accessToken;
+        final userCredential = await _firebaseAuth.signInWithCredential(
+            FacebookAuthProvider.credential(accessToken.token));
+        return userCredential.user;
+      case FacebookLoginStatus.cancel:
+        throw FirebaseAuthException(
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
+        );
+      case FacebookLoginStatus.error:
+        throw FirebaseAuthException(
+          code: 'ERROR_FACEBOOK_LOGIN_FAILED',
+          message: response.error.developerMessage,
+        );
+      default:
+        throw UnimplementedError();
     }
   }
 
