@@ -21,7 +21,6 @@ class SignInPage extends StatelessWidget {
     }
   }
 
-
   Future<void> _signInWithFacebook() async {
     try {
       await auth.signInWithFacebook();
@@ -29,6 +28,7 @@ class SignInPage extends StatelessWidget {
       // TODO: Handle google signin exceptions
       print(e.toString());
     }
+  }
 
   void _signInWithEmail(BuildContext context, bool showSignUp) {
     Navigator.of(context).push(
@@ -38,7 +38,6 @@ class SignInPage extends StatelessWidget {
             EmailSignInPage(auth: auth, showSignUp: showSignUp),
       ),
     );
-
   }
 
   @override

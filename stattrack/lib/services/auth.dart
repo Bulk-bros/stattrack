@@ -12,7 +12,6 @@ abstract class AuthBase {
   /// Signs in using the google auth API
   Future<User?> signInWithGoogle();
 
-
   /// Signs in using the facebook auth API
   Future<User> signInWithFacebook();
 
@@ -29,7 +28,6 @@ abstract class AuthBase {
   /// [password] the password of the user to create
   Future<User?> createUserWithEmailAndPassword(
       String name, String email, String password);
-
 
   /// Signs out the currently logged in user
   Future<void> signOut();
@@ -72,7 +70,6 @@ class Auth implements AuthBase {
   }
 
   @override
-
   Future<User> signInWithFacebook() async {
     final fb = FacebookLogin();
     final response = await fb.logIn(permissions: [
@@ -102,7 +99,9 @@ class Auth implements AuthBase {
       default:
         throw UnimplementedError();
     }
+  }
 
+  @override
   Future<User?> signInWithEmailAndPassword(
       String email, String password) async {
     final userCredential = await _firebaseAuth.signInWithCredential(
@@ -118,13 +117,10 @@ class Auth implements AuthBase {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     return userCredential.user;
-
   }
 
   @override
   Future<void> signOut() async {
-    final facebookLogin = FacebookLogin();
-    await facebookLogin.logOut();
     await _firebaseAuth.signOut();
   }
 }
