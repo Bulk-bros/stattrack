@@ -7,6 +7,7 @@ import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/pages/sign_in_page.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/models/user.dart' as app_user;
 
@@ -26,7 +27,9 @@ class LandingPage extends ConsumerWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;
           if (user == null) {
-            return SignInPage(auth: auth);
+            return SignInPage(
+              auth: auth,
+            );
           } else {
             // Check if user has a profile
             // If yes, redirect to profile page
