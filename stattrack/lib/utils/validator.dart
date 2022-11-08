@@ -14,7 +14,7 @@ class Validator {
   /// [password] the email to validate
   static bool isValidPassword(String password) {
     final passwordRegex =
-        RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$");
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     return passwordRegex.hasMatch(password);
   }
 

@@ -35,15 +35,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.5
 
-  firebase_core: ^1.23.0
+  firebase_core: ^2.1.1
 
-  assorted_layout_widgets: ^6.1.1
+  assorted_layout_widgets: ^7.0.0
 
-  firebase_auth: ^3.10.0
+  firebase_auth: ^4.0.1
   google_sign_in: ^5.4.2
   page_transition: ^2.0.9
-
-
 
 dev_dependencies:
   flutter_test:
