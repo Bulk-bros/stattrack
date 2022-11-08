@@ -7,6 +7,7 @@ import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/CustomBody.dart';
 import 'package:stattrack/components/stats/SingleStatCard.dart';
 import 'package:stattrack/components/stats/SingleStatLayout.dart';
+import 'package:stattrack/components/MealCard.dart';
 
 enum NavButtons {
   macros,
@@ -54,33 +55,40 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return CustomBody(
       header:
           _buildUserInformation(context, "Jenny Nilsen", "23", "62kg", "173cm"),
-      bodyWidgets: [
-        SingleStatCard(
-            content: _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
-            size: 230),
-        spacing,
-        SingleStatCard(
-            content: SingleStatLayout(
-                categoryText: "Proteins",
-                amountText: "83g",
-                categoryTextSize: FontStyles.fsTitle3,
-                amountTextSize: FontStyles.fsTitle1)),
-        spacing,
-        SingleStatCard(
-            content: SingleStatLayout(
-                categoryText: "Carbs",
-                amountText: "340g",
-                categoryTextSize: FontStyles.fsTitle3,
-                amountTextSize: FontStyles.fsTitle1)),
-        spacing,
-        SingleStatCard(
-            content: SingleStatLayout(
-                categoryText: "Fat",
-                amountText: "27g",
-                categoryTextSize: FontStyles.fsTitle3,
-                amountTextSize: FontStyles.fsTitle1)),
-      ],
+      bodyWidgets: activeButton == NavButtons.macros
+          ? [..._buildTodaysMacros()]
+          : [..._buildTodaysMeals()],
     );
+  }
+
+  List<Widget> _buildTodaysMacros() {
+    return [
+      spacing,
+      SingleStatCard(
+          content: _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
+          size: 230),
+      spacing,
+      SingleStatCard(
+          content: SingleStatLayout(
+              categoryText: "Proteins",
+              amountText: "83g",
+              categoryTextSize: FontStyles.fsTitle3,
+              amountTextSize: FontStyles.fsTitle1)),
+      spacing,
+      SingleStatCard(
+          content: SingleStatLayout(
+              categoryText: "Carbs",
+              amountText: "340g",
+              categoryTextSize: FontStyles.fsTitle3,
+              amountTextSize: FontStyles.fsTitle1)),
+      spacing,
+      SingleStatCard(
+          content: SingleStatLayout(
+              categoryText: "Fat",
+              amountText: "27g",
+              categoryTextSize: FontStyles.fsTitle3,
+              amountTextSize: FontStyles.fsTitle1)),
+    ];
   }
 
   /// Builds the main content of a user page
@@ -119,6 +127,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
           fill: true,
           children: [
             _encaseProfilePicture(image),
+            const SizedBox(
+              width: 20,
+            ),
             WrapSuper(
               wrapFit: WrapFit.divided,
               children: [
@@ -240,5 +251,30 @@ class _UserProfilePageState extends State<UserProfilePage> {
       height: 110,
       decoration: BoxDecoration(shape: BoxShape.circle, image: image),
     );
+  }
+
+  List<Widget> _buildTodaysMeals() {
+    return [
+      spacing,
+      MealCard(
+        assetName: "assets/images/foodstockpic.jpg",
+        foodName: "Salad",
+        calorieValue: 500,
+        proteinValue: 50,
+        fatValue: 5,
+        carbValue: 150,
+        timeValue: "08:45",
+      ),
+      spacing,
+      MealCard(
+        assetName: "assets/images/foodstockpic.jpg",
+        foodName: "Taco wrap",
+        calorieValue: 638,
+        proteinValue: 38,
+        fatValue: 32,
+        carbValue: 241,
+        timeValue: "16:13",
+      ),
+    ];
   }
 }
