@@ -22,8 +22,7 @@ abstract class AuthBase {
   /// [name] the full name of the user to create
   /// [email] the email of the user to create
   /// [password] the password of the user to create
-  Future<User?> createUserWithEmailAndPassword(
-      String name, String email, String password);
+  Future<User?> createUserWithEmailAndPassword(String email, String password);
 
   /// Signs out the currently logged in user
   Future<void> signOut();
@@ -74,10 +73,9 @@ class Auth implements AuthBase {
     return userCredential.user;
   }
 
-  // TODO: Store name of user
   @override
   Future<User?> createUserWithEmailAndPassword(
-      String name, String email, String password) async {
+      String email, String password) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     return userCredential.user;

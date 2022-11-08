@@ -8,8 +8,9 @@ class SettingsPage extends StatelessWidget {
 
   final AuthBase auth;
 
-  void _signOut() {
+  void _signOut(BuildContext context) {
     auth.signOut();
+    Navigator.pop(context);
   }
 
   @override
@@ -26,7 +27,7 @@ class SettingsPage extends StatelessWidget {
           children: <Widget>[
             // TODO: Add more settings options here
             MainButton(
-              callback: _signOut,
+              callback: () => _signOut(context),
               label: "Log out",
             ),
           ],
