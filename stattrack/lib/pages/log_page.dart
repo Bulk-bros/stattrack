@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
 import 'package:stattrack/components/stats/StatCard.dart';
+import 'package:stattrack/providers/auth_provider.dart';
+import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/palette.dart';
 
 enum NavItem { daily, weekly, monthly, yearly }
 
-class LogPage extends StatefulWidget {
+class LogPage extends ConsumerStatefulWidget {
   const LogPage({Key? key}) : super(key: key);
 
   @override
   _LogPageState createState() => _LogPageState();
 }
 
-class _LogPageState extends State<LogPage> {
+class _LogPageState extends ConsumerState<LogPage> {
   NavItem activeNavItem = NavItem.daily;
 
   /// Handlse the event when nav item is presses
@@ -52,6 +55,8 @@ class _LogPageState extends State<LogPage> {
 
   /// Returns the body of the log page
   Widget _buildBody() {
+    final AuthBase auth = ref.read(authProvider);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
