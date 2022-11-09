@@ -20,6 +20,20 @@ class Meal {
     required this.carbs,
   });
 
+  /// Converts a document object from firestore to a Meal object
+  ///
+  /// [document] the document object retrieved from firestore
+  static Meal fromMap(Map<String, dynamic> document) {
+    return Meal(
+        name: document["name"],
+        ingredients: document["ingredients"],
+        instuctions: document["instructions"],
+        calories: document["calories"],
+        proteins: document["proteins"],
+        fat: document["fat"],
+        carbs: document["carbs"]);
+  }
+
   @override
   String toString() {
     return 'Meal{name: $name, ingredients: $ingredients, instuctions: $instuctions}';
