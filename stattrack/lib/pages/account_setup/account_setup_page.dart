@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stattrack/components/CustomAppBar.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
+import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
