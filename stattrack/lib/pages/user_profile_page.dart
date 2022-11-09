@@ -39,7 +39,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   /// [context] the build context to show the settings page over
   void _showSettings(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
 
     Navigator.push(
         context,
