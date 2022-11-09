@@ -21,7 +21,7 @@ class StatCard extends StatelessWidget {
       this.onPress})
       : super(key: key);
 
-  final DateTime date;
+  final String date;
   final num calories;
   final num proteins;
   final num fat;
@@ -49,7 +49,7 @@ class StatCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("${date.year}.${date.month}.${date.day}"),
+                  Text(date),
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: const <Widget>[

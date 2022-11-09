@@ -12,6 +12,22 @@ import 'package:stattrack/styles/palette.dart';
 
 enum NavItem { daily, weekly, monthly, yearly }
 
+final List<num> dayOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+final List<String> month = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
 class LogPage extends ConsumerStatefulWidget {
   const LogPage({Key? key}) : super(key: key);
 
@@ -32,12 +48,12 @@ class _LogPageState extends ConsumerState<LogPage> {
   }
 
   /// Converts a list of [ConsumedMeal]'s to a map group by day, week,
-  /// month or year based on the active nav item.
+  /// month or year based on the active nav item that is sorted by time
   ///
   /// [meals] list of meals to convert
   /// [activeNavItem] the active nav item determining the grouping
   /// (day, week, month or year)
-  Map<DateTime, List<ConsumedMeal>> _groupMeals(
+  List<List<ConsumedMeal>> _groupMeals(
       List<ConsumedMeal> meals, NavItem activeNavItem) {
     final Map<DateTime, List<ConsumedMeal>> groupedMeals = {};
 
@@ -52,7 +68,21 @@ class _LogPageState extends ConsumerState<LogPage> {
       }
     }
 
-    return groupedMeals;
+    // Sort list by time
+    // TODO: sort based on selected trunc. Should probably be extracted to a separate function
+    List<List<ConsumedMeal>>? sortedMeals = groupedMeals.values.toList();
+    sortedMeals = _sortMeals(sortedMeals, activeNavItem);
+
+    return sortedMeals;
+  }
+
+  /// Sorts a list of truncated meals based on the active nav item
+  /// (e.g. if daily is selected, sort based on date. If weekly is selected,
+  /// sort based on week and year. If monthly is selected, sort based on month and year)
+  List<List<ConsumedMeal>>? _sortMeals(
+      List<List<ConsumedMeal>> meals, NavItem activeNavItem) {
+    // TODO: Implement method...
+    return null;
   }
 
   /// Returns the date key for a given date based on the active nav item.
@@ -71,6 +101,42 @@ class _LogPageState extends ConsumerState<LogPage> {
       case NavItem.yearly:
         return DateTime(date.year);
     }
+  }
+
+  /// Returns a string representing the day, week, month or year for a given date
+  /// based on the active nav item. (e.g. if daily is active, card will display
+  /// the date, if weekly is active, the card will display the week number, if
+  /// monthly is active, the card will display the month...)
+  ///
+  /// [date] the date to represent
+  String _getCardDate(DateTime date) {
+    switch (activeNavItem) {
+      case NavItem.daily:
+        return "${date.day}.${date.month}.${date.year}";
+      case NavItem.weekly:
+        return "Week ${_getWeekNumber(date)} ${date.year}";
+      case NavItem.monthly:
+        return "${month[date.month - 1]} ${date.year}";
+      case NavItem.yearly:
+        return "${date.year}";
+    }
+  }
+
+  /// Returns the week number for a given date
+  ///
+  /// [date] the date to get the week number for
+  num _getWeekNumber(DateTime date) {
+    final month = date.month;
+    final day = date.day;
+
+    num numberOfDays = 0;
+    for (var i = 0; i < month - 1; i++) {
+      numberOfDays += dayOfMonth[i];
+    }
+
+    numberOfDays += day;
+
+    return (numberOfDays / 7).ceil();
   }
 
   @override
@@ -125,8 +191,7 @@ class _LogPageState extends ConsumerState<LogPage> {
               }
 
               // Group items by date
-              final Map<DateTime, List<ConsumedMeal>> groupedMeals =
-                  _groupMeals(
+              final List<List<ConsumedMeal>> groupedMeals = _groupMeals(
                 snapshot.data!,
                 activeNavItem,
               );
@@ -134,8 +199,8 @@ class _LogPageState extends ConsumerState<LogPage> {
               return Expanded(
                 child: ListView(
                   children: <Widget>[
-                    ...groupedMeals.values.map((cardItem) => StatCard(
-                        date: cardItem[0].time,
+                    ...groupedMeals.map((cardItem) => StatCard(
+                        date: _getCardDate(cardItem[0].time),
                         calories: cardItem
                             .map((consumedMeal) => consumedMeal.calories)
                             .reduce((value, element) => value + element),
