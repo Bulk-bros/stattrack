@@ -41,16 +41,16 @@ class SettingsPage extends ConsumerWidget {
             ElevatedButton(
                 onPressed: () {
                   repo.addMeal(
-                      Meal(
-                          name: "taco",
-                          ingredients: {},
-                          instuctions: ["cook kjøttdeig", "mix together"],
-                          calories: 500,
-                          proteins: 13,
-                          fat: 5,
-                          carbs: 100),
-                      auth.currentUser!.uid,
-                      "angandpg");
+                    Meal(
+                        name: "taco",
+                        ingredients: {},
+                        instuctions: ["cook kjøttdeig", "mix together"],
+                        calories: 500,
+                        proteins: 13,
+                        fat: 5,
+                        carbs: 100),
+                    auth.currentUser!.uid,
+                  );
                 },
                 child: const Text("Add dummy meals")),
           ],

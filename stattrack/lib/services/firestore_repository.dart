@@ -29,13 +29,12 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void addMeal(Meal meal, String uid, String mid) {
+  void addMeal(Meal meal, String uid) {
     FirebaseFirestore.instance
         .collection("users")
         .doc(uid)
         .collection("meals")
-        .doc(meal.name)
-        .set({
+        .add({
           'name': meal.name,
           'ingredients': meal.ingredients,
           'instructions': meal.instuctions,

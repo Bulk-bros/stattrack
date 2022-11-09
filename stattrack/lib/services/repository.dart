@@ -20,5 +20,5 @@ abstract class Repository {
   ///
   /// [meal] the meal to be added
   /// [ingredients] a collection of ingredients for a meal
-  void addMeal(Meal meal, String uid, String mid);
+  void addMeal(Meal meal, String uid);
 }
