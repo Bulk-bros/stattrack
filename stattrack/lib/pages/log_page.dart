@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
 import 'package:stattrack/components/stats/StatCard.dart';
+import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
+import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/firestore_repository.dart';
+import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 
 enum NavItem { daily, weekly, monthly, yearly }
@@ -55,45 +59,45 @@ class _LogPageState extends ConsumerState<LogPage> {
 
   /// Returns the body of the log page
   Widget _buildBody() {
-    final AuthBase auth = ref.read(authProvider);
+    final Repository repo = ref.read(repositoryProvider);
+    final String uid = ref.read(authProvider).currentUser!.uid;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: <Widget>[
           _buildNav(),
-          StatCard(
-            date: DateTime.now(),
-            calories: '2500',
-            proteins: '200g',
-            fat: '70g',
-            carbs: '700g',
-            onPress: () => print('View more details'),
-          ),
-          StatCard(
-            date: DateTime.now(),
-            calories: '2500',
-            proteins: '200g',
-            fat: '70g',
-            carbs: '700g',
-            onPress: () => print('View more details'),
-          ),
-          StatCard(
-            date: DateTime.now(),
-            calories: '2500',
-            proteins: '200g',
-            fat: '70g',
-            carbs: '700g',
-            onPress: () => print('View more details'),
-          ),
-          StatCard(
-            date: DateTime.now(),
-            calories: '2500',
-            proteins: '200g',
-            fat: '70g',
-            carbs: '700g',
-            onPress: () => print('View more details'),
-          ),
+          StreamBuilder<List<ConsumedMeal>>(
+              stream: repo.getLog(uid),
+              builder: ((context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.active) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Text("Error: ${snapshot.error}");
+                }
+                if (!snapshot.hasData) {
+                  return const Text("You have no meals logged");
+                }
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final currentMeal = snapshot.data![index];
+                      return StatCard(
+                          date: currentMeal.time,
+                          calories: currentMeal.calories,
+                          proteins: currentMeal.proteins,
+                          fat: currentMeal.fat,
+                          carbs: currentMeal.carbs,
+                          onPress: () => print(
+                              'Pressed meal with name: ${currentMeal.name}'));
+                    },
+                  ),
+                );
+              })),
         ],
       ),
     );

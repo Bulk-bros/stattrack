@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
@@ -19,6 +20,16 @@ class FirestoreRepository implements Repository {
       'dailyProteins': user.dailyProteins,
       'dailyFat': user.dailyFat,
     }, 'users', uid);
+  }
+
+  @override
+  Stream<List<ConsumedMeal>> getLog(String uid) =>
+      _getCollectionStream(ApiPaths.log(uid), ConsumedMeal.fromMap);
+
+  Stream<List<T>> _getCollectionStream<T>(
+      String path, T Function(Map<String, dynamic>) fromMap) {
+    return FirebaseFirestore.instance.collection(path).snapshots().map(
+        (snapshot) => snapshot.docs.map((doc) => fromMap(doc.data())).toList());
   }
 
   Stream<T?> _getDocumentStream<T>(

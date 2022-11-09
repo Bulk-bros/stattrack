@@ -22,10 +22,10 @@ class StatCard extends StatelessWidget {
       : super(key: key);
 
   final DateTime date;
-  final String calories;
-  final String proteins;
-  final String fat;
-  final String carbs;
+  final num calories;
+  final num proteins;
+  final num fat;
+  final num carbs;
   final VoidCallback? onPress;
 
   @override
@@ -81,13 +81,13 @@ class StatCard extends StatelessWidget {
     );
   }
 
-  Widget _statItem(String label, String value) {
+  Widget _statItem(String label, num value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(label),
         Text(
-          value,
+          "$value",
           style: const TextStyle(
             fontSize: FontStyles.fsTitle2,
             fontWeight: FontStyles.fwTitle,

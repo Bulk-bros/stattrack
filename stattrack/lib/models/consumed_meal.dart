@@ -5,7 +5,7 @@ class ConsumedMeal {
   final String name;
   final DateTime time;
   final num calories;
-  final num protein;
+  final num proteins;
   final num carbs;
   final num fat;
 
@@ -13,13 +13,24 @@ class ConsumedMeal {
     required this.name,
     required this.time,
     required this.calories,
-    required this.protein,
+    required this.proteins,
     required this.carbs,
     required this.fat,
   });
 
+  /// converts a document object from firestore to a ConsumedMeal object
+  static ConsumedMeal fromMap(Map<String, dynamic> document) {
+    return ConsumedMeal(
+        name: document["name"],
+        time: document["time"].toDate(),
+        calories: document["calories"],
+        proteins: document["proteins"],
+        carbs: document["carbs"],
+        fat: document["fat"]);
+  }
+
   @override
   String toString() {
-    return 'ConsumedMeal(name: $name, time: $time, calories: $calories, protein: $protein, carbs: $carbs, fat: $fat)';
+    return 'ConsumedMeal(name: $name, time: $time, calories: $calories, protein: $proteins, carbs: $carbs, fat: $fat)';
   }
 }
