@@ -31,6 +31,48 @@ class _LogPageState extends ConsumerState<LogPage> {
     });
   }
 
+  /// Converts a list of [ConsumedMeal]'s to a map group by day, week,
+  /// month or year based on the active nav item.
+  ///
+  /// [meals] list of meals to convert
+  /// [activeNavItem] the active nav item determining the grouping
+  /// (day, week, month or year)
+  Map<DateTime, List<ConsumedMeal>> _groupMeals(
+      List<ConsumedMeal> meals, NavItem activeNavItem) {
+    final Map<DateTime, List<ConsumedMeal>> groupedMeals = {};
+
+    for (var meal in meals) {
+      final DateTime date = meal.time;
+      final DateTime dateKey = _getDateKey(date, activeNavItem);
+
+      if (groupedMeals.containsKey(dateKey)) {
+        groupedMeals[dateKey]!.add(meal);
+      } else {
+        groupedMeals[dateKey] = [meal];
+      }
+    }
+
+    return groupedMeals;
+  }
+
+  /// Returns the date key for a given date based on the active nav item.
+  ///
+  /// [date] the date to get the key for
+  /// [activeNavItem] the active nav item determining the grouping
+  /// (day, week, month or year)
+  DateTime _getDateKey(DateTime date, NavItem activeNavItem) {
+    switch (activeNavItem) {
+      case NavItem.daily:
+        return DateTime(date.year, date.month, date.day);
+      case NavItem.weekly:
+        return DateTime(date.year, date.month, date.day - date.weekday);
+      case NavItem.monthly:
+        return DateTime(date.year, date.month);
+      case NavItem.yearly:
+        return DateTime(date.year);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,36 +110,51 @@ class _LogPageState extends ConsumerState<LogPage> {
         children: <Widget>[
           _buildNav(),
           StreamBuilder<List<ConsumedMeal>>(
-              stream: repo.getLog(uid),
-              builder: ((context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.active) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}");
-                }
-                if (!snapshot.hasData) {
-                  return const Text("You have no meals logged");
-                }
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final currentMeal = snapshot.data![index];
-                      return StatCard(
-                          date: currentMeal.time,
-                          calories: currentMeal.calories,
-                          proteins: currentMeal.proteins,
-                          fat: currentMeal.fat,
-                          carbs: currentMeal.carbs,
-                          onPress: () => print(
-                              'Pressed meal with name: ${currentMeal.name}'));
-                    },
-                  ),
+            stream: repo.getLog(uid),
+            builder: ((context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.active) {
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
-              })),
+              }
+              if (snapshot.hasError) {
+                return Text("Error: ${snapshot.error}");
+              }
+              if (!snapshot.hasData) {
+                return const Text("You have no meals logged");
+              }
+
+              // Group items by date
+              final Map<DateTime, List<ConsumedMeal>> groupedMeals =
+                  _groupMeals(
+                snapshot.data!,
+                activeNavItem,
+              );
+
+              return Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    ...groupedMeals.values.map((cardItem) => StatCard(
+                        date: cardItem[0].time,
+                        calories: cardItem
+                            .map((consumedMeal) => consumedMeal.calories)
+                            .reduce((value, element) => value + element),
+                        proteins: cardItem
+                            .map((consumedMeal) => consumedMeal.proteins)
+                            .reduce((value, element) => value + element),
+                        fat: cardItem
+                            .map((consumedMeal) => consumedMeal.fat)
+                            .reduce((value, element) => value + element),
+                        carbs: cardItem
+                            .map((consumedMeal) => consumedMeal.carbs)
+                            .reduce((value, element) => value + element),
+                        onPress: () => print(
+                            'Pressed card with date: ${cardItem[0].time}')))
+                  ],
+                ),
+              );
+            }),
+          ),
         ],
       ),
     );
