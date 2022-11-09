@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stattrack/components/CustomAppBar.dart';
-import 'package:stattrack/components/stats/StatCard.dart';
+import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/custom_bottom_bar.dart';
+import 'package:stattrack/components/stats/stat_card.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -53,7 +54,7 @@ class _LogPageState extends ConsumerState<LogPage> {
   /// [meals] list of meals to convert
   /// [activeNavItem] the active nav item determining the grouping
   /// (day, week, month or year)
-  List<List<ConsumedMeal>> _groupMeals(
+  Map<DateTime, List<ConsumedMeal>> _groupMeals(
       List<ConsumedMeal> meals, NavItem activeNavItem) {
     final Map<DateTime, List<ConsumedMeal>> groupedMeals = {};
 
@@ -68,21 +69,7 @@ class _LogPageState extends ConsumerState<LogPage> {
       }
     }
 
-    // Sort list by time
-    // TODO: sort based on selected trunc. Should probably be extracted to a separate function
-    List<List<ConsumedMeal>>? sortedMeals = groupedMeals.values.toList();
-    sortedMeals = _sortMeals(sortedMeals, activeNavItem);
-
-    return sortedMeals;
-  }
-
-  /// Sorts a list of truncated meals based on the active nav item
-  /// (e.g. if daily is selected, sort based on date. If weekly is selected,
-  /// sort based on week and year. If monthly is selected, sort based on month and year)
-  List<List<ConsumedMeal>>? _sortMeals(
-      List<List<ConsumedMeal>> meals, NavItem activeNavItem) {
-    // TODO: Implement method...
-    return null;
+    return groupedMeals;
   }
 
   /// Returns the date key for a given date based on the active nav item.
@@ -114,7 +101,7 @@ class _LogPageState extends ConsumerState<LogPage> {
       case NavItem.daily:
         return "${date.day}.${date.month}.${date.year}";
       case NavItem.weekly:
-        return "Week ${_getWeekNumber(date)} ${date.year}";
+        return "Week ${_getWeekNumber(date)}, ${date.year}";
       case NavItem.monthly:
         return "${month[date.month - 1]} ${date.year}";
       case NavItem.yearly:
@@ -133,10 +120,16 @@ class _LogPageState extends ConsumerState<LogPage> {
     for (var i = 0; i < month - 1; i++) {
       numberOfDays += dayOfMonth[i];
     }
-
     numberOfDays += day;
 
     return (numberOfDays / 7).ceil();
+  }
+
+  /// Navigates back to the page visited before the log page
+  ///
+  /// [context] the current build context
+  void _navigateBack(BuildContext context) {
+    Navigator.pop(context);
   }
 
   @override
@@ -146,7 +139,7 @@ class _LogPageState extends ConsumerState<LogPage> {
         headerTitle: 'Log',
         navButton: IconButton(
           // TODO: Nav back one page
-          onPressed: () => print('going back'),
+          onPressed: () => _navigateBack(context),
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
           ),
@@ -184,42 +177,57 @@ class _LogPageState extends ConsumerState<LogPage> {
                 );
               }
               if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
+                return _buildErrorText('Error: ${snapshot.error}');
               }
               if (!snapshot.hasData) {
-                return const Text("You have no meals logged");
+                return _buildErrorText('You have no meals logged');
               }
-
               // Group items by date
-              final List<List<ConsumedMeal>> groupedMeals = _groupMeals(
+              final Map<DateTime, List<ConsumedMeal>> groupedMeals =
+                  _groupMeals(
                 snapshot.data!,
                 activeNavItem,
               );
-
-              return Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ...groupedMeals.map((cardItem) => StatCard(
-                        date: _getCardDate(cardItem[0].time),
-                        calories: cardItem
-                            .map((consumedMeal) => consumedMeal.calories)
-                            .reduce((value, element) => value + element),
-                        proteins: cardItem
-                            .map((consumedMeal) => consumedMeal.proteins)
-                            .reduce((value, element) => value + element),
-                        fat: cardItem
-                            .map((consumedMeal) => consumedMeal.fat)
-                            .reduce((value, element) => value + element),
-                        carbs: cardItem
-                            .map((consumedMeal) => consumedMeal.carbs)
-                            .reduce((value, element) => value + element),
-                        onPress: () => print(
-                            'Pressed card with date: ${cardItem[0].time}')))
-                  ],
-                ),
-              );
+              if (groupedMeals.isEmpty) {
+                return _buildErrorText('You have no meals logged');
+              }
+              return _buildList(groupedMeals);
             }),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorText(String msg) {
+    return SizedBox(
+      height: 48.0,
+      child: Center(
+        child: Text(msg),
+      ),
+    );
+  }
+
+  Widget _buildList(Map<DateTime, List<ConsumedMeal>> groupedMeals) {
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          ...groupedMeals.values.map((meals) => StatCard(
+              date: _getCardDate(meals[0].time),
+              calories: meals
+                  .map((consumedMeal) => consumedMeal.calories)
+                  .reduce((value, element) => value + element),
+              proteins: meals
+                  .map((consumedMeal) => consumedMeal.proteins)
+                  .reduce((value, element) => value + element),
+              fat: meals
+                  .map((consumedMeal) => consumedMeal.fat)
+                  .reduce((value, element) => value + element),
+              carbs: meals
+                  .map((consumedMeal) => consumedMeal.carbs)
+                  .reduce((value, element) => value + element),
+              // TODO: Navigate to specific log page where all meals should be displayed
+              onPress: () => print('Pressed card with date: $meals')))
         ],
       ),
     );
