@@ -44,7 +44,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         context,
         PageTransition(
           type: PageTransitionType.rightToLeft,
-          child: SettingsPage(auth: auth),
+          child: SettingsPage(),
         ));
   }
 
