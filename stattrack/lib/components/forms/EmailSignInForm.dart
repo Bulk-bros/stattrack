@@ -153,6 +153,5 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         ),
       ),
     );
-    ;
   }
 }

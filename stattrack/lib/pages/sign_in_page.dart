@@ -21,6 +21,15 @@ class SignInPage extends StatelessWidget {
     }
   }
 
+  Future<void> _signInWithFacebook() async {
+    try {
+      await auth.signInWithFacebook();
+    } catch (e) {
+      // TODO: Handle google signin exceptions
+      print(e.toString());
+    }
+  }
+
   void _signInWithEmail(BuildContext context, bool showSignUp) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -64,8 +73,7 @@ class SignInPage extends StatelessWidget {
             iconAlt: 'Facebook Logo',
             bgColor: Colors.blue,
             textColor: Colors.white,
-            // TODO: implement action
-            onPressed: () {},
+            onPressed: _signInWithFacebook,
           ),
           spacing,
           AuthButton(

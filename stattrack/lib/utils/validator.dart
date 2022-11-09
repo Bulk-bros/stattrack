@@ -38,4 +38,27 @@ class Validator {
   static bool isValidName(String name) {
     return name.isNotEmpty;
   }
+
+  /// Returns [true] if the birthday if valid, [false] otherwise
+  ///
+  /// [birthday] to validate
+  static isValidBirthday(String birthday) {
+    final birthdayRegex = RegExp(
+        r"^(?:0[1-9]|[12][0-9]|3[01])[-/.](?:0[1-9]|1[012])[-/.](?:19\d{2}|20[01][0-9]|2020)$");
+    return birthdayRegex.hasMatch(birthday);
+  }
+
+  /// Returns [true] if input is a positive floating decimal, [false] otherwise
+  ///
+  /// [number] the number to validate
+  static isPositiveFloat(String input) {
+    num number;
+    try {
+      number = num.parse(input);
+    } catch (e) {
+      return false;
+    }
+    if (number.isNegative) return false;
+    return true;
+  }
 }

@@ -39,7 +39,7 @@ dependencies:
 
   firebase_core: ^1.23.0
 
-  assorted_layout_widgets: ^7.0.0
+  assorted_layout_widgets: ^6.1.1
 
   firebase_auth: ^3.10.0
   google_sign_in: ^5.4.2

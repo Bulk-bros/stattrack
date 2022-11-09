@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 abstract class AuthBase {
   /// Returns a stream that emits events when auth state changes
@@ -10,6 +11,9 @@ abstract class AuthBase {
 
   /// Signs in using the google auth API
   Future<User?> signInWithGoogle();
+
+  /// Signs in using the facebook auth API
+  Future<User> signInWithFacebook();
 
   /// Signs in using email and password
   ///
@@ -22,8 +26,7 @@ abstract class AuthBase {
   /// [name] the full name of the user to create
   /// [email] the email of the user to create
   /// [password] the password of the user to create
-  Future<User?> createUserWithEmailAndPassword(
-      String name, String email, String password);
+  Future<User?> createUserWithEmailAndPassword(String email, String password);
 
   /// Signs out the currently logged in user
   Future<void> signOut();
@@ -65,6 +68,42 @@ class Auth implements AuthBase {
     }
   }
 
+  ///
+  /// Handles sign in with facebook
+  /// Uses the facebook API to
+  @override
+  Future<User> signInWithFacebook() async {
+    final fb = FacebookLogin();
+    // Permissions the app asks for when signing in
+    final response = await fb.logIn(permissions: [
+      FacebookPermission.publicProfile,
+      FacebookPermission.email,
+    ]);
+    switch (response.status) {
+      case FacebookLoginStatus.success:
+        final accessToken = response.accessToken;
+        final userCredential;
+        if (accessToken != null) {
+          userCredential = await _firebaseAuth.signInWithCredential(
+              FacebookAuthProvider.credential(accessToken.token));
+          return userCredential.user;
+        }
+        throw NullThrownError();
+      case FacebookLoginStatus.cancel:
+        throw FirebaseAuthException(
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
+        );
+      case FacebookLoginStatus.error:
+        throw FirebaseAuthException(
+          code: 'ERROR_FACEBOOK_LOGIN_FAILED',
+          message: response.error!.developerMessage,
+        );
+      default:
+        throw UnimplementedError();
+    }
+  }
+
   @override
   Future<User?> signInWithEmailAndPassword(
       String email, String password) async {
@@ -74,10 +113,9 @@ class Auth implements AuthBase {
     return userCredential.user;
   }
 
-  // TODO: Store name of user
   @override
   Future<User?> createUserWithEmailAndPassword(
-      String name, String email, String password) async {
+      String email, String password) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     return userCredential.user;
@@ -85,6 +123,8 @@ class Auth implements AuthBase {
 
   @override
   Future<void> signOut() async {
+    final facebookLogin = FacebookLogin();
+    await facebookLogin.logOut();
     await _firebaseAuth.signOut();
   }
 }
