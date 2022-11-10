@@ -13,9 +13,18 @@ class SettingsPage extends ConsumerWidget {
 
   final AuthBase auth;
 
-  void _uploadImage(WidgetRef ref, XFile image) {
+  void _uploadImage(BuildContext context, WidgetRef ref, XFile image) {
     final Repository repo = ref.read(repositoryProvider);
-    repo.uploadProfilePicture(image, auth.currentUser!.uid);
+    try {
+      repo.uploadProfilePicture(image, auth.currentUser!.uid);
+
+      const snackBar = SnackBar(
+        content: Text('Profile picture was succesfully changed!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void _signOut(BuildContext context) {
@@ -37,7 +46,7 @@ class SettingsPage extends ConsumerWidget {
           children: <Widget>[
             ImagePickerInput(
               label: 'Change profile image',
-              onImagePicked: (image) => _uploadImage(ref, image),
+              onImagePicked: (image) => _uploadImage(context, ref, image),
             ),
             // TODO: Add more settings options here
             const SizedBox(height: 39.9),
