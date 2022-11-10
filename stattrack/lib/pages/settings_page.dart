@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
+import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/repository.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends ConsumerWidget {
   const SettingsPage({Key? key, required this.auth}) : super(key: key);
 
   final AuthBase auth;
+
+  void _uploadImage(WidgetRef ref, XFile image) {
+    final Repository repo = ref.read(repositoryProvider);
+    repo.uploadProfilePicture(image, auth.currentUser!.uid);
+  }
 
   void _signOut(BuildContext context) {
     auth.signOut();
@@ -14,7 +24,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: CustomAppBar(
         headerTitle: "Settings",
@@ -25,7 +35,12 @@ class SettingsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            ImagePickerInput(
+              label: 'Upload profile image',
+              onImagePicked: (image) => _uploadImage(ref, image),
+            ),
             // TODO: Add more settings options here
+            const SizedBox(height: 39.9),
             MainButton(
               callback: () => _signOut(context),
               label: "Log out",
