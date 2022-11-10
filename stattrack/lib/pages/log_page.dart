@@ -182,15 +182,16 @@ class _LogPageState extends ConsumerState<LogPage> {
               if (!snapshot.hasData) {
                 return _buildErrorText('You have no meals logged');
               }
+              if (snapshot.data!.isEmpty) {
+                return _buildErrorText('You have no meals logged');
+              }
               // Group items by date
               final Map<DateTime, List<ConsumedMeal>> groupedMeals =
                   _groupMeals(
                 snapshot.data!,
                 activeNavItem,
               );
-              if (groupedMeals.isEmpty) {
-                return _buildErrorText('You have no meals logged');
-              }
+              // Build list of card based on the grouped meals
               return _buildList(groupedMeals);
             }),
           ),
