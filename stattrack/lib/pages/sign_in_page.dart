@@ -87,6 +87,7 @@ class SignInPage extends StatelessWidget {
           ),
           spacing,
           AuthButton(
+            key: const Key('EmailSignInButton'),
             label: 'Email',
             iconPath: 'assets/icons/envelope-solid.svg',
             iconAlt: 'Mail Icon',
