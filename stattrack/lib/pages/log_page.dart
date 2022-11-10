@@ -168,6 +168,9 @@ class _LogPageState extends ConsumerState<LogPage> {
       child: Column(
         children: <Widget>[
           _buildNav(),
+          const SizedBox(
+            height: 16.0,
+          ),
           StreamBuilder<List<ConsumedMeal>>(
             stream: repo.getLog(uid),
             builder: ((context, snapshot) {
@@ -246,24 +249,24 @@ class _LogPageState extends ConsumerState<LogPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _navItem(
-              'Daily',
-              () => _handleNavSelect(NavItem.daily),
-              activeNavItem == NavItem.daily,
+              label: 'Daily',
+              onPress: () => _handleNavSelect(NavItem.daily),
+              active: activeNavItem == NavItem.daily,
             ),
             _navItem(
-              'Weekly',
-              () => _handleNavSelect(NavItem.weekly),
-              activeNavItem == NavItem.weekly,
+              label: 'Weekly',
+              onPress: () => _handleNavSelect(NavItem.weekly),
+              active: activeNavItem == NavItem.weekly,
             ),
             _navItem(
-              'Monthly',
-              () => _handleNavSelect(NavItem.monthly),
-              activeNavItem == NavItem.monthly,
+              label: 'Monthly',
+              onPress: () => _handleNavSelect(NavItem.monthly),
+              active: activeNavItem == NavItem.monthly,
             ),
             _navItem(
-              'Yearly',
-              () => _handleNavSelect(NavItem.yearly),
-              activeNavItem == NavItem.yearly,
+              label: 'Yearly',
+              onPress: () => _handleNavSelect(NavItem.yearly),
+              active: activeNavItem == NavItem.yearly,
             ),
           ],
         ),
@@ -274,10 +277,13 @@ class _LogPageState extends ConsumerState<LogPage> {
   /// Returns a nav item
   ///
   /// [label] the label displayed in the item
-  /// [callback] the callback function called when the item is pressed
+  /// [onPress] the callback function called when the item is pressed
   /// [active] a boolean describing if the item is currently active or
   /// not. Active items has a change in style
-  Widget _navItem(String label, VoidCallback callback, bool active) {
+  Widget _navItem(
+      {required String label,
+      required VoidCallback onPress,
+      required bool active}) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
@@ -286,7 +292,7 @@ class _LogPageState extends ConsumerState<LogPage> {
       child: SizedBox(
         height: 40.0,
         child: TextButton(
-          onPressed: callback,
+          onPressed: onPress,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
