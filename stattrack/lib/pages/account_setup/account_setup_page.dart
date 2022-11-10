@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -57,6 +59,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   bool get _isValidFat => Validator.isPositiveFloat(_fat);
 
   // State variables
+  XFile? _profileImg;
   bool _isLoading = false;
   bool _showInputErrors = false;
 
@@ -123,6 +126,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
       final formatter = DateFormat('dd.MM.yyyy');
       final parsedBirthday = Timestamp.fromDate(formatter.parse(_birthday));
 
+      // Add user info to database
       repo.addUser(
           User(
             name: _name,
@@ -134,6 +138,11 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
             dailyFat: num.parse(_fat),
           ),
           auth.currentUser!.uid);
+
+      // Upload img to firestore
+      if (_profileImg != null) {
+        repo.uploadProfilePicture(_profileImg!, auth.currentUser!.uid);
+      }
     } catch (e) {
       if (e.toString() == 'Exception: Invalid inputs') {
         setState(() {
@@ -152,6 +161,15 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   void _signOut() {
     final AuthBase auth = ref.read(authProvider);
     auth.signOut();
+  }
+
+  /// Handles the event when an image is selected
+  ///
+  /// [image] the image selected
+  void handleImagePicked(XFile image) {
+    setState(() {
+      _profileImg = image;
+    });
   }
 
   @override
@@ -245,6 +263,13 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
               textInputAction: TextInputAction.next,
               onEditingComplete: _weightEditingComplete,
               onChanged: (name) => _updateState(),
+            ),
+            const SizedBox(
+              height: 39.9,
+            ),
+            ImagePickerInput(
+              label: 'Upload profile image',
+              onImagePicked: handleImagePicked,
             ),
             const SizedBox(
               height: 39.9,

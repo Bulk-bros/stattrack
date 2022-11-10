@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
@@ -28,6 +32,23 @@ class FirestoreRepository implements Repository {
       fromMap: ConsumedMeal.fromMap,
       sortField: 'time',
       descending: true);
+
+  @override
+  Future<void> uploadProfilePicture(XFile image, String uid) async {
+    Reference ref = FirebaseStorage.instance.ref().child(uid);
+
+    await ref.putFile(File(image.path));
+    ref.getDownloadURL().then((value) {
+      print(value);
+    });
+  }
+
+  @override
+  Future<String?> getProfilePictureUrl(String uid) async {
+    Reference ref = FirebaseStorage.instance.ref().child(uid);
+
+    return ref.getDownloadURL();
+  }
 
   /// Returns a stream of a collection for the given path
   ///

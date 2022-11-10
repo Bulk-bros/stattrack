@@ -49,6 +49,8 @@ dependencies:
   page_transition: ^2.0.9
   cloud_firestore: ^3.5.1
   week_of_year: ^2.0.0
+  image_picker: ^0.8.6
+  firebase_storage: ^10.3.11
 
 
 dev_dependencies:
