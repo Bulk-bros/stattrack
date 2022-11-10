@@ -83,7 +83,7 @@ flutter:
     - assets/icons/google.svg
     - assets/icons/square-facebook.svg
     - assets/images/foodstockpic.jpg
-    - assets/images/default-profile-picture.webp
+    - assets/images/default-profile-picture.png
 
   fonts:
     - family: Inter

@@ -301,7 +301,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image:
-                      AssetImage("assets/images/default-profile-picture.webp"),
+                      AssetImage("assets/images/default-profile-picture.png"),
+                  opacity: 0.4,
                 ),
               ),
             );
