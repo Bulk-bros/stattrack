@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImagePickerInput extends StatefulWidget {
+/// A form field for selecting an image from the gallery
+///
+/// [label] a label for the image selector field. Set to `Pick image` by default
+/// [onImagePicked] a callback function that is called when an image is picked
+class ImagePickerInput extends StatelessWidget {
   const ImagePickerInput(
       {Key? key, this.label = 'Pick image', required this.onImagePicked})
       : super(key: key);
@@ -9,11 +13,7 @@ class ImagePickerInput extends StatefulWidget {
   final String label;
   final void Function(XFile) onImagePicked;
 
-  @override
-  _ImagePickerState createState() => _ImagePickerState();
-}
-
-class _ImagePickerState extends State<ImagePickerInput> {
+  /// Opens the gallery and allows the user to pick an image
   void _pickImage() async {
     final ImagePicker picker = ImagePicker();
 
@@ -25,19 +25,23 @@ class _ImagePickerState extends State<ImagePickerInput> {
     );
 
     if (image != null) {
-      widget.onImagePicked(image);
+      onImagePicked(image);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: () => _pickImage(),
+      style: ElevatedButton.styleFrom(
+        primary: Colors.grey[200],
+        padding: const EdgeInsets.all(20.0),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            widget.label,
+            label,
             style: const TextStyle(
               color: Colors.black87,
             ),
