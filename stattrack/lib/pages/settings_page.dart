@@ -36,7 +36,7 @@ class SettingsPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             ImagePickerInput(
-              label: 'Upload profile image',
+              label: 'Change profile image',
               onImagePicked: (image) => _uploadImage(ref, image),
             ),
             // TODO: Add more settings options here
