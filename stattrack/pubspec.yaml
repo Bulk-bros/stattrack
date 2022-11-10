@@ -48,6 +48,7 @@ dependencies:
 
   page_transition: ^2.0.9
   cloud_firestore: ^3.5.1
+  week_of_year: ^2.0.0
 
 
 dev_dependencies:

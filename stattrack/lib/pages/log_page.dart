@@ -10,10 +10,11 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/firestore_repository.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
+import 'package:week_of_year/week_of_year.dart';
 
 enum NavItem { daily, weekly, monthly, yearly }
 
-final List<num> dayOfMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+final List<num> daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 final List<String> month = [
   'January',
   'February',
@@ -101,28 +102,12 @@ class _LogPageState extends ConsumerState<LogPage> {
       case NavItem.daily:
         return "${date.day}.${date.month}.${date.year}";
       case NavItem.weekly:
-        return "Week ${_getWeekNumber(date)}, ${date.year}";
+        return "Week ${date.weekOfYear}, ${date.year}";
       case NavItem.monthly:
         return "${month[date.month - 1]} ${date.year}";
       case NavItem.yearly:
         return "${date.year}";
     }
-  }
-
-  /// Returns the week number for a given date
-  ///
-  /// [date] the date to get the week number for
-  num _getWeekNumber(DateTime date) {
-    final month = date.month;
-    final day = date.day;
-
-    num numberOfDays = 0;
-    for (var i = 0; i < month - 1; i++) {
-      numberOfDays += dayOfMonth[i];
-    }
-    numberOfDays += day;
-
-    return (numberOfDays / 7).ceil();
   }
 
   /// Navigates back to the page visited before the log page
