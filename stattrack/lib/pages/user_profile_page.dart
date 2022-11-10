@@ -34,6 +34,7 @@ class UserProfilePage extends ConsumerStatefulWidget {
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   NavButtons activeButton = NavButtons.macros;
+  String? _profileImgUrl;
 
   /// Displays the settings page
   ///
@@ -141,9 +142,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// Creates user information for the header in the custombody
   Widget _buildUserInformation(
-      BuildContext context, String name, num age, num weight, num height,
-      [DecorationImage image = const DecorationImage(
-          image: AssetImage("assets/images/eddyboy.jpeg"))]) {
+      BuildContext context, String name, num age, num weight, num height) {
     return ColumnSuper(
       outerDistance: -10,
       children: [
@@ -153,7 +152,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         RowSuper(
           fill: true,
           children: [
-            _encaseProfilePicture(image),
+            _buildProfileImage(),
             const SizedBox(
               width: 20,
             ),
@@ -272,12 +271,42 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     );
   }
 
-  Widget _encaseProfilePicture(DecorationImage image) {
-    return Container(
-      width: 110,
-      height: 110,
-      decoration: BoxDecoration(shape: BoxShape.circle, image: image),
-    );
+  String? _getProfileImgUrl() {}
+
+  // [DecorationImage image = const DecorationImage(image: AssetImage("assets/images/eddyboy.jpeg"))]
+
+  Widget _buildProfileImage() {
+    final AuthBase auth = ref.read(authProvider);
+    final Repository repo = ref.read(repositoryProvider);
+
+    return FutureBuilder<String?>(
+        future: repo.getProfilePictureUrl(auth.currentUser!.uid),
+        builder: (BuildContext contexnt, AsyncSnapshot<String?> snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return Container(
+              width: 110,
+              height: 110,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(snapshot.data!),
+                ),
+              ),
+            );
+          } else {
+            return Container(
+              width: 110,
+              height: 110,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image:
+                      AssetImage("assets/images/default-profile-picture.webp"),
+                ),
+              ),
+            );
+          }
+        });
   }
 
   List<Widget> _buildTodaysMeals() {
