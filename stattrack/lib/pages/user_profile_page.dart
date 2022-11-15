@@ -154,9 +154,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   /// Builds the macro layout
   Widget _buildMacroLayout(
       {required List<String> macros, Widget outputWidget = spacing}) {
+    Widget output = Column(
+      children: [spacing, outputWidget, spacing],
+    );
     return Column(
       children: [
-        outputWidget,
+        outputWidget == spacing ? spacing : output,
         SingleStatCard(
             content: _buildProfilePageMainStatContent(
               "Calories",
