@@ -14,6 +14,10 @@ import 'package:stattrack/components/stats/single_stat_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'package:stattrack/components/meal_card.dart';
 import 'package:stattrack/components/custom_bottom_bar.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'dart:math' as math;
+
+import 'package:stattrack/styles/palette.dart';
 
 enum NavButtons {
   macros,
@@ -129,12 +133,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           style: const TextStyle(fontSize: FontStyles.fsTitle3),
         ),
         Container(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-            amountText,
-            style: const TextStyle(fontSize: FontStyles.fsTitle1),
-          ),
-        )
+            alignment: Alignment.bottomCenter,
+            child: CustomPaint(painter: OpenPainter()))
       ],
     );
   }
@@ -304,4 +304,39 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       ),
     ];
   }
+}
+
+class OpenPainter extends CustomPainter {
+  @override
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Rect.fromLTRB(-130, 20, 130, 280);
+    const startAngle = -math.pi;
+    const sweepAngle = math.pi;
+    const useCenter = false;
+    final background = Paint()
+      ..color = Colors.black12
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 12;
+    final fill = Paint()
+      ..color = Colors.green
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 12;
+    canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
+
+    /// update sweep angle with amount of calories
+    Path path = Path()..arcTo(rect, -math.pi, math.pi / 2, true);
+    canvas.drawPath(
+        path,
+        Paint()
+          ..color = Colors.green
+          ..strokeWidth = 12
+          ..strokeCap = StrokeCap.round
+          ..style = PaintingStyle.stroke);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
