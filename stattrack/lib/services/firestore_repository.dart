@@ -29,6 +29,21 @@ class FirestoreRepository implements Repository {
       sortField: 'time',
       descending: true);
 
+  @override
+  Stream<List<ConsumedMeal>> getTodaysMeals(String uid) {
+    DateTime today =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+    return FirebaseFirestore.instance
+        .collection(ApiPaths.log(uid))
+        .orderBy('time')
+        .where('time', isGreaterThan: today)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ConsumedMeal.fromMap(doc.data()))
+            .toList());
+  }
+
   /// Returns a stream of a collection for the given path
   ///
   /// [path] path to the collection

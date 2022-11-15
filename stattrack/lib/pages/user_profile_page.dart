@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
@@ -18,6 +21,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:math' as math;
 
 import 'package:stattrack/styles/palette.dart';
+
+import '../models/consumed_meal.dart';
 
 enum NavButtons {
   macros,
@@ -87,39 +92,111 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         }),
       ),
       bodyWidgets: activeButton == NavButtons.macros
-          ? [..._buildTodaysMacros()]
+          ? [_buildTodaysMacros()]
           : [..._buildTodaysMeals()],
     );
   }
 
-  List<Widget> _buildTodaysMacros() {
-    return [
-      spacing,
-      SingleStatCard(
-          content: _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
-          size: 230),
-      spacing,
-      SingleStatCard(
-          content: SingleStatLayout(
-              categoryText: "Proteins",
-              amountText: "83g",
-              categoryTextSize: FontStyles.fsTitle3,
-              amountTextSize: FontStyles.fsTitle1)),
-      spacing,
-      SingleStatCard(
-          content: SingleStatLayout(
-              categoryText: "Carbs",
-              amountText: "340g",
-              categoryTextSize: FontStyles.fsTitle3,
-              amountTextSize: FontStyles.fsTitle1)),
-      spacing,
-      SingleStatCard(
-          content: SingleStatLayout(
-              categoryText: "Fat",
-              amountText: "27g",
-              categoryTextSize: FontStyles.fsTitle3,
-              amountTextSize: FontStyles.fsTitle1)),
-    ];
+  /// Fills macro layout with correct macros
+  Widget _buildTodaysMacros() {
+    return StreamBuilder<List<ConsumedMeal>>(
+      stream: _mealStream(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.active) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        final meals = snapshot.data;
+        if (snapshot.hasError) {
+          return _buildErrorText(snapshot.hasError.toString());
+        }
+        if (snapshot.data!.isEmpty) {
+          return _buildMacroLayout(
+              macros: _calculateMacros(meals!),
+              outputWidget: const Text(
+                "No meals registered today",
+                style:
+                    TextStyle(color: Colors.white, fontSize: FontStyles.fsBody),
+              ));
+        }
+
+        return _buildMacroLayout(macros: _calculateMacros(meals!));
+      },
+    );
+  }
+
+  Widget _buildErrorText(String msg) {
+    return SizedBox(
+      height: 48,
+      child: Center(
+        child: Text(msg),
+      ),
+    );
+  }
+
+  /// Calculates macros from the a list of meals
+  List<String> _calculateMacros(List<ConsumedMeal> meals) {
+    num calories = 0;
+    num proteins = 0;
+    num carbs = 0;
+    num fat = 0;
+    for (var element in meals) {
+      {
+        calories += element.calories;
+        proteins += element.proteins;
+        carbs += element.carbs;
+        fat += element.fat;
+      }
+    }
+    return ["$calories", "$proteins", "$carbs", "$fat"];
+  }
+
+  /// returns a stream of meals from the firebase database
+  Stream<List<ConsumedMeal>> _mealStream() {
+    final Repository repo = ref.read(repositoryProvider);
+    final AuthBase auth = ref.read(authProvider);
+    return repo.getTodaysMeals(auth.currentUser!.uid);
+  }
+
+  /// Builds the macro layout
+  Widget _buildMacroLayout(
+      {required List<String> macros, Widget outputWidget = spacing}) {
+    Widget output = Column(
+      children: [spacing, outputWidget, spacing],
+    );
+    return Column(
+      children: [
+        outputWidget == spacing ? spacing : output,
+        SingleStatCard(
+            content: _buildProfilePageMainStatContent(
+              "Calories",
+              "${macros[0]}g",
+            ),
+            size: 230),
+        spacing,
+        SingleStatCard(
+            content: SingleStatLayout(
+                categoryText: "Proteins",
+                amountText: "${macros[1]}g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
+        spacing,
+        SingleStatCard(
+            content: SingleStatLayout(
+                categoryText: "Carbs",
+                amountText: "${macros[2]}g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
+        spacing,
+        SingleStatCard(
+            content: SingleStatLayout(
+                categoryText: "Fat",
+                amountText: "${macros[3]}g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
+      ],
+    );
   }
 
   /// Builds the main content of a user page

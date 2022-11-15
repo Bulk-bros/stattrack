@@ -18,4 +18,6 @@ abstract class Repository {
   ///
   /// [uid] the user id of the user to find the consumed meals of
   Stream<List<ConsumedMeal>> getLog(String uid);
+
+  Stream<List<ConsumedMeal>> getTodaysMeals(String uid);
 }
