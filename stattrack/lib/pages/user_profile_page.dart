@@ -126,6 +126,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     return ["$calories", "$proteins", "$carbs", "$fat"];
   }
 
+  /// returns a stream of meals from the firebase database
   Stream<List<ConsumedMeal>> _mealStream() {
     final Repository repo = ref.read(repositoryProvider);
     final AuthBase auth = ref.read(authProvider);
