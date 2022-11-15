@@ -29,9 +29,7 @@ class LandingPage extends ConsumerWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;
           if (user == null) {
-            return SignInPage(
-              auth: auth,
-            );
+            return SignInPage(auth: Auth());
           } else {
             // Check if user has a profile
             // If yes, redirect to profile page
