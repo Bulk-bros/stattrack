@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/CustomAppBar.dart';
-import 'package:stattrack/components/forms/EmailSignInForm.dart';
-import 'package:stattrack/components/forms/EmailSignUpForm.dart';
+import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/forms/email_sign_in_form.dart';
+import 'package:stattrack/components/forms/email_sign_up_form.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/palette.dart';
 

@@ -48,6 +48,7 @@ dependencies:
 
   page_transition: ^2.0.9
   cloud_firestore: ^4.0.4
+  week_of_year: ^2.0.0
 
 dev_dependencies:
   flutter_test:
