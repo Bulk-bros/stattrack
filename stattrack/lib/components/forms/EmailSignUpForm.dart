@@ -116,6 +116,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         child: Column(
           children: <Widget>[
             TextFormField(
+              key: const Key('emailSignUpEmailTextFormField'),
               controller: _emailController,
               focusNode: _emailFocusNode,
               decoration: InputDecoration(
@@ -131,6 +132,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               onChanged: (email) => _updateState(),
             ),
             TextFormField(
+              key: const Key('emailSignUpPasswordTextFormField'),
               controller: _passwordController,
               focusNode: _passwordFocusNode,
               decoration: InputDecoration(
@@ -146,6 +148,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               onChanged: (pwd) => _updateState(),
             ),
             TextFormField(
+              key: const Key('emailSignUpPasswordConfirmTextFormField'),
               controller: _passwordConfirmController,
               focusNode: _passwordConfirmFocusNode,
               decoration: InputDecoration(
@@ -180,6 +183,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               height: 39.0,
             ),
             FormButton(
+              key: const Key('emailSignUpFormButton'),
               onPressed: enableSubmit ? _submit : null,
               label: 'Sign Up',
             ),

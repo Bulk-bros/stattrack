@@ -22,24 +22,28 @@ void main() {
         child: MaterialApp(
           home: EmailSignInPage(
             auth: mockAuth,
-            showSignUp: false,
+            showSignUp: true,
           ),
         ),
       ),
     );
   }
 
-  testWidgets('Email Sign In page', (WidgetTester tester) async {
+  testWidgets('Email Sign Up page', (WidgetTester tester) async {
     await pumpEmailSignInForm(tester);
     final emailTextFormField =
-        find.byKey(const Key('emailSignInEmailTextFormField'));
+        find.byKey(const Key('emailSignUpEmailTextFormField'));
     expect(emailTextFormField, findsOneWidget);
 
     final passwordTextFormField =
-        find.byKey(const Key('emailSignInPasswordTextFormField'));
+        find.byKey(const Key('emailSignUpPasswordTextFormField'));
     expect(passwordTextFormField, findsOneWidget);
 
-    var authButton = find.byKey(const Key('emailSignInFormButton'));
-    expect(authButton, findsOneWidget);
+    final passwordConfirmTextFormField =
+        find.byKey(const Key('emailSignUpPasswordConfirmTextFormField'));
+    expect(passwordConfirmTextFormField, findsOneWidget);
+
+    var signUpButton = find.byKey(const Key('emailSignUpFormButton'));
+    expect(signUpButton, findsOneWidget);
   });
 }
