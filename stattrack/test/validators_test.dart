@@ -25,6 +25,10 @@ void main() {
     expect(Validator.isValidEmail("flutter@google"), false);
   });
 
+  test('Invalid Email extra space', () {
+    expect(Validator.isValidEmail("flutter@google "), false);
+  });
+
   test('Valid Password', () {
     expect(Validator.isValidPassword("&1Sgjs2gfsGJ_78"), true);
   });
