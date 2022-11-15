@@ -104,8 +104,26 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           );
         }
         final meals = snapshot.data;
-        return _buildMacroLayout(_calculateMacros(meals!));
+        if (snapshot.hasError) {
+          return _buildErrorText(snapshot.hasError.toString());
+        }
+        if (snapshot.data!.isEmpty) {
+          return _buildMacroLayout(
+              macros: _calculateMacros(meals!),
+              outputWidget: const Text("No meals registered today"));
+        }
+
+        return _buildMacroLayout(macros: _calculateMacros(meals!));
       },
+    );
+  }
+
+  Widget _buildErrorText(String msg) {
+    return SizedBox(
+      height: 48,
+      child: Center(
+        child: Text(msg),
+      ),
     );
   }
 
@@ -134,10 +152,11 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 
   /// Builds the macro layout
-  Widget _buildMacroLayout(List<String> macros) {
+  Widget _buildMacroLayout(
+      {required List<String> macros, Widget outputWidget = spacing}) {
     return Column(
       children: [
-        spacing,
+        outputWidget,
         SingleStatCard(
             content: _buildProfilePageMainStatContent(
               "Calories",
