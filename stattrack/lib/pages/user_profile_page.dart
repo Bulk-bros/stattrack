@@ -110,7 +110,11 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         if (snapshot.data!.isEmpty) {
           return _buildMacroLayout(
               macros: _calculateMacros(meals!),
-              outputWidget: const Text("No meals registered today"));
+              outputWidget: const Text(
+                "No meals registered today",
+                style:
+                    TextStyle(color: Colors.white, fontSize: FontStyles.fsBody),
+              ));
         }
 
         return _buildMacroLayout(macros: _calculateMacros(meals!));
