@@ -169,6 +169,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             Row(
               children: <Widget>[
                 Checkbox(
+                  key: const Key('emailSignUpCheckbox'),
                   value: _isChecked,
                   onChanged: (bool? value) {
                     setState(() {

@@ -43,6 +43,12 @@ void main() {
         find.byKey(const Key('emailSignUpPasswordConfirmTextFormField'));
     expect(passwordConfirmTextFormField, findsOneWidget);
 
+    final checkbox = find.byKey(const Key('emailSignUpCheckbox'));
+    expect(checkbox, findsOneWidget);
+    await tester.tap(checkbox);
+    await tester.pump();
+    expect(checkbox, findsOneWidget);
+
     var signUpButton = find.byKey(const Key('emailSignUpFormButton'));
     expect(signUpButton, findsOneWidget);
   });
