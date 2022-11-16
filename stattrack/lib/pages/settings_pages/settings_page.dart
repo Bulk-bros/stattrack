@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
@@ -42,8 +43,8 @@ class SettingsPage extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                TextButton(
-                  onPressed: () => _handleChangePassword(context),
+                SecondaryButton(
+                  callback: () => _handleChangePassword(context),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,7 +53,7 @@ class SettingsPage extends StatelessWidget {
                         "Change password",
                         style: TextStyle(
                           color: Colors.black87,
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                         ),
                       ),
                       Icon(Icons.edit, color: Colors.black87),

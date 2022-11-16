@@ -61,6 +61,9 @@ class _EmailSignInPageState extends State<EmailSignInPage> {
                 _showSignUpForm
                     ? 'Already have an account? Sign in here'
                     : 'Don\'t have account? Sign up here',
+                style: const TextStyle(
+                  fontSize: 16.0,
+                ),
               ),
             ),
             !_showSignUpForm
@@ -68,7 +71,12 @@ class _EmailSignInPageState extends State<EmailSignInPage> {
                     onPressed: () => _handleForgotPassword(context),
                     style: TextButton.styleFrom(
                         foregroundColor: Palette.accent[400]),
-                    child: const Text("Forgot password"),
+                    child: const Text(
+                      "Forgot password",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
                   )
                 : const SizedBox(),
           ],
