@@ -30,10 +30,41 @@ abstract class AuthBase {
 
   /// Signs out the currently logged in user
   Future<void> signOut();
+
+  /// Changes the password of the currently logged in user. Throws errors
+  /// is password changed failed
+  ///
+  /// [currentPassword] the current password of the user
+  /// [newPassword] the new password the user wants to update to
+  Future<void> changePassword(String currentPassword, String newPassword);
 }
 
 class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
+
+  @override
+  Future<void> changePassword(
+      String currentPassword, String newPassword) async {
+    final User? user = currentUser;
+    if (user == null) {
+      throw Exception("No user currently logged in");
+    }
+    final cred = EmailAuthProvider.credential(
+        email: user.email!, password: currentPassword);
+
+    await user.reauthenticateWithCredential(cred).then((value) {
+      user.updatePassword(newPassword).then((_) {
+        // Success
+        print("Success");
+      }).catchError((error) {
+        // Error
+        throw error;
+      });
+    }).catchError((error) {
+      // Error
+      throw error;
+    });
+  }
 
   @override
   Stream<User?> authStateChange() => _firebaseAuth.authStateChanges();

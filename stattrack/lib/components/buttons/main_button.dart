@@ -6,7 +6,7 @@ class MainButton extends StatelessWidget {
   const MainButton({Key? key, required this.callback, required this.label})
       : super(key: key);
 
-  final VoidCallback callback;
+  final VoidCallback? callback;
   final String label;
 
   @override

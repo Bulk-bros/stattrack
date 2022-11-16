@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/models/user.dart';
-import 'package:stattrack/pages/settings_page.dart';
+import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
@@ -42,11 +42,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     final AuthBase auth = ref.read(authProvider);
 
     Navigator.push(
-        context,
-        PageTransition(
-          type: PageTransitionType.rightToLeft,
-          child: SettingsPage(auth: auth),
-        ));
+      context,
+      PageTransition(
+        type: PageTransitionType.rightToLeft,
+        child: SettingsPage(auth: auth),
+      ),
+    );
   }
 
   @override
