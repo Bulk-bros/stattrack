@@ -19,6 +19,7 @@ import 'package:stattrack/components/meal_card.dart';
 import 'package:stattrack/components/custom_bottom_bar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:math' as math;
+import 'package:stattrack/pages/account_setup/account_setup_page.dart';
 
 import 'package:stattrack/styles/palette.dart';
 
@@ -87,6 +88,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             return const Text("No data");
           }
           final User user = snapshot.data!;
+          OpenPainter.total = user.dailyCalories;
           return _buildUserInformation(
               context, user.name, user.getAge(), user.weight, user.height);
         }),
@@ -149,6 +151,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         fat += element.fat;
       }
     }
+    print(meals);
+
     return ["$calories", "$proteins", "$carbs", "$fat"];
   }
 
@@ -384,10 +388,11 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 }
 
 class OpenPainter extends CustomPainter {
-  @override
+  static num total = 0;
+  static num current = 0;
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromLTRB(-130, 20, 130, 280);
+    const rect = Rect.fromLTRB(-130, 20, 130, 280);
     const startAngle = -math.pi;
     const sweepAngle = math.pi;
     const useCenter = false;
@@ -404,14 +409,30 @@ class OpenPainter extends CustomPainter {
     canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
 
     /// update sweep angle with amount of calories
-    Path path = Path()..arcTo(rect, -math.pi, math.pi / 2, true);
+
+    Path path = Path()
+      ..arcTo(rect, startAngle, _calculateAngle(current, total), true);
     canvas.drawPath(
         path,
         Paint()
-          ..color = Colors.green
+          ..color = _calculateAngle(current, total) == math.pi
+              ? Colors.red
+              : Colors.green
           ..strokeWidth = 12
           ..strokeCap = StrokeCap.round
           ..style = PaintingStyle.stroke);
+  }
+
+  double _calculateAngle(num current, num total) {
+    print(current);
+    print(total);
+    double percentage = current / total;
+    double deg = percentage * 180;
+    double rad = deg * (math.pi / 180);
+    if (current > total) {
+      rad = math.pi;
+    }
+    return rad;
   }
 
   @override
