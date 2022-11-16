@@ -50,7 +50,7 @@ dependencies:
   cloud_firestore: ^4.0.4
   week_of_year: ^2.0.0
   image_picker: ^0.8.6
-  firebase_storage: ^10.3.11
+  firebase_storage: ^11.0.5
 
 dev_dependencies:
   flutter_test:
