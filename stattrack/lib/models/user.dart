@@ -7,6 +7,7 @@ class User {
   final Timestamp birthday;
   final num dailyCalories;
   final num dailyProteins;
+  final num dailyCarbs;
   final num dailyFat;
 
   User({
@@ -16,6 +17,7 @@ class User {
     required this.birthday,
     required this.dailyCalories,
     required this.dailyProteins,
+    required this.dailyCarbs,
     required this.dailyFat,
   });
 
@@ -35,6 +37,7 @@ class User {
         birthday: document["birthday"],
         dailyCalories: document["dailyCalories"],
         dailyProteins: document["dailyProteins"],
+        dailyCarbs: document["dailyCarbs"],
         dailyFat: document["dailyFat"]);
   }
 

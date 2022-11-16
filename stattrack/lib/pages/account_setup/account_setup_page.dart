@@ -28,6 +28,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   final FocusNode _calorieFocusNode = FocusNode();
   final FocusNode _proteinFocusNode = FocusNode();
   final FocusNode _fatFocusNode = FocusNode();
+  final FocusNode _carbsFocusNode = FocusNode();
 
   // Variables for all controllers
   final TextEditingController _nameController = TextEditingController();
@@ -37,6 +38,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   final TextEditingController _calorieController = TextEditingController();
   final TextEditingController _proteinController = TextEditingController();
   final TextEditingController _fatController = TextEditingController();
+  final TextEditingController _carbsController = TextEditingController();
 
   // Getters for all input fields
   String get _name => _nameController.text;
@@ -46,6 +48,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   String get _calorie => _calorieController.text;
   String get _protein => _proteinController.text;
   String get _fat => _fatController.text;
+  String get _carbs => _carbsController.text;
 
   // Getters for checking if input fields are valid
   bool get _isValidName => Validator.isValidName(_name);
@@ -55,6 +58,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   bool get _isValidCalorie => Validator.isPositiveFloat(_calorie);
   bool get _isValidProtein => Validator.isPositiveFloat(_protein);
   bool get _isValidFat => Validator.isPositiveFloat(_fat);
+  bool get _isValidCarbs => Validator.isPositiveFloat(_carbs);
 
   // State variables
   bool _isLoading = false;
@@ -96,7 +100,12 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
 
   /// Checks if you can go to next input field
   void _proteinEditingComplete() {
-    final newFocus = _isValidProtein ? _fatFocusNode : _proteinFocusNode;
+    final newFocus = _isValidProtein ? _carbsFocusNode : _proteinFocusNode;
+    FocusScope.of(context).requestFocus(newFocus);
+  }
+
+  void _carbsEditingComplete() {
+    final newFocus = _isValidCarbs ? _fatFocusNode : _carbsFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
@@ -131,6 +140,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
             weight: num.parse(_weight),
             dailyCalories: num.parse(_calorie),
             dailyProteins: num.parse(_protein),
+            dailyCarbs: num.parse(_carbs),
             dailyFat: num.parse(_fat),
           ),
           auth.currentUser!.uid);
@@ -277,6 +287,21 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               onEditingComplete: _proteinEditingComplete,
+              onChanged: (name) => _updateState(),
+            ),
+            TextFormField(
+              controller: _carbsController,
+              focusNode: _carbsFocusNode,
+              decoration: InputDecoration(
+                labelText: 'Daily Carbs',
+                hintText: 'Your daily carbs consumption',
+                errorText: _showInputErrors && !_isValidCarbs
+                    ? 'Need to specify your daily carbs consumption'
+                    : null,
+              ),
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
+              onEditingComplete: _carbsEditingComplete,
               onChanged: (name) => _updateState(),
             ),
             TextFormField(

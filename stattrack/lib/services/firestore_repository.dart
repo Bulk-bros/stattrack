@@ -18,6 +18,7 @@ class FirestoreRepository implements Repository {
       'weight': user.weight,
       'dailyCalories': user.dailyCalories,
       'dailyProteins': user.dailyProteins,
+      'dailyCarbs': user.dailyCarbs,
       'dailyFat': user.dailyFat,
     }, 'users', uid);
   }
