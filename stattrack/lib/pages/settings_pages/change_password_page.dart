@@ -56,7 +56,6 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       String error = '';
-      print(e.code);
       switch (e.code) {
         case 'too-many-requests':
           error =
@@ -84,6 +83,17 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
   /// Updates the state of the widget
   void _updateState() {
     setState(() {});
+  }
+
+  /// Methods for changing focus state of input fields
+  void _oldPwdComplete() {
+    final newFocus = _oldPwd.isEmpty ? _oldPwdNode : _newPwdNode;
+    FocusScope.of(context).requestFocus(newFocus);
+  }
+
+  void _newPwdComplete() {
+    final newFocus = _isValidPassword ? _newPwdConfirmNode : _newPwdNode;
+    FocusScope.of(context).requestFocus(newFocus);
   }
 
   @override
@@ -117,6 +127,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.next,
+              onEditingComplete: _oldPwdComplete,
               onChanged: (pwd) => _updateState(),
             ),
             TextFormField(
@@ -131,6 +142,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.next,
+              onEditingComplete: _newPwdComplete,
               onChanged: (pwd) => _updateState(),
             ),
             TextFormField(
@@ -145,6 +157,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.done,
+              onEditingComplete: () => _handleSubmit(context, auth),
               onChanged: (pwd) => _updateState(),
             ),
             const SizedBox(
