@@ -17,8 +17,8 @@ class Ingridient extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          SizedBox(
-            width: 360,
+          Flexible(
+            flex: 3,
             child: TextField(
               controller: _ingridientController,
               decoration: InputDecoration(
@@ -37,8 +37,8 @@ class Ingridient extends StatelessWidget {
             ),
           ),
           SizedBox(width: 15,),
-          SizedBox(
-            width: 252,
+          Flexible(
+            flex: 1,
             child: TextField(
               controller: _amountController,
               decoration: InputDecoration(

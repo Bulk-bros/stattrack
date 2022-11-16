@@ -51,27 +51,10 @@ class CustomBottomBar extends StatelessWidget {
       unselectedIconTheme: IconThemeData(color: Colors.black, size: 48.0),
     );
   }
-
-  void showAddMeal (BuildContext buildContext) {
-    Navigator.push(
-        buildContext,
-        PageTransition(
-          type: PageTransitionType.bottomToTopPop,
-          childCurrent: MealCard(
-            assetName: "assets/images/foodstockpic.jpg",
-            foodName: "Salad",
-            calorieValue: 500,
-            proteinValue: 50,
-            fatValue: 5,
-            carbValue: 150,
-            timeValue: "08:45",
-          ),
-          child: AddMeal(),
-        ));
-  }
-
-
-
 }
+
+
+
+
 
 
