@@ -66,7 +66,6 @@ class Auth implements AuthBase {
     await user.reauthenticateWithCredential(cred).then((value) {
       user.updatePassword(newPassword).then((_) {
         // Success
-        print("Success");
       }).catchError((error) {
         // Error
         throw error;
@@ -90,12 +89,12 @@ class Auth implements AuthBase {
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;
       if (googleAuth.idToken != null) {
-        final UserCredential = await _firebaseAuth
+        final userCredential = await _firebaseAuth
             .signInWithCredential(GoogleAuthProvider.credential(
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
         ));
-        return UserCredential.user;
+        return userCredential.user;
       } else {
         throw FirebaseAuthException(
           code: 'ERROR_MISSING_GOOGLE_ID_TOKEN',

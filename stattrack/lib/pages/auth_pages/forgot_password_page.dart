@@ -5,8 +5,6 @@ import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/styles/font_styles.dart';
-import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
@@ -30,8 +28,6 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   String _authErrorMsg = '';
   bool _showAuthError = false;
 
-  String? _successMsg = null;
-
   void _handleSubmit(BuildContext context, AuthBase auth) async {
     setState(() {
       _showAuthError = false;
@@ -42,13 +38,24 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         throw Exception("Inalid email");
       }
       await auth.resetPassword(_email);
-      setState(() {
-        _successMsg =
-            'Email send. Please check your mail and follow the instructions';
-      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Reset password email sent!'),
+        ),
+      );
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       String error = '';
-      print(e.code);
+      switch (e.code) {
+        case 'user-not-found':
+          error = 'No user found for that email.';
+          break;
+      }
+      setState(() {
+        _showAuthError = true;
+        _authErrorMsg = error;
+      });
     } catch (e) {
       setState(() {
         _showInputErrors = true;
@@ -109,9 +116,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               height: 31.0,
             ),
             Text(
-              _successMsg != null ? _successMsg! : '',
-              style: TextStyle(
-                color: Palette.accent[200],
+              _showAuthError ? _authErrorMsg : '',
+              style: const TextStyle(
+                color: Colors.red,
                 fontSize: 16.0,
               ),
               textAlign: TextAlign.center,

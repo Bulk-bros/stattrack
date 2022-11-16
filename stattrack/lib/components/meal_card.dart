@@ -60,7 +60,7 @@ class MealCard extends StatelessWidget {
                   ),
                 ),
                 Text(foodName,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: FontStyles.fsTitle3,
                         fontWeight: FontStyles.fwTitle,
                         color: Colors.black87))
@@ -68,13 +68,13 @@ class MealCard extends StatelessWidget {
             ),
             Column(
               children: [
-                Text("Time:",
+                const Text("Time:",
                     style: TextStyle(
                         fontSize: FontStyles.fsTitle3,
                         fontWeight: FontStyles.fwTitle,
                         color: Colors.black87)),
-                Text("$timeValue",
-                    style: TextStyle(
+                Text(timeValue,
+                    style: const TextStyle(
                         fontSize: FontStyles.fsBody,
                         fontWeight: FontStyles.fwBody,
                         color: Colors.black87)),
@@ -85,7 +85,7 @@ class MealCard extends StatelessWidget {
                 Container(
                   width: 70,
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     calorieLabel,
                     style: TextStyle(
                         fontSize: FontStyles.fsTitle3,
@@ -97,7 +97,7 @@ class MealCard extends StatelessWidget {
                 Container(
                   width: 70,
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     proteinLabel,
                     style: TextStyle(
                         fontSize: FontStyles.fsTitle3,
@@ -108,7 +108,7 @@ class MealCard extends StatelessWidget {
                 Container(
                   width: 70,
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     fatLabel,
                     style: TextStyle(
                         fontSize: FontStyles.fsTitle3,
@@ -120,7 +120,7 @@ class MealCard extends StatelessWidget {
                 Container(
                   width: 70,
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: const Text(
                     carbsLabel,
                     style: TextStyle(
                         fontSize: FontStyles.fsTitle3,
@@ -137,7 +137,7 @@ class MealCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     "$calorieValue kcal",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: FontStyles.fsBody,
                         fontWeight: FontStyles.fwBody,
                         color: Colors.black87),
@@ -148,7 +148,7 @@ class MealCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     "$proteinValue g",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: FontStyles.fsBody,
                         fontWeight: FontStyles.fwBody,
                         color: Colors.black87),
@@ -159,7 +159,7 @@ class MealCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     "$fatValue g",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: FontStyles.fsBody,
                         fontWeight: FontStyles.fwBody,
                         color: Colors.black87),
@@ -170,7 +170,7 @@ class MealCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Text(
                     "$carbValue g",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: FontStyles.fsBody,
                         fontWeight: FontStyles.fwBody,
                         color: Colors.black87),
