@@ -38,6 +38,7 @@ class MealCard extends StatelessWidget {
       onPressed: mealCardClicked,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.white),
+        elevation: ButtonStyleButton.allOrNull(8.0),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),

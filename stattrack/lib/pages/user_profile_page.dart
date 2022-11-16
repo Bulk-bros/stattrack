@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/add_meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
@@ -14,9 +15,12 @@ import 'package:stattrack/components/stats/SingleStatCard.dart';
 import 'package:stattrack/components/stats/SingleStatLayout.dart';
 import 'package:stattrack/components/MealCard.dart';
 
+import '../components/create_meal.dart';
+
 enum NavButtons {
   macros,
   meals,
+  addMeal,
 }
 
 const spacing = SizedBox(
@@ -82,7 +86,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       ),
       bodyWidgets: activeButton == NavButtons.macros
           ? [..._buildTodaysMacros()]
-          : [..._buildTodaysMeals()],
+          : [..._buildAddMeal()],
     );
   }
 
@@ -237,6 +241,16 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                   activeButton = NavButtons.meals;
                 });
               }),
+            ),
+            Container(
+              width: 160,
+              alignment: Alignment.centerLeft,
+              child: _userInformationTextButton(
+                  "Add meal", activeButton == NavButtons.addMeal, () {
+                setState(() {
+                  activeButton = NavButtons.addMeal;
+                });
+              }),
             )
           ],
         ),
@@ -278,6 +292,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     );
   }
 
+
   List<Widget> _buildTodaysMeals() {
     return [
       spacing,
@@ -300,6 +315,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         carbValue: 241,
         timeValue: "16:13",
       ),
+    ];
+  }
+
+  List<Widget> _buildAddMeal(){
+    return [
+    AddMeal(),
     ];
   }
 }
