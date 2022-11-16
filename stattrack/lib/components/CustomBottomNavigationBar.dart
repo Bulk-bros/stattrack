@@ -1,30 +1,44 @@
+import 'dart:js';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/add_meal.dart';
+import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/styles/palette.dart';
 
+import 'MealCard.dart';
+
 class CustomBottomBar extends StatelessWidget {
-  const CustomBottomBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person,
+          icon: IconButton(
+            onPressed: () {  }, icon: Icon(Icons.person,),
           ),
           label: "Profile",
         ),
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.add_circle_rounded,
+          icon: IconButton(
+            icon: Icon(Icons.add_circle_rounded,),
             color: Palette.accent[400],
-          ),
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+
+                builder: (BuildContext context) {
+                  return AddMeal();
+                },
+              );
+            },),
           label: "Add Button",
         ),
         BottomNavigationBarItem(
-          icon: Icon(
-            Icons.menu_rounded,
+          icon: IconButton(
+             onPressed: () {  }, icon: Icon(Icons.menu_rounded,),
           ),
           label: "Menu",
         ),
@@ -37,4 +51,27 @@ class CustomBottomBar extends StatelessWidget {
       unselectedIconTheme: IconThemeData(color: Colors.black, size: 48.0),
     );
   }
+
+  void showAddMeal (BuildContext buildContext) {
+    Navigator.push(
+        buildContext,
+        PageTransition(
+          type: PageTransitionType.bottomToTopPop,
+          childCurrent: MealCard(
+            assetName: "assets/images/foodstockpic.jpg",
+            foodName: "Salad",
+            calorieValue: 500,
+            proteinValue: 50,
+            fatValue: 5,
+            carbValue: 150,
+            timeValue: "08:45",
+          ),
+          child: AddMeal(),
+        ));
+  }
+
+
+
 }
+
+

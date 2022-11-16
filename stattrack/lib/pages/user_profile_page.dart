@@ -15,6 +15,7 @@ import 'package:stattrack/components/stats/SingleStatCard.dart';
 import 'package:stattrack/components/stats/SingleStatLayout.dart';
 import 'package:stattrack/components/MealCard.dart';
 
+import '../components/CustomBottomNavigationBar.dart';
 import '../components/create_meal.dart';
 
 enum NavButtons {
@@ -56,6 +57,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildBody(context),
+      bottomNavigationBar: CustomBottomBar(),
     );
   }
 
@@ -86,7 +88,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       ),
       bodyWidgets: activeButton == NavButtons.macros
           ? [..._buildTodaysMacros()]
-          : [..._buildAddMeal()],
+          : [..._buildTodaysMeals()],
     );
   }
 
@@ -242,16 +244,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                 });
               }),
             ),
-            Container(
-              width: 160,
-              alignment: Alignment.centerLeft,
-              child: _userInformationTextButton(
-                  "Add meal", activeButton == NavButtons.addMeal, () {
-                setState(() {
-                  activeButton = NavButtons.addMeal;
-                });
-              }),
-            )
           ],
         ),
       ],
