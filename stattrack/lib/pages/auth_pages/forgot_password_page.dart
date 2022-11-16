@@ -5,7 +5,6 @@ import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
@@ -39,6 +38,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         throw Exception("Inalid email");
       }
       await auth.resetPassword(_email);
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Reset password email sent!'),
@@ -116,7 +116,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               height: 31.0,
             ),
             Text(
-              _showAuthError ? _authErrorMsg! : '',
+              _showAuthError ? _authErrorMsg : '',
               style: const TextStyle(
                 color: Colors.red,
                 fontSize: 16.0,

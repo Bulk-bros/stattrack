@@ -40,6 +40,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         throw Exception('Invalid inputs');
       }
       await widget.auth.signInWithEmailAndPassword(_email, _password);
+      if (!mounted) return;
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       String error = '';

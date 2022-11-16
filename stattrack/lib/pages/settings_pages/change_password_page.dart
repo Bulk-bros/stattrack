@@ -53,6 +53,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
       }
       await auth.changePassword(_oldPwd, _newPwd);
       // Pop page
+      if (!mounted) return;
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       String error = '';

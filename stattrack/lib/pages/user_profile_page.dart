@@ -34,7 +34,6 @@ class UserProfilePage extends ConsumerStatefulWidget {
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   NavButtons activeButton = NavButtons.macros;
-  String? _profileImgUrl;
 
   /// Displays the settings page
   ///
@@ -257,7 +256,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     return TextButton(
       onPressed: callback,
       style: TextButton.styleFrom(
-        primary: Colors.white,
+        foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
         splashFactory: NoSplash.splashFactory,
       ),
@@ -271,8 +270,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       ),
     );
   }
-
-  String? _getProfileImgUrl() {}
 
   // [DecorationImage image = const DecorationImage(image: AssetImage("assets/images/eddyboy.jpeg"))]
 

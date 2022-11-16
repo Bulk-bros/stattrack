@@ -88,7 +88,6 @@ class SignInPage extends StatelessWidget {
             iconAlt: 'Google Logo',
             bgColor: Colors.deepOrange[400],
             textColor: Colors.white,
-            // TODO: implement action
             onPressed: _signInWithGoogle,
           ),
           spacing,
@@ -99,7 +98,6 @@ class SignInPage extends StatelessWidget {
             iconAlt: 'Mail Icon',
             bgColor: Colors.white,
             textColor: Colors.black87,
-            // TODO: implement action
             onPressed: () => _signInWithEmail(context, false),
           ),
           spacing,

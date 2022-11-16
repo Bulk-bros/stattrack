@@ -160,7 +160,6 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
           _showInputErrors = true;
         });
       }
-      print(e.toString());
     } finally {
       setState(() {
         _isLoading = false;
