@@ -17,6 +17,7 @@ class FirestoreRepository implements Repository {
   void addUser(User user, String uid) {
     _addDocument({
       'name': user.name,
+      'profilePicture': user.profilePictureUrl,
       'birthday': user.birthday,
       'height': user.height,
       'weight': user.weight,
@@ -40,7 +41,16 @@ class FirestoreRepository implements Repository {
 
     await ref.putFile(File(image.path));
     ref.getDownloadURL().then((value) {
-      print(value);
+      _updateProfileUrlInDatabase(uid, value);
+    });
+  }
+
+  void _updateProfileUrlInDatabase(String uid, String newUrl) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update(<String, dynamic>{
+      'profilePicture': newUrl,
     });
   }
 

@@ -34,16 +34,23 @@ class ImagePickerInput extends StatelessWidget {
     return ElevatedButton(
       onPressed: () => _pickImage(),
       style: ElevatedButton.styleFrom(
-        primary: Colors.grey[200],
+        backgroundColor: Colors.white,
         padding: const EdgeInsets.all(20.0),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.black87,
+          Flexible(
+            child: RichText(
+              overflow: TextOverflow.ellipsis,
+              strutStyle: const StrutStyle(fontSize: 16.0),
+              text: TextSpan(
+                text: label,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16.0,
+                ),
+              ),
             ),
           ),
           const Icon(

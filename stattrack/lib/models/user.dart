@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   final String name;
+  final String profilePictureUrl;
   final num weight;
   final num height;
   final Timestamp birthday;
@@ -12,6 +13,7 @@ class User {
 
   User({
     required this.name,
+    required this.profilePictureUrl,
     required this.weight,
     required this.height,
     required this.birthday,
@@ -32,6 +34,7 @@ class User {
   static User fromMap(Map<String, dynamic> document) {
     return User(
         name: document["name"],
+        profilePictureUrl: document["profilePicture"],
         weight: document["weight"],
         height: document["height"],
         birthday: document["birthday"],
