@@ -37,10 +37,21 @@ abstract class AuthBase {
   /// [currentPassword] the current password of the user
   /// [newPassword] the new password the user wants to update to
   Future<void> changePassword(String currentPassword, String newPassword);
+
+  Future<void> resetPassword(String email);
 }
 
 class Auth implements AuthBase {
   final _firebaseAuth = FirebaseAuth.instance;
+
+  @override
+  Future<void> resetPassword(String email) async {
+    await _firebaseAuth
+        .sendPasswordResetEmail(email: email)
+        .catchError((error) {
+      throw error;
+    });
+  }
 
   @override
   Future<void> changePassword(

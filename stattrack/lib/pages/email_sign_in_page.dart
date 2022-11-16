@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/components/forms/email_sign_in_form.dart';
 import 'package:stattrack/components/forms/email_sign_up_form.dart';
+import 'package:stattrack/pages/auth_pages/forgot_password_page.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/palette.dart';
 
@@ -30,6 +32,16 @@ class _EmailSignInPageState extends State<EmailSignInPage> {
     });
   }
 
+  void _handleForgotPassword(BuildContext context) {
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.bottomToTop,
+        child: const ForgotPasswordPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,13 +56,21 @@ class _EmailSignInPageState extends State<EmailSignInPage> {
                 : EmailSignInForm(auth: widget.auth),
             TextButton(
               onPressed: _toggleForm,
-              style: TextButton.styleFrom(primary: Palette.accent[400]),
+              style: TextButton.styleFrom(foregroundColor: Palette.accent[400]),
               child: Text(
                 _showSignUpForm
                     ? 'Already have an account? Sign in here'
                     : 'Don\'t have account? Sign up here',
               ),
             ),
+            !_showSignUpForm
+                ? TextButton(
+                    onPressed: () => _handleForgotPassword(context),
+                    style: TextButton.styleFrom(
+                        foregroundColor: Palette.accent[400]),
+                    child: const Text("Forgot password"),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),

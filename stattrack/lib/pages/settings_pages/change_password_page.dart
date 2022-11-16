@@ -56,7 +56,6 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       String error = '';
-      print(e.code);
       switch (e.code) {
         case 'too-many-requests':
           error =
