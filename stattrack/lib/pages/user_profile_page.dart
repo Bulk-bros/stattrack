@@ -43,6 +43,8 @@ class UserProfilePage extends ConsumerStatefulWidget {
 }
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
+  num current = 0;
+  num total = 0;
   NavButtons activeButton = NavButtons.macros;
 
   /// Displays the settings page
@@ -88,7 +90,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             return const Text("No data");
           }
           final User user = snapshot.data!;
-          OpenPainter.total = user.dailyCalories;
+          total = user.dailyCalories;
           return _buildUserInformation(
               context, user.name, user.getAge(), user.weight, user.height);
         }),
@@ -146,12 +148,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     for (var element in meals) {
       {
         calories += element.calories;
+        current = calories;
         proteins += element.proteins;
         carbs += element.carbs;
         fat += element.fat;
       }
     }
-    print(meals);
 
     return ["$calories", "$proteins", "$carbs", "$fat"];
   }
@@ -169,14 +171,28 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     Widget output = Column(
       children: [spacing, outputWidget, spacing],
     );
+
+    OpenPainter painter = OpenPainter(total: total, current: current);
+
     return Column(
       children: [
         outputWidget == spacing ? spacing : output,
         SingleStatCard(
-            content: _buildProfilePageMainStatContent(
-              "Calories",
-              "${macros[0]}g",
-            ),
+            key: Key("mainDisplay"),
+            content: SingleStatLayout(
+                categoryText: "Calories",
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 230 - 60,
+                      width: 200,
+                      color: Colors.red,
+                      child: CustomPaint(painter: painter),
+                    )
+                  ],
+                )),
             size: 230),
         spacing,
         SingleStatCard(
@@ -205,6 +221,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// Builds the main content of a user page
   Widget _buildProfilePageMainStatContent(String text, String amountText) {
+    OpenPainter painter = OpenPainter(total: total, current: current);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +232,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         ),
         Container(
             alignment: Alignment.bottomCenter,
-            child: CustomPaint(painter: OpenPainter()))
+            child: CustomPaint(painter: painter))
       ],
     );
   }
@@ -388,11 +405,20 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 }
 
 class OpenPainter extends CustomPainter {
-  static num total = 0;
-  static num current = 0;
+  num total = 0;
+  num current = 0;
+
+  OpenPainter({required this.total, required this.current});
+
   @override
   void paint(Canvas canvas, Size size) {
-    const rect = Rect.fromLTRB(-130, 20, 130, 280);
+    size = Size(120, 200);
+    print(size);
+
+    String midText = "$current";
+    String rightText = "$total";
+
+    const rect = Rect.fromLTRB(40, 10, 300, 270);
     const startAngle = -math.pi;
     const sweepAngle = math.pi;
     const useCenter = false;
@@ -407,6 +433,42 @@ class OpenPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 12;
     canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
+
+    const textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: FontStyles.fsBody,
+    );
+
+    final firstPainter = TextPainter(
+      text: TextSpan(
+        text: '0',
+        style: textStyle,
+      ),
+      textDirection: TextDirection.ltr,
+    );
+
+    final middlePainter = TextPainter(
+      text: TextSpan(
+        text: midText,
+        style: const TextStyle(
+            color: Colors.black,
+            fontSize: FontStyles.fsTitle1,
+            fontWeight: FontWeight.bold),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+
+    firstPainter.layout(
+      minWidth: 0,
+      maxWidth: 2000,
+    );
+    middlePainter.layout(
+      minWidth: 0,
+      maxWidth: 2000,
+    );
+
+    firstPainter.paint(canvas, const Offset(40, 150));
+    middlePainter.paint(canvas, const Offset(130, 80));
 
     /// update sweep angle with amount of calories
 
@@ -424,8 +486,6 @@ class OpenPainter extends CustomPainter {
   }
 
   double _calculateAngle(num current, num total) {
-    print(current);
-    print(total);
     double percentage = current / total;
     double deg = percentage * 180;
     double rad = deg * (math.pi / 180);

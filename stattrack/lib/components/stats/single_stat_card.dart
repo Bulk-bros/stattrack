@@ -30,7 +30,9 @@ class SingleStatCard extends StatelessWidget {
                     offset: const Offset(0, 5))
               ],
             ),
-            child: content)
+            child: Column(
+              children: [content],
+            ))
       ],
     );
   }

@@ -15,7 +15,8 @@ class SingleStatLayout extends StatelessWidget {
   SingleStatLayout(
       {Key? key,
       required this.categoryText,
-      required this.amountText,
+      this.content,
+      this.amountText,
       this.categoryTextSize = FontStyles.fsBodySmall,
       this.amountTextSize = FontStyles.fsBody,
       this.icon,
@@ -23,14 +24,23 @@ class SingleStatLayout extends StatelessWidget {
       : super(key: key);
 
   String categoryText;
-  String amountText;
+  Widget? content;
   double categoryTextSize;
   double amountTextSize;
   Color color = Colors.black;
   Icon? icon;
+  String? amountText;
 
   @override
   Widget build(BuildContext context) {
+    Widget toDisplay = _buildAmountText("No body defined");
+    if (content != null) {
+      toDisplay = content!;
+    }
+    if (amountText != null) {
+      toDisplay = _buildAmountText(amountText!);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -39,13 +49,7 @@ class SingleStatLayout extends StatelessWidget {
             style: TextStyle(fontSize: categoryTextSize, color: color)),
         Row(
           children: [
-            Text(
-              amountText,
-              style: TextStyle(
-                  fontSize: amountTextSize,
-                  fontWeight: FontStyles.fw600,
-                  color: color),
-            ),
+            toDisplay,
             Transform.rotate(
               angle: -90 * math.pi / 180,
               child: icon ?? const Text(""),
@@ -53,6 +57,14 @@ class SingleStatLayout extends StatelessWidget {
           ],
         )
       ],
+    );
+  }
+
+  Widget _buildAmountText(String amountText) {
+    return Text(
+      amountText,
+      style: TextStyle(
+          fontSize: amountTextSize, fontWeight: FontStyles.fw600, color: color),
     );
   }
 }
