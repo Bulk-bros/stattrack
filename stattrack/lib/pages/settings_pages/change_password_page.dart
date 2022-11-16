@@ -85,6 +85,17 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
     setState(() {});
   }
 
+  /// Methods for changing focus state of input fields
+  void _oldPwdComplete() {
+    final newFocus = _oldPwd.isEmpty ? _oldPwdNode : _newPwdNode;
+    FocusScope.of(context).requestFocus(newFocus);
+  }
+
+  void _newPwdComplete() {
+    final newFocus = _isValidPassword ? _newPwdConfirmNode : _newPwdNode;
+    FocusScope.of(context).requestFocus(newFocus);
+  }
+
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
@@ -116,6 +127,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.next,
+              onEditingComplete: _oldPwdComplete,
               onChanged: (pwd) => _updateState(),
             ),
             TextFormField(
@@ -130,6 +142,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.next,
+              onEditingComplete: _newPwdComplete,
               onChanged: (pwd) => _updateState(),
             ),
             TextFormField(
@@ -144,6 +157,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
               ),
               obscureText: true,
               textInputAction: TextInputAction.done,
+              onEditingComplete: () => _handleSubmit(context, auth),
               onChanged: (pwd) => _updateState(),
             ),
             const SizedBox(

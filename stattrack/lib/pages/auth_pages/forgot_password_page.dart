@@ -95,6 +95,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.done,
+              onEditingComplete: () => _handleSubmit(context, auth),
               onChanged: (email) => _updateState(),
             ),
             const SizedBox(
