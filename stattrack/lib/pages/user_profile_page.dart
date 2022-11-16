@@ -165,12 +165,18 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
-                          name,
-                          style: const TextStyle(
-                              fontSize: FontStyles.fsTitle2,
-                              color: Colors.white,
-                              fontWeight: FontStyles.fwTitle),
+                        Flexible(
+                          child: RichText(
+                            overflow: TextOverflow.ellipsis,
+                            strutStyle: const StrutStyle(fontSize: 16.0),
+                            text: TextSpan(
+                              text: name,
+                              style: const TextStyle(
+                                  fontSize: FontStyles.fsTitle2,
+                                  color: Colors.white,
+                                  fontWeight: FontStyles.fwTitle),
+                            ),
+                          ),
                         ),
                         TextButton(
                           onPressed: () => _showSettings(context),
