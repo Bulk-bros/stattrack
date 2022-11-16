@@ -185,10 +185,9 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 230 - 60,
                       width: 200,
-                      color: Colors.red,
                       child: CustomPaint(painter: painter),
                     )
                   ],
@@ -412,13 +411,12 @@ class OpenPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    size = Size(120, 200);
-    print(size);
+    const size = Size(200, 200);
 
     String midText = "$current";
     String rightText = "$total";
 
-    const rect = Rect.fromLTRB(40, 10, 300, 270);
+    const rect = Rect.fromLTRB(-30, 10, 230, 270);
     const startAngle = -math.pi;
     const sweepAngle = math.pi;
     const useCenter = false;
@@ -440,7 +438,7 @@ class OpenPainter extends CustomPainter {
     );
 
     final firstPainter = TextPainter(
-      text: TextSpan(
+      text: const TextSpan(
         text: '0',
         style: textStyle,
       ),
@@ -464,11 +462,12 @@ class OpenPainter extends CustomPainter {
     );
     middlePainter.layout(
       minWidth: 0,
-      maxWidth: 2000,
+      maxWidth: 0,
     );
 
-    firstPainter.paint(canvas, const Offset(40, 150));
-    middlePainter.paint(canvas, const Offset(130, 80));
+    _drawTextAt("0", const Offset(-25, 160), canvas, FontStyles.fsBody);
+    _drawTextAt("$current", const Offset(100, 85), canvas, FontStyles.fsTitle1);
+    _drawTextAt("$total", const Offset(235, 160), canvas, FontStyles.fsBody);
 
     /// update sweep angle with amount of calories
 
@@ -483,6 +482,47 @@ class OpenPainter extends CustomPainter {
           ..strokeWidth = 12
           ..strokeCap = StrokeCap.round
           ..style = PaintingStyle.stroke);
+  }
+
+  void _drawTextAt(
+      String text, Offset position, Canvas canvas, double textsize) {
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: textsize,
+    );
+    double x = 0;
+    if (text.length == 1) {
+      x = position.dx - 10;
+    }
+    if (text.length == 2) {
+      x = position.dx - 15;
+    }
+    if (text.length == 3) {
+      x = position.dx - 25;
+    }
+
+    if (text.length == 4) {
+      x = position.dx - 35;
+    }
+    if (text.length == 5) {
+      x = position.dx - 40;
+    }
+    if (text.length > 5) {
+      x = position.dx - 25;
+      text = "o  o\n)-(";
+    }
+    final textSpan = TextSpan(
+      text: text,
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center);
+    textPainter.layout(minWidth: 0, maxWidth: 200);
+
+    Offset drawPosition = Offset(x, position.dy - (textPainter.height / 2));
+    textPainter.paint(canvas, drawPosition);
   }
 
   double _calculateAngle(num current, num total) {
