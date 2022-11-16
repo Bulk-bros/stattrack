@@ -31,18 +31,21 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  void _uploadImage(BuildContext context, WidgetRef ref, XFile image) {
+  void _uploadImage(BuildContext context, WidgetRef ref, XFile image) async {
     final Repository repo = ref.read(repositoryProvider);
-    try {
-      repo.uploadProfilePicture(image, auth.currentUser!.uid);
-
-      const snackBar = SnackBar(
-        content: Text('Profile picture was succesfully changed!'),
+    await repo.uploadProfilePicture(image, auth.currentUser!.uid).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Profile picture was succesfully changed!'),
+        ),
       );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } catch (e) {
-      print(e.toString());
-    }
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not upload image. Please try again'),
+        ),
+      );
+    });
   }
 
   @override
