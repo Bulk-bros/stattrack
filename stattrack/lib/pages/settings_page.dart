@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/CustomAppBar.dart';
+import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -13,8 +15,8 @@ class SettingsPage extends ConsumerWidget {
 
   final AuthBase auth;
 
-  void _signOut(BuildContext context) {
-    auth.signOut();
+  void _signOut(BuildContext context) async {
+    await auth.signOut();
     Navigator.pop(context);
   }
 

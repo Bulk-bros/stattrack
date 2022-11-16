@@ -1,3 +1,4 @@
+import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/user.dart';
 
 import '../models/ingredient.dart';
@@ -16,9 +17,16 @@ abstract class Repository {
   /// [uid] the id of the user to add
   void addUser(User user, String uid);
 
+
   /// Adds a meal to the database
   ///
   /// [meal] the meal to be added
   /// [ingredients] a collection of ingredients for a meal
   void addMeal(Meal meal, String uid);
+
+  /// Returns a stream with the consumed meals of the user with the given id
+  ///
+  /// [uid] the user id of the user to find the consumed meals of
+  Stream<List<ConsumedMeal>> getLog(String uid);
+
 }

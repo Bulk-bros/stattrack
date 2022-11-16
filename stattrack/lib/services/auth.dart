@@ -123,8 +123,9 @@ class Auth implements AuthBase {
 
   @override
   Future<void> signOut() async {
-    final facebookLogin = FacebookLogin();
-    await facebookLogin.logOut();
+    // FIXME: Ask torstein about this. Got error in chrome when signed in with email
+    // final facebookLogin = FacebookLogin();
+    // await facebookLogin.logOut();
     await _firebaseAuth.signOut();
   }
 }

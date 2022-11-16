@@ -9,10 +9,11 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'package:stattrack/components/CustomBody.dart';
-import 'package:stattrack/components/stats/SingleStatCard.dart';
-import 'package:stattrack/components/stats/SingleStatLayout.dart';
-import 'package:stattrack/components/MealCard.dart';
+import 'package:stattrack/components/custom_body.dart';
+import 'package:stattrack/components/stats/single_stat_card.dart';
+import 'package:stattrack/components/stats/single_stat_layout.dart';
+import 'package:stattrack/components/meal_card.dart';
+import 'package:stattrack/components/custom_bottom_bar.dart';
 
 enum NavButtons {
   macros,
@@ -52,6 +53,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildBody(context),
+      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 

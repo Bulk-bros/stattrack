@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
@@ -45,6 +46,36 @@ class FirestoreRepository implements Repository {
         })
         .then((value) => print("Meal added"))
         .catchError((error) => print("Error creating meal: $error"));
+
+  Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
+      path: ApiPaths.log(uid),
+      fromMap: ConsumedMeal.fromMap,
+      sortField: 'time',
+      descending: true);
+
+  /// Returns a stream of a collection for the given path
+  ///
+  /// [path] path to the collection
+  /// [fromMap] a function that converts a document in the collection to a model
+  /// [sortField] optional. If present the collection will be sorted by this field
+  /// [descending] if [sortField] is present, this determines the sort order
+  ///              (ascending or descending). False by default
+  Stream<List<T>> _getCollectionStream<T>(
+      {required String path,
+      required T Function(Map<String, dynamic>) fromMap,
+      String? sortField,
+      bool descending = false}) {
+    if (sortField != null) {
+      return FirebaseFirestore.instance
+          .collection(path)
+          .orderBy(sortField, descending: descending)
+          .snapshots()
+          .map((snapshot) =>
+              snapshot.docs.map((doc) => fromMap(doc.data())).toList());
+    }
+    return FirebaseFirestore.instance.collection(path).snapshots().map(
+        (snapshot) => snapshot.docs.map((doc) => fromMap(doc.data())).toList());
+
   }
 
   Stream<T?> _getDocumentStream<T>(

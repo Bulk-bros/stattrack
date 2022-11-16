@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/CustomAppBar.dart';
-import 'package:stattrack/components/MealCard.dart';
+import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/meal_card.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
