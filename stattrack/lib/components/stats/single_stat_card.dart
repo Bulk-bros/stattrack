@@ -13,27 +13,21 @@ class SingleStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-            padding: const EdgeInsets.all(20),
-            height: size,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(5)),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.10),
-                    spreadRadius: 5,
-                    blurRadius: 10,
-                    offset: const Offset(0, 5))
-              ],
-            ),
-            child: Column(
-              children: [content],
-            ))
-      ],
+    return Container(
+      padding: const EdgeInsets.all(20),
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withOpacity(0.10),
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: const Offset(0, 5))
+        ],
+      ),
+      child: content,
     );
   }
 }

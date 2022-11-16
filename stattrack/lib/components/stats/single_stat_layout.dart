@@ -48,6 +48,9 @@ class SingleStatLayout extends StatelessWidget {
         Text(categoryText,
             style: TextStyle(fontSize: categoryTextSize, color: color)),
         Row(
+          mainAxisAlignment: toDisplay == content
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
           children: [
             toDisplay,
             Transform.rotate(
