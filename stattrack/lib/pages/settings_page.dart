@@ -8,8 +8,8 @@ class SettingsPage extends StatelessWidget {
 
   final AuthBase auth;
 
-  void _signOut(BuildContext context) {
-    auth.signOut();
+  void _signOut(BuildContext context) async {
+    await auth.signOut();
     Navigator.pop(context);
   }
 
