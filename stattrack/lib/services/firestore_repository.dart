@@ -46,6 +46,7 @@ class FirestoreRepository implements Repository {
         })
         .then((value) => print("Meal added"))
         .catchError((error) => print("Error creating meal: $error"));
+  }
 
   Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
       path: ApiPaths.log(uid),
@@ -75,7 +76,6 @@ class FirestoreRepository implements Repository {
     }
     return FirebaseFirestore.instance.collection(path).snapshots().map(
         (snapshot) => snapshot.docs.map((doc) => fromMap(doc.data())).toList());
-
   }
 
   Stream<T?> _getDocumentStream<T>(
