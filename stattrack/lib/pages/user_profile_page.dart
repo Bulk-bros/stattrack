@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/models/user.dart';
-import 'package:stattrack/pages/settings_page.dart';
+import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
@@ -54,11 +54,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     final AuthBase auth = ref.read(authProvider);
 
     Navigator.push(
-        context,
-        PageTransition(
-          type: PageTransitionType.rightToLeft,
-          child: SettingsPage(auth: auth),
-        ));
+      context,
+      PageTransition(
+        type: PageTransitionType.rightToLeft,
+        child: SettingsPage(auth: auth),
+      ),
+    );
   }
 
   @override
@@ -90,9 +91,11 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             return const Text("No data");
           }
           final User user = snapshot.data!;
+
           total = user.dailyCalories;
-          return _buildUserInformation(
-              context, user.name, user.getAge(), user.weight, user.height);
+          
+          return _buildUserInformation(context, user.profilePictureUrl,
+              user.name, user.getAge(), user.weight, user.height);
         }),
       ),
       bodyWidgets: activeButton == NavButtons.macros
@@ -220,10 +223,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 
   /// Creates user information for the header in the custombody
-  Widget _buildUserInformation(
-      BuildContext context, String name, num age, num weight, num height,
-      [DecorationImage image = const DecorationImage(
-          image: AssetImage("assets/images/eddyboy.jpeg"))]) {
+  Widget _buildUserInformation(BuildContext context, String profilePictureUrl,
+      String name, num age, num weight, num height) {
     return ColumnSuper(
       outerDistance: -10,
       children: [
@@ -233,7 +234,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         RowSuper(
           fill: true,
           children: [
-            _encaseProfilePicture(image),
+            _buildProfileImage(profilePictureUrl),
             const SizedBox(
               width: 20,
             ),
@@ -246,12 +247,18 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(
-                          name,
-                          style: const TextStyle(
-                              fontSize: FontStyles.fsTitle2,
-                              color: Colors.white,
-                              fontWeight: FontStyles.fwTitle),
+                        Flexible(
+                          child: RichText(
+                            overflow: TextOverflow.ellipsis,
+                            strutStyle: const StrutStyle(fontSize: 16.0),
+                            text: TextSpan(
+                              text: name,
+                              style: const TextStyle(
+                                  fontSize: FontStyles.fsTitle2,
+                                  color: Colors.white,
+                                  fontWeight: FontStyles.fwTitle),
+                            ),
+                          ),
                         ),
                         TextButton(
                           onPressed: () => _showSettings(context),
@@ -337,7 +344,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     return TextButton(
       onPressed: callback,
       style: TextButton.styleFrom(
-        primary: Colors.white,
+        foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
         splashFactory: NoSplash.splashFactory,
       ),
@@ -352,12 +359,33 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     );
   }
 
-  Widget _encaseProfilePicture(DecorationImage image) {
-    return Container(
-      width: 110,
-      height: 110,
-      decoration: BoxDecoration(shape: BoxShape.circle, image: image),
-    );
+  // [DecorationImage image = const DecorationImage(image: AssetImage("assets/images/eddyboy.jpeg"))]
+
+  Widget _buildProfileImage(String profilePictureUrl) {
+    if (profilePictureUrl != '') {
+      return Container(
+        width: 110,
+        height: 110,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: NetworkImage(profilePictureUrl),
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        width: 110,
+        height: 110,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: AssetImage("assets/images/default-profile-picture.png"),
+            opacity: 0.4,
+          ),
+        ),
+      );
+    }
   }
 
   List<Widget> _buildTodaysMeals() {

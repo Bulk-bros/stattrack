@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
 import 'package:stattrack/components/meal_card.dart';
@@ -61,7 +60,7 @@ class _DailyLogPageState extends State<DailyLogPage> {
             elevation: 2.0,
             child: Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
               width: 375,
               height: 60,
               decoration: BoxDecoration(

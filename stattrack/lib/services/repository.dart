@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/user.dart';
 
@@ -19,5 +20,19 @@ abstract class Repository {
   /// [uid] the user id of the user to find the consumed meals of
   Stream<List<ConsumedMeal>> getLog(String uid);
 
+
   Stream<List<ConsumedMeal>> getTodaysMeals(String uid);
+
+  /// Uploads a profile picture to the cloud
+  ///
+  /// [image] the image to upload
+  /// [uid] the id of the user to upload the image for
+  Future<void> uploadProfilePicture(XFile image, String uid);
+
+  /// Returns the url for the profile picture of the user with the given
+  /// user id
+  ///
+  /// [uid] the user id to get the profile picture url for
+  Future<String?> getProfilePictureUrl(String uid);
+
 }

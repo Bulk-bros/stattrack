@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:stattrack/pages/email_sign_in_page.dart';
+import 'package:stattrack/pages/auth_pages/email_sign_in_page.dart';
 import 'package:stattrack/services/auth.dart';
 
 class MockAuth extends Mock implements AuthBase {}

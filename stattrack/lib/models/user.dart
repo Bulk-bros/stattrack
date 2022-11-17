@@ -2,20 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   final String name;
+  final String profilePictureUrl;
   final num weight;
   final num height;
   final Timestamp birthday;
   final num dailyCalories;
   final num dailyProteins;
+  final num dailyCarbs;
   final num dailyFat;
 
   User({
     required this.name,
+    required this.profilePictureUrl,
     required this.weight,
     required this.height,
     required this.birthday,
     required this.dailyCalories,
     required this.dailyProteins,
+    required this.dailyCarbs,
     required this.dailyFat,
   });
 
@@ -30,11 +34,13 @@ class User {
   static User fromMap(Map<String, dynamic> document) {
     return User(
         name: document["name"],
+        profilePictureUrl: document["profilePicture"],
         weight: document["weight"],
         height: document["height"],
         birthday: document["birthday"],
         dailyCalories: document["dailyCalories"],
         dailyProteins: document["dailyProteins"],
+        dailyCarbs: document["dailyCarbs"],
         dailyFat: document["dailyFat"]);
   }
 

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/pages/log_page.dart';
@@ -41,7 +40,7 @@ class CustomBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(
             Icons.person,
           ),
@@ -54,7 +53,7 @@ class CustomBottomBar extends StatelessWidget {
           ),
           label: "Add Button",
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(
             Icons.menu_rounded,
           ),
@@ -65,8 +64,8 @@ class CustomBottomBar extends StatelessWidget {
       showUnselectedLabels: false,
       selectedFontSize: 0,
       unselectedFontSize: 0,
-      selectedIconTheme: (IconThemeData(color: Colors.black, size: 48.0)),
-      unselectedIconTheme: IconThemeData(color: Colors.black, size: 48.0),
+      selectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
+      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
       onTap: (value) => _handleNavPress(context, value),
     );
   }

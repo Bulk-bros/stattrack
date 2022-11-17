@@ -39,7 +39,7 @@ class StatCard extends StatelessWidget {
       margin: const EdgeInsets.only(top: 16.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.white,
+          foregroundColor: Colors.white,
         ),
         onPressed: onPress,
         child: Padding(
