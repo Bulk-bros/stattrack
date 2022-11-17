@@ -36,6 +36,21 @@ class FirestoreRepository implements Repository {
       descending: true);
 
   @override
+  Stream<List<ConsumedMeal>> getTodaysMeals(String uid) {
+    DateTime today =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+    return FirebaseFirestore.instance
+        .collection(ApiPaths.log(uid))
+        .orderBy('time')
+        .where('time', isGreaterThan: today)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ConsumedMeal.fromMap(doc.data()))
+            .toList());
+  }
+
+  @override
   Future<void> uploadProfilePicture(XFile image, String uid) async {
     Reference ref = FirebaseStorage.instance.ref().child(uid);
 

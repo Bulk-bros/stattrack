@@ -20,6 +20,9 @@ abstract class Repository {
   /// [uid] the user id of the user to find the consumed meals of
   Stream<List<ConsumedMeal>> getLog(String uid);
 
+
+  Stream<List<ConsumedMeal>> getTodaysMeals(String uid);
+
   /// Uploads a profile picture to the cloud
   ///
   /// [image] the image to upload
@@ -31,4 +34,5 @@ abstract class Repository {
   ///
   /// [uid] the user id to get the profile picture url for
   Future<String?> getProfilePictureUrl(String uid);
+
 }
