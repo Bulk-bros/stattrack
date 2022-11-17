@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/add_meal.dart';
+import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
@@ -312,23 +313,29 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     return [
       spacing,
       MealCard(
-        assetName: "assets/images/foodstockpic.jpg",
-        foodName: "Salad",
-        calorieValue: 500,
-        proteinValue: 50,
-        fatValue: 5,
-        carbValue: 150,
+        meal: Meal(
+          id: "1",
+          name: "Salad",
+          calories: 500,
+          proteins: 50,
+          fat: 5,
+          carbs: 150,
+        ),
         timeValue: "08:45",
+        onPressed: (id) => print("pressed $id"),
       ),
       spacing,
       MealCard(
-        assetName: "assets/images/foodstockpic.jpg",
-        foodName: "Taco wrap",
-        calorieValue: 638,
-        proteinValue: 38,
-        fatValue: 32,
-        carbValue: 241,
+        meal: Meal(
+          id: "2",
+          name: "Taco wrap",
+          calories: 638,
+          proteins: 38,
+          fat: 32,
+          carbs: 241,
+        ),
         timeValue: "16:13",
+        onPressed: (id) => print("pressed $id"),
       ),
     ];
   }

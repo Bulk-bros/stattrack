@@ -5,27 +5,6 @@ import 'package:stattrack/pages/log_page.dart';
 import 'package:stattrack/styles/palette.dart';
 
 class CustomBottomBar extends StatelessWidget {
-  /// Handles the event when one item from the nav bar
-  /// is pressed
-  ///
-  /// [context] the current build context
-  /// [itemIndex] the index of the item pressed
-  void _handleNavPress(BuildContext context, num itemIndex) {
-    switch (itemIndex) {
-      case 0:
-        // TODO: Navigate to profile page
-        print('Navigate to profile page');
-        break;
-      case 1:
-        // TODO: Open add meal dialog
-        print('Opening add meal dialog');
-        break;
-      case 2:
-        _navigteToLog(context);
-        break;
-    }
-  }
-
   void _navigteToLog(BuildContext context) {
     Navigator.push(
         context,
@@ -67,7 +46,7 @@ class CustomBottomBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: IconButton(
-            onPressed: () {},
+            onPressed: () => _navigteToLog(context),
             icon: Icon(
               Icons.menu_rounded,
             ),
@@ -81,7 +60,7 @@ class CustomBottomBar extends StatelessWidget {
       unselectedFontSize: 0,
       selectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
       unselectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
-      onTap: (value) => _handleNavPress(context, value),
+      //onTap: (value) => _handleNavPress(context, value),
     );
   }
 }

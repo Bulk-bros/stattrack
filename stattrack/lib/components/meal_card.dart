@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:stattrack/components/cards/clickable_card.dart';
+import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
 class MealCard extends StatelessWidget {
-  MealCard(
-      {Key? key,
-      required this.assetName,
-      required this.calorieValue,
-      required this.carbValue,
-      required this.fatValue,
-      required this.proteinValue,
-      required this.timeValue,
-      required this.foodName})
-      : super(key: key);
+  MealCard({
+    Key? key,
+    required this.meal,
+    this.timeValue,
+    this.backgroundColor,
+    this.color,
+    required this.onPressed,
+  }) : super(key: key);
 
-  String assetName;
-  String timeValue; //change to date later on
-  String foodName;
+  Meal meal;
+  String? timeValue; //change to date later on
 
-  int calorieValue;
-  int proteinValue;
-  int fatValue;
-  int carbValue;
+  Color? backgroundColor;
+  Color? color;
+  final void Function(Meal) onPressed;
 
-  get onPressed => null;
-
-  void mealCardClicked() {
-    print("the button is clickable");
+  void _handlePressed() {
+    onPressed(meal);
   }
 
   @override
@@ -34,153 +30,137 @@ class MealCard extends StatelessWidget {
     const proteinLabel = 'Proteins';
     const fatLabel = 'Fat';
     const carbsLabel = 'Carbs';
-    return ElevatedButton(
-      onPressed: mealCardClicked,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.white),
-        elevation: ButtonStyleButton.allOrNull(8.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 50.0,
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: AssetImage(assetName), fit: BoxFit.fill),
+
+    return ClickableCard(
+      backgroundColor: backgroundColor,
+      onPressed: _handlePressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              CircleAvatar(
+                radius: 40.0,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/foodstockpic.jpg"),
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
-                Text(foodName,
-                    style: const TextStyle(
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                meal.name,
+                style: TextStyle(
+                  fontSize: FontStyles.fsTitle3,
+                  fontWeight: FontStyles.fwTitle,
+                  color: color ?? Colors.black87,
+                ),
+              ),
+            ],
+          ),
+          timeValue != null
+              ? Column(
+                  children: <Widget>[
+                    Text(
+                      'Time:',
+                      style: TextStyle(
                         fontSize: FontStyles.fsTitle3,
                         fontWeight: FontStyles.fwTitle,
-                        color: Colors.black87))
-              ],
-            ),
-            Column(
-              children: [
-                const Text("Time:",
-                    style: TextStyle(
-                        fontSize: FontStyles.fsTitle3,
-                        fontWeight: FontStyles.fwTitle,
-                        color: Colors.black87)),
-                Text(timeValue,
-                    style: const TextStyle(
+                        color: color ?? Colors.black87,
+                      ),
+                    ),
+                    Text(
+                      timeValue!,
+                      style: TextStyle(
                         fontSize: FontStyles.fsBody,
                         fontWeight: FontStyles.fwBody,
-                        color: Colors.black87)),
-              ],
-            ),
-            Column(
-              children: [
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    calorieLabel,
-                    style: TextStyle(
-                        fontSize: FontStyles.fsTitle3,
-                        fontWeight: FontStyles.fwTitle,
-                        color: Colors.black87),
-                    textAlign: TextAlign.left,
-                  ),
+                        color: color ?? Colors.black87,
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox(
+                  height: 0.0,
                 ),
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    proteinLabel,
-                    style: TextStyle(
-                        fontSize: FontStyles.fsTitle3,
-                        fontWeight: FontStyles.fwTitle,
-                        color: Colors.black87),
-                  ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                calorieLabel,
+                style: TextStyle(
+                  fontSize: FontStyles.fsTitle3,
+                  fontWeight: FontStyles.fwTitle,
+                  color: color ?? Colors.black87,
                 ),
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    fatLabel,
-                    style: TextStyle(
-                        fontSize: FontStyles.fsTitle3,
-                        fontWeight: FontStyles.fwTitle,
-                        color: Colors.black87),
-                    textAlign: TextAlign.left,
-                  ),
+              ),
+              Text(
+                proteinLabel,
+                style: TextStyle(
+                  fontSize: FontStyles.fsTitle3,
+                  fontWeight: FontStyles.fwTitle,
+                  color: color ?? Colors.black87,
                 ),
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    carbsLabel,
-                    style: TextStyle(
-                        fontSize: FontStyles.fsTitle3,
-                        fontWeight: FontStyles.fwTitle,
-                        color: Colors.black87),
-                  ),
+              ),
+              Text(
+                fatLabel,
+                style: TextStyle(
+                  fontSize: FontStyles.fsTitle3,
+                  fontWeight: FontStyles.fwTitle,
+                  color: color ?? Colors.black87,
                 ),
-              ],
-            ),
-            Column(
-              children: [
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "$calorieValue kcal",
-                    style: const TextStyle(
-                        fontSize: FontStyles.fsBody,
-                        fontWeight: FontStyles.fwBody,
-                        color: Colors.black87),
-                  ),
+              ),
+              Text(
+                carbsLabel,
+                style: TextStyle(
+                  fontSize: FontStyles.fsTitle3,
+                  fontWeight: FontStyles.fwTitle,
+                  color: color ?? Colors.black87,
                 ),
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "$proteinValue g",
-                    style: const TextStyle(
-                        fontSize: FontStyles.fsBody,
-                        fontWeight: FontStyles.fwBody,
-                        color: Colors.black87),
-                  ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                '${meal.calories} kcal',
+                style: TextStyle(
+                  fontSize: FontStyles.fsBody,
+                  color: color ?? Colors.black87,
                 ),
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "$fatValue g",
-                    style: const TextStyle(
-                        fontSize: FontStyles.fsBody,
-                        fontWeight: FontStyles.fwBody,
-                        color: Colors.black87),
-                  ),
+              ),
+              Text(
+                '${meal.proteins} g',
+                style: TextStyle(
+                  fontSize: FontStyles.fsBody,
+                  color: color ?? Colors.black87,
                 ),
-                Container(
-                  width: 70,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "$carbValue g",
-                    style: const TextStyle(
-                        fontSize: FontStyles.fsBody,
-                        fontWeight: FontStyles.fwBody,
-                        color: Colors.black87),
-                  ),
+              ),
+              Text(
+                '${meal.fat} g',
+                style: TextStyle(
+                  fontSize: FontStyles.fsBody,
+                  color: color ?? Colors.black87,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              Text(
+                '${meal.carbs} g',
+                style: TextStyle(
+                  fontSize: FontStyles.fsBody,
+                  color: color ?? Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
