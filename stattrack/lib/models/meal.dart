@@ -27,6 +27,7 @@ class Meal {
   /// [document] the document object retrieved from firestore
   static Meal fromMap(Map<String, dynamic> document) {
     return Meal(
+        id: document["id"],
         name: document["name"],
         ingredients: document["ingredients"],
         instuctions: document["instructions"],
