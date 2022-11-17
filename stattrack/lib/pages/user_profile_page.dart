@@ -179,18 +179,20 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         outputWidget == spacing ? spacing : output,
         SingleStatCard(
             content: SingleStatLayout(
-                categoryText: "Calories",
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 230 - 60,
-                      width: 200,
-                      child: CustomPaint(painter: painter),
-                    )
-                  ],
-                )),
+              categoryText: "Calories",
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 230 - 60,
+                    width: 200,
+                    child: CustomPaint(painter: painter),
+                  )
+                ],
+              ),
+              categoryTextSize: FontStyles.fsTitle3,
+            ),
             size: 230),
         spacing,
         SingleStatCard(
@@ -213,24 +215,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                 amountText: "${macros[3]}g",
                 categoryTextSize: FontStyles.fsTitle3,
                 amountTextSize: FontStyles.fsTitle1)),
-      ],
-    );
-  }
-
-  /// Builds the main content of a user page
-  Widget _buildProfilePageMainStatContent(String text, String amountText) {
-    OpenPainter painter = OpenPainter(total: total, current: current);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          text,
-          style: const TextStyle(fontSize: FontStyles.fsTitle3),
-        ),
-        Container(
-            alignment: Alignment.bottomCenter,
-            child: CustomPaint(painter: painter))
       ],
     );
   }
@@ -423,11 +407,6 @@ class OpenPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 12;
-    final fill = Paint()
-      ..color = Colors.green
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 12;
     canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
 
     const textStyle = TextStyle(
@@ -435,36 +414,9 @@ class OpenPainter extends CustomPainter {
       fontSize: FontStyles.fsBody,
     );
 
-    final firstPainter = TextPainter(
-      text: const TextSpan(
-        text: '0',
-        style: textStyle,
-      ),
-      textDirection: TextDirection.ltr,
-    );
-
-    final middlePainter = TextPainter(
-      text: TextSpan(
-        text: midText,
-        style: const TextStyle(
-            color: Colors.black,
-            fontSize: FontStyles.fsTitle1,
-            fontWeight: FontWeight.bold),
-      ),
-      textDirection: TextDirection.ltr,
-    );
-
-    firstPainter.layout(
-      minWidth: 0,
-      maxWidth: 2000,
-    );
-    middlePainter.layout(
-      minWidth: 0,
-      maxWidth: 0,
-    );
-
     _drawTextAt("0", const Offset(-25, 160), canvas, FontStyles.fsBody);
-    _drawTextAt("$current", const Offset(100, 85), canvas, FontStyles.fsTitle1);
+    _drawTextAt("$current", const Offset(100, 85), canvas, FontStyles.fsTitle1,
+        fontWeight: FontStyles.fwTitle);
     _drawTextAt("$total", const Offset(235, 160), canvas, FontStyles.fsBody);
 
     /// update sweep angle with amount of calories
@@ -482,32 +434,27 @@ class OpenPainter extends CustomPainter {
           ..style = PaintingStyle.stroke);
   }
 
-  void _drawTextAt(
-      String text, Offset position, Canvas canvas, double textsize) {
+  /// Draws text at a position offset
+  /// has a disgusting way of centering text concidering how many characters are to be displayed
+  void _drawTextAt(String text, Offset position, Canvas canvas, double textsize,
+      {FontWeight fontWeight = FontStyles.fwBody}) {
     final textStyle = TextStyle(
       color: Colors.black,
       fontSize: textsize,
+      fontWeight: fontWeight,
     );
-    double x = 0;
-    if (text.length == 1) {
-      x = position.dx - 10;
-    }
-    if (text.length == 2) {
-      x = position.dx - 15;
-    }
-    if (text.length == 3) {
-      x = position.dx - 25;
-    }
-    if (text.length == 4) {
-      x = position.dx - 35;
-    }
-    if (text.length == 5) {
-      x = position.dx - 40;
-    }
-    if (text.length > 5) {
-      x = position.dx - 25;
+
+    const halfOfCharWidth = 10;
+    double x;
+
+    if (text.length < 5) {
+      x = position.dx - text.length * halfOfCharWidth;
+    } else {
+      const chubbyFaceHalfWidth = 28;
+      x = position.dx - chubbyFaceHalfWidth;
       text = "o  o\n)-(";
     }
+
     final textSpan = TextSpan(
       text: text,
       style: textStyle,
