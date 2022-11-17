@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
-import 'package:stattrack/components/custom_bottom_bar.dart';
 import 'package:stattrack/components/stats/stat_card.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/firestore_repository.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:week_of_year/week_of_year.dart';
@@ -110,25 +107,11 @@ class _LogPageState extends ConsumerState<LogPage> {
     }
   }
 
-  /// Navigates back to the page visited before the log page
-  ///
-  /// [context] the current build context
-  void _navigateBack(BuildContext context) {
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         headerTitle: 'Log',
-        navButton: IconButton(
-          // TODO: Nav back one page
-          onPressed: () => _navigateBack(context),
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-          ),
-        ),
         actions: [
           IconButton(
             // TODO: Nav to stats page

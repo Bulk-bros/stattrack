@@ -2,14 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/pages/account_setup/account_setup_page.dart';
-import 'package:stattrack/pages/daily_log_page.dart';
-import 'package:stattrack/pages/log_page.dart';
-import 'package:stattrack/pages/sign_in_page.dart';
+import 'package:stattrack/pages/auth_pages/sign_in_page.dart';
+import 'package:stattrack/pages/nav_wrapper.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/pages/sign_in_page.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/models/user.dart' as app_user;
 
@@ -48,7 +46,7 @@ class LandingPage extends ConsumerWidget {
                   if (!snapshot.hasData) {
                     return const AccountSetupPage();
                   }
-                  return const UserProfilePage();
+                  return const NavWrapper();
                 }));
           }
         }
