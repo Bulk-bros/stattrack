@@ -37,7 +37,6 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
 
   bool _isLoading = false;
   bool _showInputErrors = false;
-  String _inputErrorMsg = '';
   bool _showAuthError = false;
   String _authErrorMsg = '';
 
@@ -55,6 +54,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         throw Exception('unchecked-checkbox');
       }
       await widget.auth.createUserWithEmailAndPassword(_email, _password);
+      if (!mounted) return;
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       String error = '';

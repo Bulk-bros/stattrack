@@ -79,8 +79,8 @@ class CustomBottomBar extends StatelessWidget {
       showUnselectedLabels: false,
       selectedFontSize: 0,
       unselectedFontSize: 0,
-      selectedIconTheme: (IconThemeData(color: Colors.black, size: 48.0)),
-      unselectedIconTheme: IconThemeData(color: Colors.black, size: 48.0),
+      selectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
+      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
       onTap: (value) => _handleNavPress(context, value),
     );
   }

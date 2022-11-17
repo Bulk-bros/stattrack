@@ -18,7 +18,7 @@ class FormButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-              primary: Palette.accent[400],
+              backgroundColor: Palette.accent[400],
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(5),

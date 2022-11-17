@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
 import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -63,6 +65,8 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   // State variables
   bool _isLoading = false;
   bool _showInputErrors = false;
+
+  XFile? _image;
 
   void _updateState() {
     setState(() {});
@@ -132,9 +136,11 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
       final formatter = DateFormat('dd.MM.yyyy');
       final parsedBirthday = Timestamp.fromDate(formatter.parse(_birthday));
 
+      // Add user info to database
       repo.addUser(
           User(
             name: _name,
+            profilePictureUrl: '',
             birthday: parsedBirthday,
             height: num.parse(_height),
             weight: num.parse(_weight),
@@ -144,13 +150,16 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
             dailyFat: num.parse(_fat),
           ),
           auth.currentUser!.uid);
+      // Upload profile picture
+      if (_image != null) {
+        repo.uploadProfilePicture(_image!, auth.currentUser!.uid);
+      }
     } catch (e) {
       if (e.toString() == 'Exception: Invalid inputs') {
         setState(() {
           _showInputErrors = true;
         });
       }
-      print(e.toString());
     } finally {
       setState(() {
         _isLoading = false;
@@ -180,7 +189,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
     return <Widget>[
       TextButton(
         onPressed: _signOut,
-        style: TextButton.styleFrom(primary: Palette.accent[400]),
+        style: TextButton.styleFrom(foregroundColor: Palette.accent[400]),
         child: const Text(
           "Cancel",
         ),
@@ -196,6 +205,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
       padding: const EdgeInsets.all(31.0),
       child: Form(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextFormField(
               controller: _nameController,
@@ -255,6 +265,22 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
               textInputAction: TextInputAction.next,
               onEditingComplete: _weightEditingComplete,
               onChanged: (name) => _updateState(),
+            ),
+            const SizedBox(
+              height: 39.9,
+            ),
+            const Text(
+              '(Optional)',
+              textAlign: TextAlign.left,
+            ),
+            const SizedBox(
+              height: 13.0,
+            ),
+            ImagePickerInput(
+              onImagePicked: (image) => setState(() {
+                _image = image;
+              }),
+              label: _image == null ? 'Upload profile image' : _image!.name,
             ),
             const SizedBox(
               height: 39.9,

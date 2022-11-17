@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/styles/font_styles.dart';
 
 class SecondaryButton extends StatelessWidget {
   const SecondaryButton({Key? key, required this.callback, required this.child})
@@ -14,7 +13,7 @@ class SecondaryButton extends StatelessWidget {
       onPressed: callback,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
       ),
       child: child,
     );
