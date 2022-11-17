@@ -44,7 +44,8 @@ class UserProfilePage extends ConsumerStatefulWidget {
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   num current = 0;
-  num total = 0;
+  num dailyCalories = 0;
+  bool hasDailyMeal = true;
   NavButtons activeButton = NavButtons.macros;
 
   /// Displays the settings page
@@ -75,37 +76,41 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     final AuthBase auth = ref.read(authProvider);
     final Repository repo = ref.read(repositoryProvider);
 
-    return CustomBody(
-      header: StreamBuilder<User?>(
-        stream: repo.getUsers(auth.currentUser!.uid),
-        builder: ((context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.active) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
-          }
-          if (!snapshot.hasData) {
-            return const Text("No data");
-          }
-          final User user = snapshot.data!;
+    return StreamBuilder<User?>(
+      stream: repo.getUsers(auth.currentUser!.uid),
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.active) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        }
+        if (!snapshot.hasData) {
+          return const Text("No data");
+        }
+        final User user = snapshot.data!;
 
-          total = user.dailyCalories;
-          
-          return _buildUserInformation(context, user.profilePictureUrl,
-              user.name, user.getAge(), user.weight, user.height);
-        }),
-      ),
-      bodyWidgets: activeButton == NavButtons.macros
-          ? [_buildTodaysMacros()]
-          : [..._buildTodaysMeals()],
+        return CustomBody(
+          header: _buildUserInformation(
+            context,
+            user.profilePictureUrl,
+            user.name,
+            user.getAge(),
+            user.weight,
+            user.height,
+          ),
+          bodyWidgets: activeButton == NavButtons.macros
+              ? [_buildTodaysMacros(user.dailyCalories)]
+              : [..._buildTodaysMeals()],
+        );
+      }),
     );
   }
 
   /// Fills macro layout with correct macros
-  Widget _buildTodaysMacros() {
+  Widget _buildTodaysMacros(num dailyCalories) {
     return StreamBuilder<List<ConsumedMeal>>(
       stream: _mealStream(),
       builder: (context, snapshot) {
@@ -119,16 +124,13 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           return _buildErrorText(snapshot.hasError.toString());
         }
         if (snapshot.data!.isEmpty) {
+          hasDailyMeal = false;
           return _buildMacroLayout(
-              macros: _calculateMacros(meals!),
-              outputWidget: const Text(
-                "No meals registered today",
-                style:
-                    TextStyle(color: Colors.white, fontSize: FontStyles.fsBody),
-              ));
+              macros: _calculateMacros(meals!), dailyCalories: dailyCalories);
         }
-
-        return _buildMacroLayout(macros: _calculateMacros(meals!));
+        hasDailyMeal = true;
+        return _buildMacroLayout(
+            macros: _calculateMacros(meals!), dailyCalories: dailyCalories);
       },
     );
   }
@@ -170,29 +172,28 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// Builds the macro layout
   Widget _buildMacroLayout(
-      {required List<String> macros, Widget outputWidget = spacing}) {
-    Widget output = Column(
-      children: [spacing, outputWidget, spacing],
-    );
-
-    OpenPainter painter = OpenPainter(total: total, current: current);
+      {required List<String> macros, required dailyCalories}) {
+    OpenPainter painter = OpenPainter(total: dailyCalories, current: current);
 
     return Column(
       children: [
-        outputWidget == spacing ? spacing : output,
+        spacing,
         SingleStatCard(
             content: SingleStatLayout(
               categoryText: "Calories",
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 230 - 60,
-                    width: 200,
-                    child: CustomPaint(painter: painter),
-                  )
-                ],
+              content: SizedBox(
+                height: 230 - 60,
+                width: 200,
+                child: hasDailyMeal
+                    ? CustomPaint(painter: painter)
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "No meals registered today",
+                          style: TextStyle(fontSize: FontStyles.fsTitle2),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
               ),
               categoryTextSize: FontStyles.fsTitle3,
             ),
@@ -421,10 +422,7 @@ class OpenPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    size = Size(200, 200);
-
-    String midText = "$current";
-    String rightText = "$total";
+    size = const Size(200, 200);
 
     const rect = Rect.fromLTRB(-30, 10, 230, 270);
     const startAngle = -math.pi;
@@ -436,11 +434,6 @@ class OpenPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 12;
     canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
-
-    const textStyle = TextStyle(
-      color: Colors.black,
-      fontSize: FontStyles.fsBody,
-    );
 
     _drawTextAt("0", const Offset(-25, 160), canvas, FontStyles.fsBody);
     _drawTextAt("$current", const Offset(100, 85), canvas, FontStyles.fsTitle1,

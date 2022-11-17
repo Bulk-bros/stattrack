@@ -48,7 +48,9 @@ class FirestoreRepository implements Repository {
         .map((snapshot) => snapshot.docs
             .map((doc) => ConsumedMeal.fromMap(doc.data()))
             .toList());
-            
+  }
+
+  @override
   Future<void> uploadProfilePicture(XFile image, String uid) async {
     Reference ref = FirebaseStorage.instance.ref().child(uid);
 
