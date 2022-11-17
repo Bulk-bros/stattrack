@@ -54,7 +54,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildBody(context),
-      bottomNavigationBar: const CustomBottomBar(),
     );
   }
 
