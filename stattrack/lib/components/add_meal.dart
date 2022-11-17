@@ -1,10 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/create_meal.dart';
 import 'package:stattrack/components/meal_card.dart';
 import 'package:stattrack/models/meal.dart';
+import 'package:stattrack/providers/auth_provider.dart';
+import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 
 import '../styles/font_styles.dart';
@@ -41,14 +47,14 @@ class MealController {
   }
 }
 
-class AddMeal extends StatefulWidget {
+class AddMeal extends ConsumerStatefulWidget {
   const AddMeal({Key? key}) : super(key: key);
 
   @override
   _AddMealState createState() => _AddMealState();
 }
 
-class _AddMealState extends State<AddMeal> {
+class _AddMealState extends ConsumerState<AddMeal> {
   final MealController mealController = MealController();
 
   // Stores the current active meal. The meal card that was clicked latest.
@@ -73,8 +79,8 @@ class _AddMealState extends State<AddMeal> {
   }
 
   /// Adds the selected meal to log
-  void _addMeal() {
-    print("Adding meal with name: ${activeMeal!.name}");
+  void _addMeal(String uid, Repository repo) {
+    repo.addMeal(activeMeal!, uid);
   }
 
   /// Handles the search event
@@ -86,11 +92,10 @@ class _AddMealState extends State<AddMeal> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthBase auth = ref.read(authProvider);
+    final Repository repo = ref.read(repositoryProvider);
+
     return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-        color: Colors.white,
-      ),
       padding: const EdgeInsetsDirectional.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,7 +128,7 @@ class _AddMealState extends State<AddMeal> {
             ],
           ),
           const SizedBox(
-            height: 20.0,
+            height: 10.0,
           ),
           TextField(
             decoration: const InputDecoration(
@@ -151,13 +156,22 @@ class _AddMealState extends State<AddMeal> {
                 stream: mealController.getController().stream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.active) {
-                    return const Text('No connection');
+                    return const Text(
+                      'No connection',
+                      textAlign: TextAlign.center,
+                    );
                   }
                   if (!snapshot.hasData) {
-                    return const Text('No data');
+                    return const Text(
+                      'No data',
+                      textAlign: TextAlign.center,
+                    );
                   }
                   if (snapshot.data!.isEmpty) {
-                    return const Text('No meals');
+                    return const Text(
+                      'No meals',
+                      textAlign: TextAlign.center,
+                    );
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -180,19 +194,11 @@ class _AddMealState extends State<AddMeal> {
           const SizedBox(
             height: 20.0,
           ),
-          ElevatedButton(
-            onPressed: activeMeal == null ? null : _addMeal,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Palette.accent[400],
-              elevation: 8.0,
-            ),
-            child: const Text(
-              "Add",
-              style: TextStyle(
-                  fontSize: FontStyles.fsBody,
-                  fontWeight: FontStyles.fw500,
-                  color: Colors.white),
-            ),
+          MainButton(
+            callback: activeMeal == null
+                ? null
+                : () => _addMeal(auth.currentUser!.uid, repo),
+            label: "Add meal",
           )
         ],
       ),

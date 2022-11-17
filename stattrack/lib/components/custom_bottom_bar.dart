@@ -30,10 +30,12 @@ class CustomBottomBar extends StatelessWidget {
             color: Palette.accent[400],
             onPressed: () {
               showModalBottomSheet<void>(
+                isScrollControlled: true,
                 context: context,
-                builder: (BuildContext context) {
-                  return const AddMeal();
-                },
+                builder: (context) => SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: const AddMeal(),
+                ),
               );
             },
           ),
@@ -53,8 +55,8 @@ class CustomBottomBar extends StatelessWidget {
       showUnselectedLabels: false,
       selectedFontSize: 0,
       unselectedFontSize: 0,
-      selectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
-      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 48.0),
+      selectedIconTheme: const IconThemeData(color: Colors.black, size: 39.0),
+      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 39.0),
       //onTap: (value) => _handleNavPress(context, value),
     );
   }
