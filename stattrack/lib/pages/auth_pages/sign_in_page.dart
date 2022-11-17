@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/CustomAppBar.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
-import 'package:stattrack/pages/email_sign_in_page.dart';
+import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/pages/auth_pages/email_sign_in_page.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
@@ -43,7 +43,10 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(headerTitle: 'Stattrack'),
+      appBar: CustomAppBar(
+        headerTitle: 'Stattrack',
+        key: const Key('signInPageTitle'),
+      ),
       body: _buildBody(context),
     );
   }
@@ -60,6 +63,7 @@ class SignInPage extends StatelessWidget {
         children: <Widget>[
           const Text(
             'Login',
+            key: Key('signInPageLoginText'),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: FontStyles.fsTitle1,
@@ -68,6 +72,7 @@ class SignInPage extends StatelessWidget {
           ),
           spacing,
           AuthButton(
+            key: const Key('signInPageFacebookAuthButton'),
             label: 'Facebook',
             iconPath: 'assets/icons/square-facebook.svg',
             iconAlt: 'Facebook Logo',
@@ -77,6 +82,7 @@ class SignInPage extends StatelessWidget {
           ),
           spacing,
           AuthButton(
+            key: const Key('signInPageGoogleAuthButton'),
             label: 'Google',
             iconPath: 'assets/icons/google.svg',
             iconAlt: 'Google Logo',
@@ -87,6 +93,7 @@ class SignInPage extends StatelessWidget {
           ),
           spacing,
           AuthButton(
+            key: const Key('signInPageEmailAuthButton'),
             label: 'Email',
             iconPath: 'assets/icons/envelope-solid.svg',
             iconAlt: 'Mail Icon',
@@ -97,6 +104,7 @@ class SignInPage extends StatelessWidget {
           ),
           spacing,
           TextButton(
+            key: const Key('signInPageSignUpButton'),
             onPressed: () => _signInWithEmail(context, true),
             child: Text(
               "Don't have an account? Sign up here",

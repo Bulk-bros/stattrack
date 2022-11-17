@@ -29,7 +29,7 @@ flutter_ios_podfile_setup
 
 target 'Runner' do
   # Make sure you have version 1.9.1 or higher of CocoaPods (gem install cocoapods)
-  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '9.5.0'
+  pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '10.0.0'
   use_frameworks!
   use_modular_headers!
 

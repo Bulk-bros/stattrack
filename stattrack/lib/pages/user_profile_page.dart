@@ -3,20 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/add_meal.dart';
 import 'package:stattrack/models/user.dart';
-import 'package:stattrack/pages/settings_page.dart';
+import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'package:stattrack/components/CustomBody.dart';
-import 'package:stattrack/components/stats/SingleStatCard.dart';
-import 'package:stattrack/components/stats/SingleStatLayout.dart';
-import 'package:stattrack/components/MealCard.dart';
-
-import '../components/CustomBottomNavigationBar.dart';
-import '../components/create_meal.dart';
+import 'package:stattrack/components/custom_body.dart';
+import 'package:stattrack/components/stats/single_stat_card.dart';
+import 'package:stattrack/components/stats/single_stat_layout.dart';
+import 'package:stattrack/components/meal_card.dart';
+import 'package:stattrack/components/custom_bottom_bar.dart';
 
 enum NavButtons {
   macros,
@@ -46,11 +44,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     final AuthBase auth = ref.read(authProvider);
 
     Navigator.push(
-        context,
-        PageTransition(
-          type: PageTransitionType.rightToLeft,
-          child: SettingsPage(auth: auth),
-        ));
+      context,
+      PageTransition(
+        type: PageTransitionType.rightToLeft,
+        child: SettingsPage(auth: auth),
+      ),
+    );
   }
 
   @override
@@ -284,7 +283,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     );
   }
 
-
   List<Widget> _buildTodaysMeals() {
     return [
       spacing,
@@ -310,9 +308,9 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     ];
   }
 
-  List<Widget> _buildAddMeal(){
+  List<Widget> _buildAddMeal() {
     return [
-    AddMeal(),
+      AddMeal(),
     ];
   }
 }

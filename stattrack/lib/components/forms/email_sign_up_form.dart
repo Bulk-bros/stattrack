@@ -4,57 +4,63 @@ import 'package:stattrack/components/buttons/form_button.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/utils/validator.dart';
 
-class EmailSignInForm extends StatefulWidget {
-  const EmailSignInForm({Key? key, required this.auth}) : super(key: key);
+class EmailSignUpForm extends StatefulWidget {
+  const EmailSignUpForm({Key? key, required this.auth}) : super(key: key);
 
   final AuthBase auth;
 
   @override
-  _EmailSignInFormState createState() => _EmailSignInFormState();
+  _EmailSignUpFormState createState() => _EmailSignUpFormState();
 }
 
-class _EmailSignInFormState extends State<EmailSignInForm> {
+class _EmailSignUpFormState extends State<EmailSignUpForm> {
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _passwordConfirmFocusNode = FocusNode();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
 
   String get _email => _emailController.text;
   String get _password => _passwordController.text;
+  String get _passwordConfirm => _passwordConfirmController.text;
 
   bool get _isValidEmail => Validator.isValidEmail(_email);
+  bool get _isValidPassword => Validator.isValidPassword(_password);
+  bool get _isValidPasswordConfirm =>
+      Validator.isValidPassword(_passwordConfirm) &&
+      _password == _passwordConfirm;
+
+  bool _isChecked = false;
 
   bool _isLoading = false;
   bool _showInputErrors = false;
-  String _authErrorMsg = '';
+  String _inputErrorMsg = '';
   bool _showAuthError = false;
+  String _authErrorMsg = '';
 
+  /// Handles the submition of form
   void _submit() async {
     setState(() {
       _showAuthError = false;
       _isLoading = true;
     });
     try {
-      if (!_isValidEmail || _password.isEmpty) {
+      if (!_isValidEmail || !_isValidPassword || !_isValidPasswordConfirm) {
         throw Exception('Invalid inputs');
       }
-      await widget.auth.signInWithEmailAndPassword(_email, _password);
+      if (!_isChecked) {
+        throw Exception('unchecked-checkbox');
+      }
+      await widget.auth.createUserWithEmailAndPassword(_email, _password);
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       String error = '';
       switch (e.code) {
-        case 'invalid-email':
-          error = 'Invalid email';
-          break;
-        case 'wrong-password':
-          error = 'Wrong password';
-          break;
-        case 'user-not-found':
-          error = 'User was not found';
-          break;
-        case 'user-disabled':
-          error = 'Looks like this user is disabled';
+        case 'email-already-in-use':
+          error = 'Email is already in use';
           break;
         default:
           error = 'Something went wront. Please try again';
@@ -65,9 +71,17 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         _authErrorMsg = error;
       });
     } catch (e) {
-      setState(() {
-        _showInputErrors = true;
-      });
+      if (e.toString() == 'Exception: unchecked-checkbox') {
+        setState(() {
+          _showAuthError = true;
+          _authErrorMsg =
+              'Please read and agree to out terms of service before signing up';
+        });
+      } else {
+        setState(() {
+          _showInputErrors = true;
+        });
+      }
     } finally {
       setState(() {
         _isLoading = false;
@@ -79,17 +93,22 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     setState(() {});
   }
 
-  /// Handles the event when "next" is clicked on the keyboard
-  /// If email is valid, focus net input field. Otherwise stay
-  /// at current input field
   void _emailEditingComplete() {
     final newFocus = _isValidEmail ? _passwordFocusNode : _emailFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
+  void _passwordEditingComplete() {
+    final newFocus =
+        _isValidPassword ? _passwordConfirmFocusNode : _passwordFocusNode;
+    FocusScope.of(context).requestFocus(newFocus);
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool enableButton = !_isLoading;
+    // Makes sure submit button is only enabled
+    // when all criterias are met
+    bool enableSubmit = !_isLoading;
 
     return Padding(
       padding: const EdgeInsets.all(31.0),
@@ -97,6 +116,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         child: Column(
           children: <Widget>[
             TextFormField(
+              key: const Key('emailSignUpEmailTextFormField'),
               controller: _emailController,
               focusNode: _emailFocusNode,
               decoration: InputDecoration(
@@ -112,25 +132,60 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
               onChanged: (email) => _updateState(),
             ),
             TextFormField(
+              key: const Key('emailSignUpPasswordTextFormField'),
               controller: _passwordController,
               focusNode: _passwordFocusNode,
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Your password',
-                errorText: _showInputErrors && _password.isEmpty
-                    ? 'Password cannot be empty'
+                errorText: _showInputErrors && !_isValidPassword
+                    ? '8-20 characters, both lower and uppercase and atleast one number'
+                    : null,
+              ),
+              obscureText: true,
+              textInputAction: TextInputAction.next,
+              onEditingComplete: _passwordEditingComplete,
+              onChanged: (pwd) => _updateState(),
+            ),
+            TextFormField(
+              key: const Key('emailSignUpPasswordConfirmTextFormField'),
+              controller: _passwordConfirmController,
+              focusNode: _passwordConfirmFocusNode,
+              decoration: InputDecoration(
+                labelText: 'Confirm password',
+                hintText: 'Confirm password',
+                errorText: _showInputErrors && !_isValidPasswordConfirm
+                    ? 'Both passwords must match'
                     : null,
               ),
               obscureText: true,
               textInputAction: TextInputAction.done,
-              onEditingComplete: _password.isNotEmpty ? _submit : null,
-              onChanged: (password) => _updateState(),
+              onEditingComplete: _submit,
+              onChanged: (pwdConfirm) => _updateState(),
+            ),
+            const SizedBox(
+              height: 39.0,
+            ),
+            Row(
+              children: <Widget>[
+                Checkbox(
+                  key: const Key('emailSignUpCheckbox'),
+                  value: _isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _isChecked = value!;
+                    });
+                  },
+                ),
+                const Text('I have read and agree with the Terms of Service'),
+              ],
             ),
             const SizedBox(
               height: 39.0,
             ),
             FormButton(
-              onPressed: enableButton ? _submit : null,
+              key: const Key('emailSignUpFormButton'),
+              onPressed: enableSubmit ? _submit : null,
               label: 'Sign Up',
             ),
             Column(
