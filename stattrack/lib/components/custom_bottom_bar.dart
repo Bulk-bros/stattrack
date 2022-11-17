@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/add_meal.dart';
-import 'package:stattrack/pages/log_page.dart';
 import 'package:stattrack/styles/palette.dart';
 
+import '../utils/nav_button_options.dart';
+
 class CustomBottomBar extends StatelessWidget {
-  void _navigteToLog(BuildContext context) {
-    Navigator.push(
-        context,
-        PageTransition(
-          type: PageTransitionType.rightToLeft,
-          child: const LogPage(),
-        ));
-  }
+  const CustomBottomBar({Key? key, required this.onChange}) : super(key: key);
+
+  final void Function(String) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +15,7 @@ class CustomBottomBar extends StatelessWidget {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: IconButton(
-            onPressed: () {},
+            onPressed: () => onChange(NavButtonOptions.profile),
             icon: const Icon(
               Icons.person,
             ),
@@ -46,7 +41,7 @@ class CustomBottomBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: IconButton(
-            onPressed: () => _navigteToLog(context),
+            onPressed: () => onChange(NavButtonOptions.log),
             icon: const Icon(
               Icons.menu_rounded,
             ),

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
@@ -16,6 +19,13 @@ import 'package:stattrack/components/stats/single_stat_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'package:stattrack/components/meal_card.dart';
 import 'package:stattrack/components/custom_bottom_bar.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'dart:math' as math;
+import 'package:stattrack/pages/account_setup/account_setup_page.dart';
+
+import 'package:stattrack/styles/palette.dart';
+
+import '../models/consumed_meal.dart';
 
 enum NavButtons {
   macros,
@@ -36,6 +46,9 @@ class UserProfilePage extends ConsumerStatefulWidget {
 }
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
+  num current = 0;
+  num dailyCalories = 0;
+  bool hasDailyMeal = true;
   NavButtons activeButton = NavButtons.macros;
 
   /// Displays the settings page
@@ -57,7 +70,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildBody(context),
-      bottomNavigationBar: CustomBottomBar(),
     );
   }
 
@@ -66,79 +78,149 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     final AuthBase auth = ref.read(authProvider);
     final Repository repo = ref.read(repositoryProvider);
 
-    return CustomBody(
-      header: StreamBuilder<User?>(
-        stream: repo.getUsers(auth.currentUser!.uid),
-        builder: ((context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.active) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return Text("Error: ${snapshot.error}");
-          }
-          if (!snapshot.hasData) {
-            return const Text("No data");
-          }
-          final User user = snapshot.data!;
-          return _buildUserInformation(context, user.profilePictureUrl,
-              user.name, user.getAge(), user.weight, user.height);
-        }),
-      ),
-      bodyWidgets: activeButton == NavButtons.macros
-          ? [..._buildTodaysMacros()]
-          : [..._buildTodaysMeals()],
+    return StreamBuilder<User?>(
+      stream: repo.getUsers(auth.currentUser!.uid),
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.active) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        }
+        if (!snapshot.hasData) {
+          return const Text("No data");
+        }
+        final User user = snapshot.data!;
+
+        return CustomBody(
+          header: _buildUserInformation(
+            context,
+            user.profilePictureUrl,
+            user.name,
+            user.getAge(),
+            user.weight,
+            user.height,
+          ),
+          bodyWidgets: activeButton == NavButtons.macros
+              ? [_buildTodaysMacros(user.dailyCalories)]
+              : [..._buildTodaysMeals()],
+        );
+      }),
     );
   }
 
-  List<Widget> _buildTodaysMacros() {
-    return [
-      spacing,
-      SingleStatCard(
-          content: _buildProfilePageMainStatContent("Calories", "GRAPH HERE"),
-          size: 230),
-      spacing,
-      SingleStatCard(
-          content: SingleStatLayout(
-              categoryText: "Proteins",
-              amountText: "83g",
-              categoryTextSize: FontStyles.fsTitle3,
-              amountTextSize: FontStyles.fsTitle1)),
-      spacing,
-      SingleStatCard(
-          content: SingleStatLayout(
-              categoryText: "Carbs",
-              amountText: "340g",
-              categoryTextSize: FontStyles.fsTitle3,
-              amountTextSize: FontStyles.fsTitle1)),
-      spacing,
-      SingleStatCard(
-          content: SingleStatLayout(
-              categoryText: "Fat",
-              amountText: "27g",
-              categoryTextSize: FontStyles.fsTitle3,
-              amountTextSize: FontStyles.fsTitle1)),
-    ];
+  /// Fills macro layout with correct macros
+  Widget _buildTodaysMacros(num dailyCalories) {
+    return StreamBuilder<List<ConsumedMeal>>(
+      stream: _mealStream(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.active) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        final meals = snapshot.data;
+        if (snapshot.hasError) {
+          return _buildErrorText(snapshot.hasError.toString());
+        }
+        if (snapshot.data!.isEmpty) {
+          hasDailyMeal = false;
+          return _buildMacroLayout(
+              macros: _calculateMacros(meals!), dailyCalories: dailyCalories);
+        }
+        hasDailyMeal = true;
+        return _buildMacroLayout(
+            macros: _calculateMacros(meals!), dailyCalories: dailyCalories);
+      },
+    );
   }
 
-  /// Builds the main content of a user page
-  Widget _buildProfilePageMainStatContent(String text, String amountText) {
+  Widget _buildErrorText(String msg) {
+    return SizedBox(
+      height: 48,
+      child: Center(
+        child: Text(msg),
+      ),
+    );
+  }
+
+  /// Calculates macros from the a list of meals
+  List<String> _calculateMacros(List<ConsumedMeal> meals) {
+    num calories = 0;
+    num proteins = 0;
+    num carbs = 0;
+    num fat = 0;
+    for (var element in meals) {
+      {
+        calories += element.calories;
+        current = calories;
+        proteins += element.proteins;
+        carbs += element.carbs;
+        fat += element.fat;
+      }
+    }
+
+    return ["$calories", "$proteins", "$carbs", "$fat"];
+  }
+
+  /// returns a stream of meals from the firebase database
+  Stream<List<ConsumedMeal>> _mealStream() {
+    final Repository repo = ref.read(repositoryProvider);
+    final AuthBase auth = ref.read(authProvider);
+    return repo.getTodaysMeals(auth.currentUser!.uid);
+  }
+
+  /// Builds the macro layout
+  Widget _buildMacroLayout(
+      {required List<String> macros, required dailyCalories}) {
+    OpenPainter painter = OpenPainter(total: dailyCalories, current: current);
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          text,
-          style: const TextStyle(fontSize: FontStyles.fsTitle3),
-        ),
-        Container(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-            amountText,
-            style: const TextStyle(fontSize: FontStyles.fsTitle1),
-          ),
-        )
+        spacing,
+        SingleStatCard(
+            content: SingleStatLayout(
+              categoryText: "Calories",
+              content: SizedBox(
+                height: 230 - 60,
+                width: 200,
+                child: hasDailyMeal
+                    ? CustomPaint(painter: painter)
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "No meals registered today",
+                          style: TextStyle(fontSize: FontStyles.fsTitle2),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+              ),
+              categoryTextSize: FontStyles.fsTitle3,
+            ),
+            size: 230),
+        spacing,
+        SingleStatCard(
+            content: SingleStatLayout(
+                categoryText: "Proteins",
+                amountText: "${macros[1]}g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
+        spacing,
+        SingleStatCard(
+            content: SingleStatLayout(
+                categoryText: "Carbs",
+                amountText: "${macros[2]}g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
+        spacing,
+        SingleStatCard(
+            content: SingleStatLayout(
+                categoryText: "Fat",
+                amountText: "${macros[3]}g",
+                categoryTextSize: FontStyles.fsTitle3,
+                amountTextSize: FontStyles.fsTitle1)),
       ],
     );
   }
@@ -345,4 +427,93 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       AddMeal(),
     ];
   }
+}
+
+class OpenPainter extends CustomPainter {
+  OpenPainter({required this.total, required this.current});
+  num total = 0;
+  num current = 0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    size = const Size(200, 200);
+
+    const rect = Rect.fromLTRB(-30, 10, 230, 270);
+    const startAngle = -math.pi;
+    const sweepAngle = math.pi;
+    const useCenter = false;
+    final background = Paint()
+      ..color = Colors.black12
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 12;
+    canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
+
+    _drawTextAt("0", const Offset(-25, 160), canvas, FontStyles.fsBody);
+    _drawTextAt("$current", const Offset(100, 85), canvas, FontStyles.fsTitle1,
+        fontWeight: FontStyles.fwTitle);
+    _drawTextAt("$total", const Offset(235, 160), canvas, FontStyles.fsBody);
+
+    /// update sweep angle with amount of calories
+
+    Path path = Path()
+      ..arcTo(rect, startAngle, _calculateAngle(current, total), true);
+    canvas.drawPath(
+        path,
+        Paint()
+          ..color = _calculateAngle(current, total) == math.pi
+              ? Colors.red
+              : Colors.green
+          ..strokeWidth = 12
+          ..strokeCap = StrokeCap.round
+          ..style = PaintingStyle.stroke);
+  }
+
+  /// Draws text at a position offset
+  /// has a disgusting way of centering text concidering how many characters are to be displayed
+  void _drawTextAt(String text, Offset position, Canvas canvas, double textsize,
+      {FontWeight fontWeight = FontStyles.fwBody}) {
+    final textStyle = TextStyle(
+      color: Colors.black,
+      fontSize: textsize,
+      fontWeight: fontWeight,
+    );
+
+    const halfOfCharWidth = 10;
+    double x;
+
+    if (text.length < 5) {
+      x = position.dx - text.length * halfOfCharWidth;
+    } else {
+      const chubbyFaceHalfWidth = 28;
+      x = position.dx - chubbyFaceHalfWidth;
+      text = "o  o\n)-(";
+    }
+
+    final textSpan = TextSpan(
+      text: text,
+      style: textStyle,
+    );
+    final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center);
+    textPainter.layout(minWidth: 0, maxWidth: 200);
+
+    Offset drawPosition = Offset(x, position.dy - (textPainter.height / 2));
+    textPainter.paint(canvas, drawPosition);
+  }
+
+  double _calculateAngle(num current, num total) {
+    double percentage = current / total;
+    double deg = percentage * 180;
+    double rad = deg * (math.pi / 180);
+    if (current > total) {
+      rad = math.pi;
+    }
+    return rad;
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }

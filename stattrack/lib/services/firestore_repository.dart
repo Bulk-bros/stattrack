@@ -8,10 +8,17 @@ import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 
+import '../models/ingredient.dart';
+import '../models/meal.dart';
+
 class FirestoreRepository implements Repository {
   @override
   Stream<User?> getUsers(String uid) =>
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
+
+  @override
+  Stream<Meal?> getMeals(String mid) =>
+      _getDocumentStream(ApiPaths.meal(mid), Meal.fromMap);
 
   @override
   void addUser(User user, String uid) {
@@ -29,11 +36,44 @@ class FirestoreRepository implements Repository {
   }
 
   @override
+  void addMeal(Meal meal, String uid) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .collection("meals")
+        .add({
+          'name': meal.name,
+          'ingredients': meal.ingredients,
+          'instructions': meal.instuctions,
+          'calories': meal.calories,
+          'proteins': meal.proteins,
+          'fat': meal.fat,
+          'carbs': meal.carbs,
+        })
+        .then((value) => print("Meal added"))
+        .catchError((error) => print("Error creating meal: $error"));
+  }
+
   Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
       path: ApiPaths.log(uid),
       fromMap: ConsumedMeal.fromMap,
       sortField: 'time',
       descending: true);
+
+  @override
+  Stream<List<ConsumedMeal>> getTodaysMeals(String uid) {
+    DateTime today =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+    return FirebaseFirestore.instance
+        .collection(ApiPaths.log(uid))
+        .orderBy('time')
+        .where('time', isGreaterThan: today)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ConsumedMeal.fromMap(doc.data()))
+            .toList());
+  }
 
   @override
   Future<void> uploadProfilePicture(XFile image, String uid) async {
