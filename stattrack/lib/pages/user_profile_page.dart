@@ -178,7 +178,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       children: [
         outputWidget == spacing ? spacing : output,
         SingleStatCard(
-            key: Key("mainDisplay"),
             content: SingleStatLayout(
                 categoryText: "Calories",
                 content: Column(
@@ -404,14 +403,13 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 }
 
 class OpenPainter extends CustomPainter {
+  OpenPainter({required this.total, required this.current});
   num total = 0;
   num current = 0;
 
-  OpenPainter({required this.total, required this.current});
-
   @override
   void paint(Canvas canvas, Size size) {
-    const size = Size(200, 200);
+    size = Size(200, 200);
 
     String midText = "$current";
     String rightText = "$total";
@@ -500,7 +498,6 @@ class OpenPainter extends CustomPainter {
     if (text.length == 3) {
       x = position.dx - 25;
     }
-
     if (text.length == 4) {
       x = position.dx - 35;
     }
