@@ -72,10 +72,14 @@ class _AddMealState extends State<AddMeal> {
     });
   }
 
+  /// Adds the selected meal to log
   void _addMeal() {
     print("Adding meal with name: ${activeMeal!.name}");
   }
 
+  /// Handles the search event
+  ///
+  /// [searchWord] the word to seach for
   void _handleSearch(String searchWord) {
     print(searchWord);
   }

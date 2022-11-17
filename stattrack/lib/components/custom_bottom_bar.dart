@@ -21,7 +21,7 @@ class CustomBottomBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
             ),
           ),
@@ -29,7 +29,7 @@ class CustomBottomBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.add_circle_rounded,
             ),
             color: Palette.accent[400],
@@ -37,7 +37,7 @@ class CustomBottomBar extends StatelessWidget {
               showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return AddMeal();
+                  return const AddMeal();
                 },
               );
             },
@@ -47,7 +47,7 @@ class CustomBottomBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: IconButton(
             onPressed: () => _navigteToLog(context),
-            icon: Icon(
+            icon: const Icon(
               Icons.menu_rounded,
             ),
           ),
