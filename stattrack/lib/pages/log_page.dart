@@ -107,24 +107,11 @@ class _LogPageState extends ConsumerState<LogPage> {
     }
   }
 
-  /// Navigates back to the page visited before the log page
-  ///
-  /// [context] the current build context
-  void _navigateBack(BuildContext context) {
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         headerTitle: 'Log',
-        navButton: IconButton(
-          onPressed: () => _navigateBack(context),
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-          ),
-        ),
         actions: [
           IconButton(
             // TODO: Nav to stats page
