@@ -107,7 +107,6 @@ class _DailyLogPageState extends State<DailyLogPage> {
           ),
           MealCard(
             meal: Meal(
-              id: "1",
               name: "Salad",
               calories: 500,
               proteins: 50,
@@ -122,7 +121,6 @@ class _DailyLogPageState extends State<DailyLogPage> {
           ),
           MealCard(
             meal: Meal(
-              id: "2",
               name: "Egg sandwich",
               calories: 359,
               proteins: 27,
@@ -137,7 +135,6 @@ class _DailyLogPageState extends State<DailyLogPage> {
           ),
           MealCard(
             meal: Meal(
-              id: "3",
               name: "Taco wrap",
               calories: 638,
               proteins: 38,

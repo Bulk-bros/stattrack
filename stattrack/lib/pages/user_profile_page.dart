@@ -396,7 +396,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       spacing,
       MealCard(
         meal: Meal(
-          id: "1",
           name: "Salad",
           calories: 500,
           proteins: 50,
@@ -409,7 +408,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       spacing,
       MealCard(
         meal: Meal(
-          id: "2",
           name: "Taco wrap",
           calories: 638,
           proteins: 38,

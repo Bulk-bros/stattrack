@@ -21,7 +21,6 @@ import '../styles/font_styles.dart';
 class MealController {
   final List<Meal> meals = [
     Meal(
-      id: "1",
       name: 'Salad',
       calories: 500,
       proteins: 20,
@@ -29,7 +28,6 @@ class MealController {
       carbs: 100,
     ),
     Meal(
-      id: "2",
       name: 'taco',
       calories: 500,
       proteins: 20,
@@ -79,8 +77,11 @@ class _AddMealState extends ConsumerState<AddMeal> {
   }
 
   /// Adds the selected meal to log
-  void _addMeal(String uid, Repository repo) {
-    repo.addMeal(activeMeal!, uid);
+  void _logMeal(String uid, Repository repo) {
+    repo.logMeal(
+      meal: activeMeal!,
+      uid: uid,
+    );
   }
 
   /// Handles the search event
@@ -153,8 +154,9 @@ class _AddMealState extends ConsumerState<AddMeal> {
           Flexible(
             child: SingleChildScrollView(
               child: StreamBuilder<List<Meal>>(
-                stream: mealController.getController().stream,
+                stream: repo.getMeals(auth.currentUser!.uid),
                 builder: (context, snapshot) {
+                  print(snapshot.data);
                   if (snapshot.connectionState != ConnectionState.active) {
                     return const Text(
                       'No connection',
@@ -163,7 +165,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
                   }
                   if (!snapshot.hasData) {
                     return const Text(
-                      'No data',
+                      'No meals',
                       textAlign: TextAlign.center,
                     );
                   }
@@ -197,8 +199,8 @@ class _AddMealState extends ConsumerState<AddMeal> {
           MainButton(
             callback: activeMeal == null
                 ? null
-                : () => _addMeal(auth.currentUser!.uid, repo),
-            label: "Add meal",
+                : () => _logMeal(auth.currentUser!.uid, repo),
+            label: "Eat meal",
           )
         ],
       ),

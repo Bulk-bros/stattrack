@@ -7,8 +7,6 @@ import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
-
-import '../models/ingredient.dart';
 import '../models/meal.dart';
 
 class FirestoreRepository implements Repository {
@@ -17,31 +15,35 @@ class FirestoreRepository implements Repository {
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
 
   @override
-  Stream<Meal?> getMeals(String mid) =>
-      _getDocumentStream(ApiPaths.meal(mid), Meal.fromMap);
-
-  @override
-  void addUser(User user, String uid) {
-    _addDocument({
-      'name': user.name,
-      'profilePicture': user.profilePictureUrl,
-      'birthday': user.birthday,
-      'height': user.height,
-      'weight': user.weight,
-      'dailyCalories': user.dailyCalories,
-      'dailyProteins': user.dailyProteins,
-      'dailyCarbs': user.dailyCarbs,
-      'dailyFat': user.dailyFat,
-    }, 'users', uid);
+  Stream<List<Meal>> getMeals(String uid) {
+    return _getCollectionStream(
+      path: ApiPaths.meal(uid),
+      fromMap: Meal.fromMap,
+    );
   }
 
   @override
-  void addMeal(Meal meal, String uid) {
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(uid)
-        .collection("meals")
-        .add({
+  void addUser(User user, String uid) {
+    _addDocument(
+      document: {
+        'name': user.name,
+        'profilePicture': user.profilePictureUrl,
+        'birthday': user.birthday,
+        'height': user.height,
+        'weight': user.weight,
+        'dailyCalories': user.dailyCalories,
+        'dailyProteins': user.dailyProteins,
+        'dailyCarbs': user.dailyCarbs,
+        'dailyFat': user.dailyFat,
+      },
+      collection: 'users',
+      docId: uid,
+    );
+  }
+
+  @override
+  void addMeal(Meal meal, String uid) => _addDocument(
+        document: {
           'name': meal.name,
           'ingredients': meal.ingredients,
           'instructions': meal.instuctions,
@@ -49,11 +51,25 @@ class FirestoreRepository implements Repository {
           'proteins': meal.proteins,
           'fat': meal.fat,
           'carbs': meal.carbs,
-        })
-        .then((value) => print("Meal added"))
-        .catchError((error) => print("Error creating meal: $error"));
-  }
+        },
+        collection: ApiPaths.storedMeals(uid),
+      );
 
+  @override
+  void logMeal({required Meal meal, required String uid, DateTime? time}) =>
+      _addDocument(
+        document: {
+          'name': meal.name,
+          'calories': meal.calories,
+          'proteins': meal.proteins,
+          'carbs': meal.carbs,
+          'fat': meal.fat,
+          'time': time ?? DateTime.now(),
+        },
+        collection: ApiPaths.log(uid),
+      );
+
+  @override
   Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
       path: ApiPaths.log(uid),
       fromMap: ConsumedMeal.fromMap,
@@ -135,7 +151,9 @@ class FirestoreRepository implements Repository {
   }
 
   Future<void> _addDocument(
-      Map<String, dynamic> document, String collection, String docId) {
+      {required Map<String, dynamic> document,
+      required String collection,
+      String? docId}) {
     return FirebaseFirestore.instance
         .collection(collection)
         .doc(docId)
