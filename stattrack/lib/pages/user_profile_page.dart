@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:stattrack/components/add_meal.dart';
+import 'package:stattrack/components/meals/add_meal.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
@@ -14,11 +14,11 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'package:stattrack/components/custom_body.dart';
+import 'package:stattrack/components/app/custom_body.dart';
 import 'package:stattrack/components/stats/single_stat_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
-import 'package:stattrack/components/meal_card.dart';
-import 'package:stattrack/components/custom_bottom_bar.dart';
+import 'package:stattrack/components/meals/meal_card.dart';
+import 'package:stattrack/components/app/custom_bottom_bar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:math' as math;
 import 'package:stattrack/pages/account_setup/account_setup_page.dart';
@@ -420,6 +420,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     ];
   }
 
+  // TODO: Ask torstein if this is in use... should not be since it's moved
+  // to custom bottom bar so it's available for every pages with nav bar
   List<Widget> _buildAddMeal() {
     return [
       AddMeal(),

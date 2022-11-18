@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/custom_app_bar.dart';
-import 'package:stattrack/components/meal_card.dart';
+import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';

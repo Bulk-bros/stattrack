@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/forms/email_sign_in_form.dart';
 import 'package:stattrack/components/forms/email_sign_up_form.dart';
 import 'package:stattrack/pages/auth_pages/forgot_password_page.dart';

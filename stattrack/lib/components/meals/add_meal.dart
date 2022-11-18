@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/meals/add_meal_select.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/create_meal.dart';
-import 'package:stattrack/components/meal_card.dart';
+import 'package:stattrack/components/meals/create_meal.dart';
+import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
-
-import '../styles/font_styles.dart';
 
 // FIXME: Stream created for testing injection of stream without fetching from firestore.
 // Replace the stream in the streambuilder with the one you get when creating fetch method
@@ -151,57 +151,32 @@ class _AddMealState extends ConsumerState<AddMeal> {
           const SizedBox(
             height: 20.0,
           ),
-          Flexible(
-            child: SingleChildScrollView(
-              child: StreamBuilder<List<Meal>>(
-                stream: repo.getMeals(auth.currentUser!.uid),
-                builder: (context, snapshot) {
-                  print(snapshot.data);
-                  if (snapshot.connectionState != ConnectionState.active) {
-                    return const Text(
-                      'No connection',
-                      textAlign: TextAlign.center,
-                    );
-                  }
-                  if (!snapshot.hasData) {
-                    return const Text(
-                      'No meals',
-                      textAlign: TextAlign.center,
-                    );
-                  }
-                  if (snapshot.data!.isEmpty) {
-                    return const Text(
-                      'No meals',
-                      textAlign: TextAlign.center,
-                    );
-                  }
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      ...snapshot.data!.map((meal) {
-                        return MealCard(
-                          meal: meal,
-                          onPressed: (meal) => _handleMealCardPressed(meal),
-                          backgroundColor:
-                              activeMeal == meal ? Palette.accent[400] : null,
-                          color: activeMeal == meal ? Colors.white : null,
-                        );
-                      })
-                    ],
-                  );
-                },
-              ),
-            ),
+          StreamBuilder<List<Meal>>(
+            stream: repo.getMeals(auth.currentUser!.uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.active) {
+                return const Text(
+                  'No connection',
+                  textAlign: TextAlign.center,
+                );
+              }
+              if (!snapshot.hasData) {
+                return const Text(
+                  'No meals',
+                  textAlign: TextAlign.center,
+                );
+              }
+              if (snapshot.data!.isEmpty) {
+                return const Text(
+                  'No meals',
+                  textAlign: TextAlign.center,
+                );
+              }
+              return AddMealSelect(
+                meals: snapshot.data!,
+              );
+            },
           ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          MainButton(
-            callback: activeMeal == null
-                ? null
-                : () => _logMeal(auth.currentUser!.uid, repo),
-            label: "Eat meal",
-          )
         ],
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/custom_bottom_bar.dart';
+import 'package:stattrack/components/app/custom_bottom_bar.dart';
 import 'package:stattrack/pages/log_page.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/utils/nav_button_options.dart';

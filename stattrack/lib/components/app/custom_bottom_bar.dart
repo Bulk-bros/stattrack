@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/add_meal.dart';
+import 'package:stattrack/components/meals/add_meal.dart';
 import 'package:stattrack/styles/palette.dart';
 
-import '../utils/nav_button_options.dart';
+import '../../utils/nav_button_options.dart';
 
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({Key? key, required this.onChange}) : super(key: key);
