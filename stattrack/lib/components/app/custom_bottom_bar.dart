@@ -9,55 +9,62 @@ class CustomBottomBar extends StatelessWidget {
 
   final void Function(String) onChange;
 
+  void _handleNavPressed(BuildContext context, int iconIndex) {
+    switch (iconIndex) {
+      case 0:
+        onChange(NavButtonOptions.profile);
+        break;
+      case 1:
+        showModalBottomSheet<void>(
+          isScrollControlled: true,
+          context: context,
+          builder: (context) => SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: const AddMeal(),
+          ),
+        );
+        break;
+      case 2:
+        onChange(NavButtonOptions.log);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: IconButton(
-            onPressed: () => onChange(NavButtonOptions.profile),
-            icon: const Icon(
-              Icons.person,
-            ),
-          ),
+        const BottomNavigationBarItem(
           label: "Profile",
+          icon: Icon(
+            Icons.person,
+          ),
         ),
         BottomNavigationBarItem(
-          icon: IconButton(
-            icon: const Icon(
-              Icons.add_circle_rounded,
-            ),
-            color: Palette.accent[400],
-            onPressed: () {
-              showModalBottomSheet<void>(
-                isScrollControlled: true,
-                context: context,
-                builder: (context) => SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: const AddMeal(),
-                ),
-              );
-            },
+          icon: Icon(
+            Icons.add_circle_rounded,
+            color: Palette.accent[400]!,
           ),
           label: "Add Button",
         ),
-        BottomNavigationBarItem(
-          icon: IconButton(
-            onPressed: () => onChange(NavButtonOptions.log),
-            icon: const Icon(
-              Icons.menu_rounded,
-            ),
+        const BottomNavigationBarItem(
+          icon: Icon(
+            Icons.menu_rounded,
           ),
           label: "Menu",
         ),
       ],
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      selectedFontSize: 0,
-      unselectedFontSize: 0,
-      selectedIconTheme: const IconThemeData(color: Colors.black, size: 39.0),
-      unselectedIconTheme: const IconThemeData(color: Colors.black, size: 39.0),
-      //onTap: (value) => _handleNavPress(context, value),
+      selectedIconTheme: const IconThemeData(
+        color: Colors.black,
+        size: 39.0,
+      ),
+      unselectedIconTheme: const IconThemeData(
+        color: Colors.black,
+        size: 39.0,
+      ),
+      onTap: (value) => _handleNavPressed(context, value),
     );
   }
 }
