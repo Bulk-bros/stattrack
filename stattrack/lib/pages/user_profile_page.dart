@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/meals/add_meal.dart';
+import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
@@ -13,11 +15,11 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'package:stattrack/components/custom_body.dart';
+import 'package:stattrack/components/app/custom_body.dart';
 import 'package:stattrack/components/stats/single_stat_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
-import 'package:stattrack/components/meal_card.dart';
-import 'package:stattrack/components/custom_bottom_bar.dart';
+import 'package:stattrack/components/meals/meal_card.dart';
+import 'package:stattrack/components/app/custom_bottom_bar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:math' as math;
 import 'package:stattrack/pages/account_setup/account_setup_page.dart';
@@ -29,6 +31,7 @@ import '../models/consumed_meal.dart';
 enum NavButtons {
   macros,
   meals,
+  addMeal,
 }
 
 const spacing = SizedBox(
@@ -387,7 +390,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                   activeButton = NavButtons.meals;
                 });
               }),
-            )
+            ),
           ],
         ),
       ],
@@ -453,24 +456,36 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     return [
       spacing,
       MealCard(
-        assetName: "assets/images/foodstockpic.jpg",
-        foodName: "Salad",
-        calorieValue: 500,
-        proteinValue: 50,
-        fatValue: 5,
-        carbValue: 150,
+        meal: Meal(
+          name: "Salad",
+          calories: 500,
+          proteins: 50,
+          fat: 5,
+          carbs: 150,
+        ),
         timeValue: "08:45",
+        onPressed: (id) => print("pressed $id"),
       ),
       spacing,
       MealCard(
-        assetName: "assets/images/foodstockpic.jpg",
-        foodName: "Taco wrap",
-        calorieValue: 638,
-        proteinValue: 38,
-        fatValue: 32,
-        carbValue: 241,
+        meal: Meal(
+          name: "Taco wrap",
+          calories: 638,
+          proteins: 38,
+          fat: 32,
+          carbs: 241,
+        ),
         timeValue: "16:13",
+        onPressed: (id) => print("pressed $id"),
       ),
+    ];
+  }
+
+  // TODO: Ask torstein if this is in use... should not be since it's moved
+  // to custom bottom bar so it's available for every pages with nav bar
+  List<Widget> _buildAddMeal() {
+    return [
+      AddMeal(),
     ];
   }
 }

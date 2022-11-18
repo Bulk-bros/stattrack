@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/stats/stat_card.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';

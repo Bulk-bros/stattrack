@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
-import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/pages/auth_pages/email_sign_in_page.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';

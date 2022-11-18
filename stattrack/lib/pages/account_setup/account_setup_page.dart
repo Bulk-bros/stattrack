@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
-import 'package:stattrack/components/custom_app_bar.dart';
+import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/providers/auth_provider.dart';

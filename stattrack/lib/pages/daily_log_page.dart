@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/custom_app_bar.dart';
-import 'package:stattrack/components/meal_card.dart';
+import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/meals/meal_card.dart';
+import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
@@ -105,37 +106,43 @@ class _DailyLogPageState extends State<DailyLogPage> {
             height: 16.0,
           ),
           MealCard(
-            assetName: "assets/images/foodstockpic.jpg",
-            foodName: "Salad",
-            calorieValue: 500,
-            proteinValue: 50,
-            fatValue: 5,
-            carbValue: 150,
+            meal: Meal(
+              name: "Salad",
+              calories: 500,
+              proteins: 50,
+              fat: 5,
+              carbs: 150,
+            ),
             timeValue: "08:45",
+            onPressed: (id) => print(id),
           ),
           const SizedBox(
             height: 8.0,
           ),
           MealCard(
-            assetName: "assets/images/foodstockpic.jpg",
-            foodName: "Egg sandwich",
-            calorieValue: 359,
-            proteinValue: 27,
-            fatValue: 19,
-            carbValue: 190,
+            meal: Meal(
+              name: "Egg sandwich",
+              calories: 359,
+              proteins: 27,
+              fat: 19,
+              carbs: 190,
+            ),
             timeValue: "11:30",
+            onPressed: (id) => print(id),
           ),
           const SizedBox(
             height: 8.0,
           ),
           MealCard(
-            assetName: "assets/images/foodstockpic.jpg",
-            foodName: "Taco wrap",
-            calorieValue: 638,
-            proteinValue: 38,
-            fatValue: 32,
-            carbValue: 241,
+            meal: Meal(
+              name: "Taco wrap",
+              calories: 638,
+              proteins: 38,
+              fat: 32,
+              carbs: 241,
+            ),
             timeValue: "16:13",
+            onPressed: (id) => print(id),
           ),
         ],
       ),
