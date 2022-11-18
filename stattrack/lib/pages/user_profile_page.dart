@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,8 +44,6 @@ class UserProfilePage extends ConsumerStatefulWidget {
 }
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
-  num current = 0;
-  num dailyCalories = 0;
   bool hasDailyMeal = true;
   NavButtons activeButton = NavButtons.macros;
 
@@ -101,7 +100,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             user.height,
           ),
           bodyWidgets: activeButton == NavButtons.macros
-              ? [_buildTodaysMacros(user.dailyCalories)]
+              ? [
+                  _buildTodaysMacros(user.dailyCalories, user.dailyProteins,
+                      user.dailyCarbs, user.dailyFat)
+                ]
               : [..._buildTodaysMeals()],
         );
       }),
@@ -109,7 +111,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 
   /// Fills macro layout with correct macros
-  Widget _buildTodaysMacros(num dailyCalories) {
+  Widget _buildTodaysMacros(
+      num dailyCalories, num dailyProteins, num dailyCarbs, num dailyFat) {
     return StreamBuilder<List<ConsumedMeal>>(
       stream: _mealStream(),
       builder: (context, snapshot) {
@@ -125,11 +128,19 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         if (snapshot.data!.isEmpty) {
           hasDailyMeal = false;
           return _buildMacroLayout(
-              macros: _calculateMacros(meals!), dailyCalories: dailyCalories);
+              macros: _calculateMacros(meals!),
+              dailyCalories: dailyCalories,
+              dailyProteins: dailyProteins,
+              dailyCarbs: dailyCarbs,
+              dailyFat: dailyFat);
         }
         hasDailyMeal = true;
         return _buildMacroLayout(
-            macros: _calculateMacros(meals!), dailyCalories: dailyCalories);
+            macros: _calculateMacros(meals!),
+            dailyCalories: dailyCalories,
+            dailyProteins: dailyProteins,
+            dailyCarbs: dailyCarbs,
+            dailyFat: dailyFat);
       },
     );
   }
@@ -152,7 +163,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     for (var element in meals) {
       {
         calories += element.calories;
-        current = calories;
         proteins += element.proteins;
         carbs += element.carbs;
         fat += element.fat;
@@ -171,9 +181,11 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// Builds the macro layout
   Widget _buildMacroLayout(
-      {required List<String> macros, required dailyCalories}) {
-    OpenPainter painter = OpenPainter(total: dailyCalories, current: current);
-
+      {required List<String> macros,
+      required dailyCalories,
+      required dailyProteins,
+      required dailyCarbs,
+      required dailyFat}) {
     return Column(
       children: [
         spacing,
@@ -184,7 +196,11 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                 height: 230 - 60,
                 width: 200,
                 child: hasDailyMeal
-                    ? CustomPaint(painter: painter)
+                    ? CustomPaint(
+                        painter: OpenPainter(
+                            total: dailyCalories,
+                            current: num.parse(macros[0]),
+                            shape: "arc"))
                     : Container(
                         alignment: Alignment.center,
                         child: const Text(
@@ -199,25 +215,70 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             size: 230),
         spacing,
         SingleStatCard(
-            content: SingleStatLayout(
-                categoryText: "Proteins",
-                amountText: "${macros[1]}g",
-                categoryTextSize: FontStyles.fsTitle3,
-                amountTextSize: FontStyles.fsTitle1)),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SingleStatLayout(
+                  categoryText: "Proteins",
+                  amountText: "${macros[1]}g",
+                  categoryTextSize: FontStyles.fsTitle3,
+                  amountTextSize: FontStyles.fsTitle1),
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: CustomPaint(
+                    painter: OpenPainter(
+                  total: dailyProteins,
+                  current: num.parse(macros[1]),
+                )),
+              )
+            ],
+          ),
+        ),
         spacing,
         SingleStatCard(
-            content: SingleStatLayout(
-                categoryText: "Carbs",
-                amountText: "${macros[2]}g",
-                categoryTextSize: FontStyles.fsTitle3,
-                amountTextSize: FontStyles.fsTitle1)),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SingleStatLayout(
+                  categoryText: "Carbs",
+                  amountText: "${macros[2]}g",
+                  categoryTextSize: FontStyles.fsTitle3,
+                  amountTextSize: FontStyles.fsTitle1),
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: CustomPaint(
+                    painter: OpenPainter(
+                  total: dailyCarbs,
+                  current: num.parse(macros[2]),
+                )),
+              )
+            ],
+          ),
+        ),
         spacing,
         SingleStatCard(
-            content: SingleStatLayout(
-                categoryText: "Fat",
-                amountText: "${macros[3]}g",
-                categoryTextSize: FontStyles.fsTitle3,
-                amountTextSize: FontStyles.fsTitle1)),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SingleStatLayout(
+                  categoryText: "Fat",
+                  amountText: "${macros[3]}g",
+                  categoryTextSize: FontStyles.fsTitle3,
+                  amountTextSize: FontStyles.fsTitle1),
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: CustomPaint(
+                    painter: OpenPainter(
+                  total: dailyFat,
+                  current: num.parse(macros[3]),
+                )),
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -415,47 +476,107 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 }
 
 class OpenPainter extends CustomPainter {
-  OpenPainter({required this.total, required this.current});
+  OpenPainter(
+      {required this.total, required this.current, this.shape = "circle"});
   num total = 0;
   num current = 0;
+  String shape;
 
   @override
   void paint(Canvas canvas, Size size) {
     size = const Size(200, 200);
+    if (shape == "arc") {
+      const rect = Rect.fromLTRB(-30, 10, 230, 270);
+      const startAngle = -math.pi;
+      const sweepAngle = math.pi;
+      const useCenter = false;
+      final background = Paint()
+        ..color = const Color.fromRGBO(230, 230, 230, 100)
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = 12;
+      canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
 
-    const rect = Rect.fromLTRB(-30, 10, 230, 270);
-    const startAngle = -math.pi;
-    const sweepAngle = math.pi;
-    const useCenter = false;
-    final background = Paint()
-      ..color = Colors.black12
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 12;
-    canvas.drawArc(rect, startAngle, sweepAngle, useCenter, background);
+      _drawTextAt("0", const Offset(-25, 160), canvas, FontStyles.fsBody);
+      _drawTextAt(
+          "$current", const Offset(100, 85), canvas, FontStyles.fsTitle1,
+          fontWeight: FontStyles.fwTitle);
+      _drawTextAt("$total", const Offset(235, 160), canvas, FontStyles.fsBody);
 
-    _drawTextAt("0", const Offset(-25, 160), canvas, FontStyles.fsBody);
-    _drawTextAt("$current", const Offset(100, 85), canvas, FontStyles.fsTitle1,
-        fontWeight: FontStyles.fwTitle);
-    _drawTextAt("$total", const Offset(235, 160), canvas, FontStyles.fsBody);
+      /// update sweep angle with amount of calories
 
-    /// update sweep angle with amount of calories
+      Path path = Path()
+        ..arcTo(rect, startAngle,
+            _calculateAngle(current, total, circle: false), true);
+      canvas.drawPath(
+          path,
+          Paint()
+            ..color = _calculateAngle(current, total, circle: false) == math.pi
+                ? Colors.red
+                : Palette.accent[400]!
+            ..strokeWidth = 12
+            ..strokeCap = StrokeCap.round
+            ..style = PaintingStyle.stroke);
+    }
 
-    Path path = Path()
-      ..arcTo(rect, startAngle, _calculateAngle(current, total), true);
-    canvas.drawPath(
-        path,
-        Paint()
-          ..color = _calculateAngle(current, total) == math.pi
-              ? Colors.red
-              : Colors.green
-          ..strokeWidth = 12
-          ..strokeCap = StrokeCap.round
-          ..style = PaintingStyle.stroke);
+    if (shape == "circle") {
+      const circleSize = 35.0;
+      const offset = Offset(-45, 10);
+      Rect rect = Rect.fromCenter(
+          center: offset, width: circleSize * 2, height: circleSize * 2);
+      const startAngle = -math.pi / 2;
+
+      final background = Paint()
+        ..color = const Color.fromRGBO(230, 230, 230, 100)
+        ..style = PaintingStyle.fill;
+      canvas.drawCircle(const Offset(-45, 10), circleSize, background);
+
+      final fill = Paint()
+        ..color = color()!
+        ..style = PaintingStyle.fill
+        ..strokeCap = StrokeCap.round;
+      canvas.drawArc(
+          rect, startAngle, _calculateAngle(current, total) * 2, true, fill);
+
+      drawIcons(canvas);
+    }
+  }
+
+  Color? color() {
+    Color color;
+    double percentage = (current / total);
+    if (current / total >= 1.05) {
+      color = Colors.orange;
+      if (current / total > 1.10) {
+        color = Colors.red;
+      }
+    } else {
+      color = Palette.accent[400]!;
+    }
+
+    return color;
+  }
+
+  void drawIcons(canvas) {
+    IconData icon = Icons.thumb_up;
+
+    if (current / total >= 1.00) {
+      icon = Icons.thumb_up;
+      if (current / total > 1.10) {
+        icon = Icons.back_hand;
+      }
+      var builder = ui.ParagraphBuilder(ui.ParagraphStyle(
+        fontFamily: icon.fontFamily,
+        fontSize: 24,
+      ))
+        ..addText(String.fromCharCode(icon.codePoint));
+      var para = builder.build();
+      para.layout(const ui.ParagraphConstraints(width: 60));
+      canvas.drawParagraph(para, const Offset(-58, -2));
+    }
   }
 
   /// Draws text at a position offset
-  /// has a disgusting way of centering text concidering how many characters are to be displayed
   void _drawTextAt(String text, Offset position, Canvas canvas, double textsize,
       {FontWeight fontWeight = FontStyles.fwBody}) {
     final textStyle = TextStyle(
@@ -489,13 +610,16 @@ class OpenPainter extends CustomPainter {
     textPainter.paint(canvas, drawPosition);
   }
 
-  double _calculateAngle(num current, num total) {
-    double percentage = current / total;
+  double _calculateAngle(num currentDailyCalories, num dailyCalories,
+      {bool circle = false}) {
+    double percentage = currentDailyCalories / dailyCalories;
     double deg = percentage * 180;
     double rad = deg * (math.pi / 180);
-    if (current > total) {
+
+    if (currentDailyCalories > dailyCalories && !circle) {
       rad = math.pi;
     }
+
     return rad;
   }
 
