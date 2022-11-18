@@ -37,7 +37,6 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
 
   bool _isLoading = false;
   bool _showInputErrors = false;
-  String _inputErrorMsg = '';
   bool _showAuthError = false;
   String _authErrorMsg = '';
 
@@ -55,6 +54,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         throw Exception('unchecked-checkbox');
       }
       await widget.auth.createUserWithEmailAndPassword(_email, _password);
+      if (!mounted) return;
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       String error = '';
@@ -116,6 +116,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
         child: Column(
           children: <Widget>[
             TextFormField(
+              key: const Key('emailSignUpEmailTextFormField'),
               controller: _emailController,
               focusNode: _emailFocusNode,
               decoration: InputDecoration(
@@ -131,6 +132,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               onChanged: (email) => _updateState(),
             ),
             TextFormField(
+              key: const Key('emailSignUpPasswordTextFormField'),
               controller: _passwordController,
               focusNode: _passwordFocusNode,
               decoration: InputDecoration(
@@ -146,6 +148,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               onChanged: (pwd) => _updateState(),
             ),
             TextFormField(
+              key: const Key('emailSignUpPasswordConfirmTextFormField'),
               controller: _passwordConfirmController,
               focusNode: _passwordConfirmFocusNode,
               decoration: InputDecoration(
@@ -166,6 +169,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             Row(
               children: <Widget>[
                 Checkbox(
+                  key: const Key('emailSignUpCheckbox'),
                   value: _isChecked,
                   onChanged: (bool? value) {
                     setState(() {
@@ -180,6 +184,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               height: 39.0,
             ),
             FormButton(
+              key: const Key('emailSignUpFormButton'),
               onPressed: enableSubmit ? _submit : null,
               label: 'Sign Up',
             ),

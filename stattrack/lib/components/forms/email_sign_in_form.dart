@@ -40,6 +40,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         throw Exception('Invalid inputs');
       }
       await widget.auth.signInWithEmailAndPassword(_email, _password);
+      if (!mounted) return;
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       String error = '';
@@ -97,6 +98,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         child: Column(
           children: <Widget>[
             TextFormField(
+              key: const Key('emailSignInEmailTextFormField'),
               controller: _emailController,
               focusNode: _emailFocusNode,
               decoration: InputDecoration(
@@ -112,6 +114,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
               onChanged: (email) => _updateState(),
             ),
             TextFormField(
+              key: const Key('emailSignInPasswordTextFormField'),
               controller: _passwordController,
               focusNode: _passwordFocusNode,
               decoration: InputDecoration(
@@ -130,8 +133,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
               height: 39.0,
             ),
             FormButton(
+              key: const Key('emailSignInFormButton'),
               onPressed: enableButton ? _submit : null,
-              label: 'Sign Up',
+              label: 'Sign In',
             ),
             Column(
               children: _showAuthError

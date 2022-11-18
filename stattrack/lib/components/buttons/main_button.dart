@@ -6,7 +6,7 @@ class MainButton extends StatelessWidget {
   const MainButton({Key? key, required this.callback, required this.label})
       : super(key: key);
 
-  final VoidCallback callback;
+  final VoidCallback? callback;
   final String label;
 
   @override
@@ -14,7 +14,7 @@ class MainButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: callback,
       style: ElevatedButton.styleFrom(
-        primary: Palette.accent[400],
+        backgroundColor: Palette.accent[400],
         padding: const EdgeInsets.all(25.0),
       ),
       child: Text(
