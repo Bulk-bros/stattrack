@@ -15,36 +15,6 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
-// FIXME: Stream created for testing injection of stream without fetching from firestore.
-// Replace the stream in the streambuilder with the one you get when creating fetch method
-// and delete this class.
-class MealController {
-  final List<Meal> meals = [
-    Meal(
-      name: 'Salad',
-      calories: 500,
-      proteins: 20,
-      fat: 5,
-      carbs: 100,
-    ),
-    Meal(
-      name: 'taco',
-      calories: 500,
-      proteins: 20,
-      fat: 5,
-      carbs: 100,
-    ),
-  ];
-
-  final controller = StreamController<List<Meal>>();
-
-  StreamController<List<Meal>> getController() {
-    controller.sink.add(meals);
-
-    return controller;
-  }
-}
-
 class AddMeal extends ConsumerStatefulWidget {
   const AddMeal({Key? key}) : super(key: key);
 
@@ -53,11 +23,6 @@ class AddMeal extends ConsumerStatefulWidget {
 }
 
 class _AddMealState extends ConsumerState<AddMeal> {
-  final MealController mealController = MealController();
-
-  // Stores the current active meal. The meal card that was clicked latest.
-  Meal? activeMeal;
-
   void _showCreateMeal(BuildContext context) {
     Navigator.push(
         context,
@@ -65,23 +30,6 @@ class _AddMealState extends ConsumerState<AddMeal> {
           type: PageTransitionType.bottomToTop,
           child: CreateMeal(),
         ));
-  }
-
-  /// Updates the active meal card
-  ///
-  /// [meal] the meal to set active
-  void _handleMealCardPressed(Meal meal) {
-    setState(() {
-      activeMeal = meal;
-    });
-  }
-
-  /// Adds the selected meal to log
-  void _logMeal(String uid, Repository repo) {
-    repo.logMeal(
-      meal: activeMeal!,
-      uid: uid,
-    );
   }
 
   /// Handles the search event
@@ -133,16 +81,17 @@ class _AddMealState extends ConsumerState<AddMeal> {
           ),
           TextField(
             decoration: const InputDecoration(
-              labelText: 'Search',
               hintText: 'Search for a meal',
               border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                color: Colors.grey,
-              )),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                ),
+              ),
               focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                color: Colors.grey,
-              )),
+                borderSide: BorderSide(
+                  color: Colors.black,
+                ),
+              ),
             ),
             textInputAction: TextInputAction.done,
             onChanged: (word) =>
