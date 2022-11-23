@@ -1,25 +1,136 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
+import 'package:stattrack/components/forms/ingredient_list.dart';
 import 'package:stattrack/components/meals/food_instruction.dart';
 import 'package:stattrack/components/meals/ingridient.dart';
 import 'package:stattrack/models/ingredient.dart';
+import 'package:stattrack/pages/create_ingredient_page.dart';
+import 'package:stattrack/providers/auth_provider.dart';
+import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 
-import '../../styles/font_styles.dart';
+import '../styles/font_styles.dart';
 
-class CreateMeal extends StatelessWidget {
-  get onPressed => null;
+class CreateMeal extends ConsumerStatefulWidget {
+  const CreateMeal({Key? key}) : super(key: key);
 
-  void submit() {
+  @override
+  _CreateMealState createState() => _CreateMealState();
+}
+
+class _CreateMealState extends ConsumerState<CreateMeal> {
+  final TextEditingController _nameController = TextEditingController();
+
+  String get _name => _nameController.text;
+  XFile? _image;
+  Map<Ingredient, num> ingredients = {};
+
+  void _submit() {
     print("make this function search for food");
   }
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _imageController = TextEditingController();
+  void _updateState() {
+    setState(() {});
+  }
+
+  void _navToCreateIngredient(BuildContext context) {
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.rightToLeft,
+        child: CreateIngredientPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    final AuthBase auth = ref.read(authProvider);
+    final Repository repo = ref.read(repositoryProvider);
+
+    return Scaffold(
+      appBar: CustomAppBar(
+        headerTitle: 'Create Meal',
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(31.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            const Text(
+              'Info',
+              style: TextStyle(
+                fontSize: FontStyles.fsBody,
+                fontWeight: FontStyles.fw600,
+              ),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            BorderedTextInput(
+              controller: _nameController,
+              hintText: 'Name',
+              textInputAction: TextInputAction.next,
+              onEditingComplete: _submit,
+              onChanged: (name) => _updateState(),
+            ),
+            const SizedBox(
+              height: 16.0,
+            ),
+            ImagePickerInput(
+              onImagePicked: (image) => setState(() => _image = image),
+              label: 'Image',
+            ),
+            const SizedBox(
+              height: 25.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Ingredients',
+                  style: TextStyle(
+                    fontSize: FontStyles.fsBody,
+                    fontWeight: FontStyles.fw600,
+                  ),
+                ),
+                TextButton(
+                  child: Text(
+                    'Create ingredient',
+                    style: TextStyle(
+                      color: Palette.accent[200],
+                      fontSize: FontStyles.fsBody,
+                    ),
+                  ),
+                  onPressed: () => _navToCreateIngredient(context),
+                ),
+              ],
+            ),
+            StreamBuilder<List<Ingredient>?>(
+                stream: repo.getIngredients(auth.currentUser!.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.active) {
+                    return const Text('No connection');
+                  }
+                  if (snapshot.data == null) {
+                    return const Text('No ingredients');
+                  }
+                  return IngredientList(ingredients: snapshot.data!);
+                }),
+          ],
+        ),
+      ),
+    );
+
+    Material(
       child: Container(
         color: Colors.white,
         child: Column(
@@ -66,7 +177,7 @@ class CreateMeal extends StatelessWidget {
                 )),
               ),
               textInputAction: TextInputAction.next,
-              onEditingComplete: submit, // få den til å kalle en søkefunksjon
+              onEditingComplete: _submit, // få den til å kalle en søkefunksjon
             ),
             SizedBox(
               height: 20,
@@ -76,7 +187,6 @@ class CreateMeal extends StatelessWidget {
                 Flexible(
                   flex: 3,
                   child: TextField(
-                    controller: _imageController,
                     decoration: InputDecoration(
                       labelText: ("Image"),
                       fillColor: Colors.white12,
@@ -92,7 +202,7 @@ class CreateMeal extends StatelessWidget {
                     ),
                     textInputAction: TextInputAction.next,
                     onEditingComplete:
-                        submit, // få den til å kalle en søkefunksjon
+                        _submit, // få den til å kalle en søkefunksjon
                   ),
                 ),
                 SizedBox(

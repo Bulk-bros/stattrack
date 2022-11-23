@@ -8,22 +8,21 @@ import 'package:stattrack/styles/font_styles.dart';
 /// widget and the callback function has to be passed as
 /// parameter
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CustomAppBar(
-      {Key? key, required this.headerTitle, this.navButton, this.actions})
+  CustomAppBar({Key? key, this.headerTitle, this.navButton, this.actions})
       : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(60.0);
 
-  final String headerTitle;
-  IconButton? navButton;
+  final String? headerTitle;
+  Widget? navButton;
   List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(
-        headerTitle,
+        headerTitle ?? '',
         style: const TextStyle(
           fontSize: FontStyles.fsTitle1,
           fontWeight: FontStyles.fwTitle,

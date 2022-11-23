@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
+import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
@@ -40,6 +41,16 @@ class FirestoreRepository implements Repository {
       docId: uid,
     );
   }
+
+  @override
+  Future<void> addIngredient(Ingredient ingredient, String uid) =>
+      _addDocument(document: {
+        'name': ingredient.name,
+        'caloriesPer100g': ingredient.caloriesPer100g,
+        'proteinsPer100g': ingredient.proteinsPer100g,
+        'carbsPer100g': ingredient.carbsPer100g,
+        'fatPer100g': ingredient.fatPer100g,
+      }, collection: ApiPaths.ingredients(uid));
 
   @override
   void addMeal(Meal meal, String uid) => _addDocument(
@@ -116,6 +127,11 @@ class FirestoreRepository implements Repository {
 
     return ref.getDownloadURL();
   }
+
+  @override
+  Stream<List<Ingredient>?> getIngredients(String uid) =>
+      _getCollectionStream<Ingredient>(
+          path: ApiPaths.ingredients(uid), fromMap: Ingredient.fromMap);
 
   /// Returns a stream of a collection for the given path
   ///

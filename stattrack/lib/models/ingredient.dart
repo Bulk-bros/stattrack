@@ -14,6 +14,15 @@ class Ingredient {
     required this.carbsPer100g,
   });
 
+  static Ingredient fromMap(Map<String, dynamic> document) {
+    return Ingredient(
+        name: document['name'],
+        caloriesPer100g: document['caloriesPer100g'],
+        proteinsPer100g: document['proteinsPer100g'],
+        fatPer100g: document['fatPer100g'],
+        carbsPer100g: document['carbsPer100g']);
+  }
+
   @override
   String toString() {
     return 'Ingredient{name: $name, caloriesPer100g: $caloriesPer100g, proteinsPer100g: $proteinsPer100g, fatPer100g: $fatPer100g, carbsPer100g: $carbsPer100g}';

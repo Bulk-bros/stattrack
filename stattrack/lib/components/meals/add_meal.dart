@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/meals/add_meal_select.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/meals/create_meal.dart';
+import 'package:stattrack/pages/create_meal_page.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
@@ -27,7 +27,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
     Navigator.push(
         context,
         PageTransition(
-          type: PageTransitionType.bottomToTop,
+          type: PageTransitionType.rightToLeft,
           child: CreateMeal(),
         ));
   }
