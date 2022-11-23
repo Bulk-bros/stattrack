@@ -47,7 +47,6 @@ class UserProfilePage extends ConsumerStatefulWidget {
 }
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
-  bool hasDailyMeal = true;
   NavButtons activeButton = NavButtons.macros;
 
   /// Displays the settings page
@@ -128,16 +127,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         if (snapshot.hasError) {
           return _buildErrorText(snapshot.hasError.toString());
         }
-        if (snapshot.data!.isEmpty) {
-          hasDailyMeal = false;
-          return _buildMacroLayout(
-              macros: _calculateMacros(meals!),
-              dailyCalories: dailyCalories,
-              dailyProteins: dailyProteins,
-              dailyCarbs: dailyCarbs,
-              dailyFat: dailyFat);
-        }
-        hasDailyMeal = true;
         return _buildMacroLayout(
             macros: _calculateMacros(meals!),
             dailyCalories: dailyCalories,
@@ -198,20 +187,11 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
               content: SizedBox(
                 height: 230 - 60,
                 width: 200,
-                child: hasDailyMeal
-                    ? CustomPaint(
-                        painter: OpenPainter(
-                            total: dailyCalories,
-                            current: num.parse(macros[0]),
-                            shape: "arc"))
-                    : Container(
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "No meals registered today",
-                          style: TextStyle(fontSize: FontStyles.fsTitle2),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                child: CustomPaint(
+                    painter: OpenPainter(
+                        total: dailyCalories,
+                        current: num.parse(macros[0]),
+                        shape: "arc")),
               ),
               categoryTextSize: FontStyles.fsTitle3,
             ),
@@ -516,7 +496,7 @@ class OpenPainter extends CustomPainter {
       _drawTextAt(
           "$current", const Offset(100, 85), canvas, FontStyles.fsTitle1,
           fontWeight: FontStyles.fwTitle);
-      _drawTextAt("$total", const Offset(235, 160), canvas, FontStyles.fsBody);
+      _drawTextAt("$total", const Offset(250, 160), canvas, FontStyles.fsBody);
 
       /// update sweep angle with amount of calories
 
