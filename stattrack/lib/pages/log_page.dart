@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
-import 'package:stattrack/components/stats/stat_card.dart';
+import 'package:stattrack/components/cards/clickable_card.dart';
+import 'package:stattrack/components/cards/single_stat_card.dart';
+import 'package:stattrack/components/stats/stat_card_layout.dart';
 import 'package:stattrack/models/consumed_meal.dart';
+import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/repository.dart';
@@ -184,22 +187,32 @@ class _LogPageState extends ConsumerState<LogPage> {
     return Expanded(
       child: ListView(
         children: <Widget>[
-          ...groupedMeals.values.map((meals) => StatCard(
-              date: _getCardDate(meals[0].time),
-              calories: meals
-                  .map((consumedMeal) => consumedMeal.calories)
-                  .reduce((value, element) => value + element),
-              proteins: meals
-                  .map((consumedMeal) => consumedMeal.proteins)
-                  .reduce((value, element) => value + element),
-              fat: meals
-                  .map((consumedMeal) => consumedMeal.fat)
-                  .reduce((value, element) => value + element),
-              carbs: meals
-                  .map((consumedMeal) => consumedMeal.carbs)
-                  .reduce((value, element) => value + element),
-              // TODO: Navigate to specific log page where all meals should be displayed
-              onPress: () => print('Pressed card with date: $meals')))
+          ...groupedMeals.values.map(
+            (meals) => Column(
+              children: [
+                spacing,
+                ClickableCard(
+                  child: StatCard(
+                    date: _getCardDate(meals[0].time),
+                    calories: meals
+                        .map((consumedMeal) => consumedMeal.calories)
+                        .reduce((value, element) => value + element),
+                    proteins: meals
+                        .map((consumedMeal) => consumedMeal.proteins)
+                        .reduce((value, element) => value + element),
+                    fat: meals
+                        .map((consumedMeal) => consumedMeal.fat)
+                        .reduce((value, element) => value + element),
+                    carbs: meals
+                        .map((consumedMeal) => consumedMeal.carbs)
+                        .reduce((value, element) => value + element),
+                    // TODO: Navigate to specific log page where all meals should be displayed
+                  ),
+                  onPressed: () => print('Pressed card with date: $meals'),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -207,11 +220,8 @@ class _LogPageState extends ConsumerState<LogPage> {
 
   /// Returns a nav widget
   Widget _buildNav() {
-    return Material(
-      color: Colors.white,
-      elevation: 1.5,
-      borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-      child: Padding(
+    return SingleStatCard(
+      content: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -239,6 +249,8 @@ class _LogPageState extends ConsumerState<LogPage> {
           ],
         ),
       ),
+      size: 50,
+      padded: false,
     );
   }
 
