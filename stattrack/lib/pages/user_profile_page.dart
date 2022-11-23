@@ -16,7 +16,7 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
-import 'package:stattrack/components/stats/single_stat_card.dart';
+import 'package:stattrack/components/cards/single_stat_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/app/custom_bottom_bar.dart';
