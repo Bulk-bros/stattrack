@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 /// A form field for selecting an image from the gallery
@@ -14,25 +15,35 @@ class ImagePickerInput extends StatelessWidget {
   final void Function(XFile) onImagePicked;
 
   /// Opens the gallery and allows the user to pick an image
-  void _pickImage() async {
-    final ImagePicker picker = ImagePicker();
+  void _pickImage(BuildContext context) async {
+    try {
+      final ImagePicker picker = ImagePicker();
 
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 512,
-      maxHeight: 512,
-      imageQuality: 75,
-    );
+      final XFile? image = await picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 512,
+        maxHeight: 512,
+        imageQuality: 75,
+      );
 
-    if (image != null) {
-      onImagePicked(image);
+      if (image != null) {
+        onImagePicked(image);
+      }
+    } on PlatformException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Need to allow app to get access to images. Please go to your settings and allow StatTrack access to images',
+          ),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => _pickImage(),
+      onPressed: () => _pickImage(context),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         padding: const EdgeInsets.all(20.0),

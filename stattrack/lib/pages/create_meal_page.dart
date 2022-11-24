@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/forms/create_meal_form.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
-import 'package:stattrack/components/forms/ingredient_list.dart';
 import 'package:stattrack/components/meals/food_instruction.dart';
 import 'package:stattrack/components/meals/ingridient.dart';
 import 'package:stattrack/models/ingredient.dart';
@@ -62,71 +62,19 @@ class _CreateMealState extends ConsumerState<CreateMeal> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(31.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const Text(
-              'Info',
-              style: TextStyle(
-                fontSize: FontStyles.fsBody,
-                fontWeight: FontStyles.fw600,
-              ),
-            ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            BorderedTextInput(
-              controller: _nameController,
-              hintText: 'Name',
-              textInputAction: TextInputAction.next,
-              onEditingComplete: _submit,
-              onChanged: (name) => _updateState(),
-            ),
-            const SizedBox(
-              height: 16.0,
-            ),
-            ImagePickerInput(
-              onImagePicked: (image) => setState(() => _image = image),
-              label: 'Image',
-            ),
-            const SizedBox(
-              height: 25.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text(
-                  'Ingredients',
-                  style: TextStyle(
-                    fontSize: FontStyles.fsBody,
-                    fontWeight: FontStyles.fw600,
-                  ),
-                ),
-                TextButton(
-                  child: Text(
-                    'Create ingredient',
-                    style: TextStyle(
-                      color: Palette.accent[200],
-                      fontSize: FontStyles.fsBody,
-                    ),
-                  ),
-                  onPressed: () => _navToCreateIngredient(context),
-                ),
-              ],
-            ),
-            StreamBuilder<List<Ingredient>?>(
-                stream: repo.getIngredients(auth.currentUser!.uid),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.active) {
-                    return const Text('No connection');
-                  }
-                  if (snapshot.data == null) {
-                    return const Text('No ingredients');
-                  }
-                  return IngredientList(ingredients: snapshot.data!);
-                }),
-          ],
-        ),
+        child: StreamBuilder<List<Ingredient>?>(
+            stream: repo.getIngredients(auth.currentUser!.uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.active) {
+                return const Text('No connection');
+              }
+              if (snapshot.data == null) {
+                return const Text('No ingredients');
+              }
+              return CreateMealForm(
+                storedIngredients: snapshot.data!,
+              );
+            }),
       ),
     );
 
