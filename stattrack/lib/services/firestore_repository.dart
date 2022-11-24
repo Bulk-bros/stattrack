@@ -53,18 +53,20 @@ class FirestoreRepository implements Repository {
       }, collection: ApiPaths.ingredients(uid));
 
   @override
-  void addMeal(Meal meal, String uid) => _addDocument(
-        document: {
-          'name': meal.name,
-          'ingredients': meal.ingredients,
-          'instructions': meal.instuctions,
-          'calories': meal.calories,
-          'proteins': meal.proteins,
-          'fat': meal.fat,
-          'carbs': meal.carbs,
-        },
-        collection: ApiPaths.storedMeals(uid),
-      );
+  void addMeal(Meal meal, String uid) {
+    _addDocument(
+      document: {
+        'name': meal.name,
+        'ingredients': meal.ingredients,
+        'instructions': meal.instuctions,
+        'calories': meal.calories,
+        'proteins': meal.proteins,
+        'fat': meal.fat,
+        'carbs': meal.carbs,
+      },
+      collection: ApiPaths.storedMeals(uid),
+    );
+  }
 
   @override
   void logMeal({required Meal meal, required String uid, DateTime? time}) =>

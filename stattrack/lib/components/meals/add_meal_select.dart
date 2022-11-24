@@ -46,6 +46,7 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        // FIXME: Fix overflow with scrollable
         SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -60,9 +61,6 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
                         backgroundColor:
                             activeMeal == meal ? Palette.accent[400] : null,
                         color: activeMeal == meal ? Colors.white : null,
-                      ),
-                      const SizedBox(
-                        height: 20.0,
                       ),
                     ],
                   );
