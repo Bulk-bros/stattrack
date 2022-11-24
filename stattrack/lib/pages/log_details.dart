@@ -12,6 +12,7 @@ import 'package:stattrack/components/cards/single_stat_card.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
+import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -58,74 +59,87 @@ class LogDetails extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       // Column separating all settings from logout button
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeaderText("Overview"),
-                spacing,
-                SingleStatCard(
-                  color: Palette.accent[400],
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      SingleStatLayout(
-                        color: Colors.white,
-                        categoryText: "Calories",
-                        amountText: "${calories}g",
-                      ),
-                      SingleStatLayout(
-                        color: Colors.white,
-                        categoryText: "proteins",
-                        amountText: "${proteins}g",
-                      ),
-                      SingleStatLayout(
-                        color: Colors.white,
-                        categoryText: "fat",
-                        amountText: "${fat}g",
-                      ),
-                      SingleStatLayout(
-                        color: Colors.white,
-                        categoryText: "carbs",
-                        amountText: "${carbs}g",
-                      ),
-                    ],
-                  ),
-                  size: 75,
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeaderText("Meals"),
-                spacing,
-                ...meals.map(
-                  (meal) => Column(
-                    children: [
-                      MealCard(
-                          meal: meal,
-                          timeValue:
-                              " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
-                          onPressed: (meal) {}),
-                      const SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderText("Overview"),
+              spacing,
+              SingleStatCard(
+                color: Palette.accent[400],
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SingleStatLayout(
+                      color: Colors.white,
+                      categoryText: "Calories",
+                      amountText: "${calories}g",
+                    ),
+                    SingleStatLayout(
+                      color: Colors.white,
+                      categoryText: "proteins",
+                      amountText: "${proteins}g",
+                    ),
+                    SingleStatLayout(
+                      color: Colors.white,
+                      categoryText: "fat",
+                      amountText: "${fat}g",
+                    ),
+                    SingleStatLayout(
+                      color: Colors.white,
+                      categoryText: "carbs",
+                      amountText: "${carbs}g",
+                    ),
+                  ],
+                ),
+                size: 75,
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: ListView(children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeaderText("Meals"),
+                  spacing,
+                  ...meals.map(
+                    (meal) => Column(
+                      children: [
+                        MealCard(
+                            meal: _convertToMeal(meal),
+                            timeValue:
+                                " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
+                            onPressed: (meal) {
+                              print(meal);
+                            }),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ]),
+          )
+        ],
       ),
     );
+  }
+
+  Meal _convertToMeal(ConsumedMeal meal) {
+    return Meal(
+        name: meal.name,
+        calories: meal.calories,
+        proteins: meal.proteins,
+        fat: meal.fat,
+        carbs: meal.carbs);
   }
 
   Widget _buildHeaderText(String text) {

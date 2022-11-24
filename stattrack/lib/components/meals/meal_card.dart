@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
+import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
@@ -13,7 +14,7 @@ class MealCard extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  var meal;
+  Meal meal;
 
   String? timeValue; //change to date later on
 
