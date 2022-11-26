@@ -14,29 +14,14 @@ class ClickableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor ?? Colors.white,
+          elevation: 25,
+          padding: EdgeInsets.all(20),
+          shadowColor: Colors.black.withOpacity(0.40)),
       onPressed: onPressed,
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(5.0),
-          ),
-          color: backgroundColor ?? Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black.withOpacity(0.10),
-              spreadRadius: 5,
-              blurRadius: 10,
-              offset: const Offset(
-                0,
-                8,
-              ),
-            ),
-          ],
-        ),
-        child: child,
-      ),
+      child: child,
     );
   }
 }
