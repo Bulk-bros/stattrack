@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 class BorderedTextInput extends StatelessWidget {
   const BorderedTextInput(
       {Key? key,
-      required this.controller,
+      this.controller,
       required this.hintText,
-      required this.textInputAction,
-      required this.onEditingComplete,
-      required this.onChanged})
+      this.textInputAction,
+      this.keyboardType,
+      this.onEditingComplete,
+      this.onChanged})
       : super(key: key);
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String hintText;
-  final TextInputAction textInputAction;
-  final void Function() onEditingComplete;
-  final void Function(String) onChanged;
+  final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
+  final void Function()? onEditingComplete;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class BorderedTextInput extends StatelessWidget {
       ),
       textInputAction: textInputAction,
       onEditingComplete: onEditingComplete,
+      keyboardType: keyboardType,
       onChanged: onChanged,
     );
   }

@@ -92,6 +92,7 @@ class _IngredientSelectState extends State<IngredientSelect> {
                 controller: _controller,
                 hintText: 'Amount',
                 textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
                 onEditingComplete: () {},
                 onChanged: (amount) => _updateState(),
               ),

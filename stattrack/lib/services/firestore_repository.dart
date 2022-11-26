@@ -16,10 +16,7 @@ class FirestoreRepository implements Repository {
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
 
   @override
-  Stream<List<Meal>> getMeals(String uid, String? name) {
-    // TODO: Search for meal
-    print('$name');
-    if (name != null && name != '') {}
+  Stream<List<Meal>> getMeals(String uid) {
     return _getCollectionStream(
       path: ApiPaths.meal(uid),
       fromMap: Meal.fromMap,

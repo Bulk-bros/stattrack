@@ -480,14 +480,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       ),
     ];
   }
-
-  // TODO: Ask torstein if this is in use... should not be since it's moved
-  // to custom bottom bar so it's available for every pages with nav bar
-  List<Widget> _buildAddMeal() {
-    return [
-      AddMeal(),
-    ];
-  }
 }
 
 class OpenPainter extends CustomPainter {

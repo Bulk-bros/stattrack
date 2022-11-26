@@ -10,6 +10,8 @@ class CustomBottomBar extends StatelessWidget {
   final void Function(String) onChange;
 
   void _handleNavPressed(BuildContext context, int iconIndex) {
+    double modalHeight = MediaQuery.of(context).size.height * 0.8;
+
     switch (iconIndex) {
       case 0:
         onChange(NavButtonOptions.profile);
@@ -19,8 +21,8 @@ class CustomBottomBar extends StatelessWidget {
           isScrollControlled: true,
           context: context,
           builder: (context) => SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: const AddMeal(),
+            height: modalHeight,
+            child: AddMeal(height: modalHeight),
           ),
         );
         break;
