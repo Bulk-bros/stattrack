@@ -105,33 +105,22 @@ class FirestoreRepository implements Repository {
             .toList());
   }
 
-  // TODO: refactor to general upload that returns the download url
   @override
-  Future<void> uploadProfilePicture(XFile image, String uid) async {
-    Reference ref = FirebaseStorage.instance.ref().child('$uid/profilepicture');
+  Future<String> uploadImage(XFile image, String path) async {
+    Reference ref = FirebaseStorage.instance.ref().child(path);
 
     await ref.putFile(File(image.path));
-    ref.getDownloadURL().then((value) {
-      _updateProfileUrlInDatabase(uid, value);
-    });
+    return ref.getDownloadURL();
   }
 
-  void _updateProfileUrlInDatabase(String uid, String newUrl) {
+  @override
+  void updateProfilePicturePath(String uid, String url) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .update(<String, dynamic>{
-      'profilePicture': newUrl,
+      'profilePicture': url,
     });
-  }
-
-  @override
-  Future<String> uploadMealImage(XFile image, String uid) async {
-    Reference ref =
-        FirebaseStorage.instance.ref().child('$uid/meals/${image.name}');
-
-    await ref.putFile(File(image.path));
-    return ref.getDownloadURL();
   }
 
   @override

@@ -8,4 +8,6 @@ class ApiPaths {
   static String storedMeals(String uid) => '/users/$uid/meals';
 
   static String ingredients(String uid) => '/users/$uid/ingredients';
+
+  static String profilePicture(String uid) => '$uid/profilepicture';
 }

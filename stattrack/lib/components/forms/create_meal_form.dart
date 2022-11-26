@@ -124,8 +124,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             100;
       }
 
-      String imageUrl =
-          await repo.uploadMealImage(_image!, auth.currentUser!.uid);
+      String imageUrl = await repo.uploadImage(_image!, auth.currentUser!.uid);
 
       repo.addMeal(
           Meal(

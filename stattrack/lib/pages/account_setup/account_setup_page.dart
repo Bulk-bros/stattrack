@@ -8,6 +8,7 @@ import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
@@ -136,11 +137,18 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
       final formatter = DateFormat('dd.MM.yyyy');
       final parsedBirthday = Timestamp.fromDate(formatter.parse(_birthday));
 
+      // Upload profile picture
+      String? imageUrl;
+      if (_image != null) {
+        imageUrl = await repo.uploadImage(
+            _image!, ApiPaths.profilePicture(auth.currentUser!.uid));
+      }
+
       // Add user info to database
       repo.addUser(
           User(
             name: _name,
-            profilePictureUrl: '',
+            profilePictureUrl: imageUrl ?? '',
             birthday: parsedBirthday,
             height: num.parse(_height),
             weight: num.parse(_weight),
@@ -150,10 +158,6 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
             dailyFat: num.parse(_fat),
           ),
           auth.currentUser!.uid);
-      // Upload profile picture
-      if (_image != null) {
-        repo.uploadProfilePicture(_image!, auth.currentUser!.uid);
-      }
     } catch (e) {
       if (e.toString() == 'Exception: Invalid inputs') {
         setState(() {

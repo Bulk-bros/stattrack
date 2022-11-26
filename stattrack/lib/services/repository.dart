@@ -43,17 +43,18 @@ abstract class Repository {
 
   Stream<List<ConsumedMeal>> getTodaysMeals(String uid);
 
-  /// Uploads a profile picture to the cloud
+  /// Uploads an image to the storage. The url of the image is returned
+  /// when the image is uploaded.
   ///
   /// [image] the image to upload
-  /// [uid] the id of the user to upload the image for
-  Future<void> uploadProfilePicture(XFile image, String uid);
+  /// [path] the path to where the image should be uploaded
+  Future<String> uploadImage(XFile image, String path);
 
-  /// Uploads an image for a meal
+  /// Updates the profile picture path
   ///
-  /// [image] the image to be uploaded
-  /// [uid] the id of the user that want to upload the image
-  Future<String> uploadMealImage(XFile image, String uid);
+  /// [uid] the user where the profile picture path should be updated
+  /// [url] the url of the picture to update to
+  void updateProfilePicturePath(String uid, String url);
 
   /// Returns the url for the profile picture of the user with the given
   /// user id

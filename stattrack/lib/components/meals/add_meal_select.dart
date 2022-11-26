@@ -74,12 +74,19 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
               .where((meal) => meal.name.toLowerCase().contains(
                   _searchInput != null ? _searchInput!.toLowerCase() : ''))
               .map(
-                (meal) => MealCard(
-                  meal: meal,
-                  onPressed: (m) => _updateAcitveMeal(m),
-                  backgroundColor:
-                      _activeMeal == meal ? Palette.accent[400] : null,
-                  color: _activeMeal == meal ? Colors.white : null,
+                (meal) => Column(
+                  children: <Widget>[
+                    MealCard(
+                      meal: meal,
+                      onPressed: (m) => _updateAcitveMeal(m),
+                      backgroundColor:
+                          _activeMeal == meal ? Palette.accent[400] : null,
+                      color: _activeMeal == meal ? Colors.white : null,
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                  ],
                 ),
               ),
         ],

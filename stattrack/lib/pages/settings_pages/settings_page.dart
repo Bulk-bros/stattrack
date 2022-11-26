@@ -8,6 +8,7 @@ import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 
@@ -33,19 +34,27 @@ class SettingsPage extends ConsumerWidget {
 
   void _uploadImage(BuildContext context, WidgetRef ref, XFile image) async {
     final Repository repo = ref.read(repositoryProvider);
-    await repo.uploadProfilePicture(image, auth.currentUser!.uid).then((value) {
+
+    try {
+      // Upload new image
+      String imageUrl = await repo.uploadImage(
+          image, ApiPaths.profilePicture(auth.currentUser!.uid));
+
+      // Update the path stored in the user document
+      repo.updateProfilePicturePath(auth.currentUser!.uid, imageUrl);
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Profile picture was succesfully changed!'),
         ),
       );
-    }).catchError((error) {
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Could not upload image. Please try again'),
         ),
       );
-    });
+    }
   }
 
   @override

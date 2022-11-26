@@ -81,6 +81,9 @@ class _AddMealState extends ConsumerState<AddMeal> {
             hintText: 'Search',
             onChanged: (value) => _updateSearch(value),
           ),
+          const SizedBox(
+            height: 16.0,
+          ),
           StreamBuilder<List<Meal>>(
             stream: repo.getMeals(auth.currentUser!.uid),
             builder: (context, snapshot) {
@@ -97,7 +100,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
                 );
               }
               return SizedBox(
-                height: widget.height * 0.8,
+                height: widget.height * 0.79,
                 child: AddMealSelect(
                     meals: snapshot.data!
                         .where((meal) =>
