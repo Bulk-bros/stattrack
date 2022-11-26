@@ -213,7 +213,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
           ),
           ImagePickerInput(
             onImagePicked: (image) => setState(() => _image = image),
-            label: 'Image',
+            label: _image == null ? 'Select image' : _image!.name,
           ),
           const SizedBox(
             height: sectionSpacing,
