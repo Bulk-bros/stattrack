@@ -34,7 +34,9 @@ abstract class Repository {
   /// the given user if
   ///
   /// [uid] the user if of the user to fetch all meals from
-  Stream<List<Meal>> getMeals(String uid);
+  /// [name] if name is provided, only meals containing that name
+  /// will be returned.
+  Stream<List<Meal>> getMeals(String uid, String? name);
 
   /// Returns a stream with the consumed meals of the user with the given id
   ///

@@ -46,29 +46,7 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        // FIXME: Fix overflow with scrollable
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              ...widget.meals.map(
-                (meal) {
-                  return Column(
-                    children: <Widget>[
-                      MealCard(
-                        meal: meal,
-                        onPressed: (m) => _updateAcitveMeal(m),
-                        backgroundColor:
-                            activeMeal == meal ? Palette.accent[400] : null,
-                        color: activeMeal == meal ? Colors.white : null,
-                      ),
-                    ],
-                  );
-                },
-              )
-            ],
-          ),
-        ),
+        _buildList(context),
         MainButton(
           callback: activeMeal == null
               ? null
@@ -80,6 +58,27 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
           textAlign: TextAlign.center,
         ),
       ],
+    );
+  }
+
+  Widget _buildList(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.5,
+      child: Expanded(
+        child: ListView(
+          children: <Widget>[
+            ...widget.meals.map(
+              (meal) => MealCard(
+                meal: meal,
+                onPressed: (m) => _updateAcitveMeal(m),
+                backgroundColor:
+                    activeMeal == meal ? Palette.accent[400] : null,
+                color: activeMeal == meal ? Colors.white : null,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

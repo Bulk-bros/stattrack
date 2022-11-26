@@ -16,7 +16,10 @@ class FirestoreRepository implements Repository {
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
 
   @override
-  Stream<List<Meal>> getMeals(String uid) {
+  Stream<List<Meal>> getMeals(String uid, String? name) {
+    // TODO: Search for meal
+    print('$name');
+    if (name != null && name != '') {}
     return _getCollectionStream(
       path: ApiPaths.meal(uid),
       fromMap: Meal.fromMap,
@@ -142,11 +145,12 @@ class FirestoreRepository implements Repository {
   /// [sortField] optional. If present the collection will be sorted by this field
   /// [descending] if [sortField] is present, this determines the sort order
   ///              (ascending or descending). False by default
-  Stream<List<T>> _getCollectionStream<T>(
-      {required String path,
-      required T Function(Map<String, dynamic>) fromMap,
-      String? sortField,
-      bool descending = false}) {
+  Stream<List<T>> _getCollectionStream<T>({
+    required String path,
+    required T Function(Map<String, dynamic>) fromMap,
+    String? sortField,
+    bool descending = false,
+  }) {
     if (sortField != null) {
       return FirebaseFirestore.instance
           .collection(path)

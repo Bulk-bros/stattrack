@@ -1,8 +1,3 @@
-import 'dart:convert';
-
-import 'package:stattrack/models/IngredientAmount.dart';
-import 'package:stattrack/models/ingredient.dart';
-
 /// Represents a meal with macros and instructions that a person can eat
 class Meal {
   final String name;
@@ -33,10 +28,10 @@ class Meal {
         .substring(1, ingredientsString.length - 1)
         .split(', ');
     Map<String?, num> ingredients = {};
-    ingredientList.forEach((element) {
+    for (var element in ingredientList) {
       ingredients[element.split(': ').first] =
           num.parse(element.split(': ').last);
-    });
+    }
 
     // Convert firebase instructions to list of instructions
     String instructionsString = document['instructions'].toString();
@@ -48,10 +43,10 @@ class Meal {
       name: document["name"],
       ingredients: ingredients,
       instuctions: instructions,
-      calories: document["calories"],
-      proteins: document["proteins"],
-      fat: document["fat"],
-      carbs: document["carbs"],
+      calories: num.parse(document["calories"].toString().split('.').first),
+      proteins: num.parse(document["proteins"].toString().split('.').first),
+      fat: num.parse(document["fat"].toString().split('.').first),
+      carbs: num.parse(document["carbs"].toString().split('.').first),
     );
   }
 
