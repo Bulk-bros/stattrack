@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
+import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
 
 import '../models/meal.dart';
@@ -17,10 +18,16 @@ abstract class Repository {
   /// [uid] the id of the user to add
   void addUser(User user, String uid);
 
+  /// Adds an ingredient to the database
+  ///
+  /// [ingredient] the ingredient to be added
+  /// [uid] the id of the user the meal should be added to
+  Future<void> addIngredient(Ingredient ingredient, String uid);
+
   /// Adds a meal to the database
   ///
   /// [meal] the meal to be added
-  /// [ingredients] a collection of ingredients for a meal
+  /// [uid] the id of the user the meal should be added to
   void addMeal(Meal meal, String uid);
 
   /// Returns a stream with the all the meals stored for the user with
@@ -42,6 +49,12 @@ abstract class Repository {
   /// [uid] the id of the user to upload the image for
   Future<void> uploadProfilePicture(XFile image, String uid);
 
+  /// Uploads an image for a meal
+  ///
+  /// [image] the image to be uploaded
+  /// [uid] the id of the user that want to upload the image
+  Future<String> uploadMealImage(XFile image, String uid);
+
   /// Returns the url for the profile picture of the user with the given
   /// user id
   ///
@@ -55,4 +68,10 @@ abstract class Repository {
   /// [time] the time the meal was consumed. If not set, the current
   /// time is logged.
   void logMeal({required Meal meal, required String uid, DateTime? time});
+
+  /// Returns a stream with all ingredients stored for the user
+  /// with the given user id
+  ///
+  /// [uid] the user id of the user the get ingredients for
+  Stream<List<Ingredient>?> getIngredients(String uid);
 }

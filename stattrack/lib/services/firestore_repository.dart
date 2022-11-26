@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
+import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
@@ -42,18 +43,31 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void addMeal(Meal meal, String uid) => _addDocument(
-        document: {
-          'name': meal.name,
-          'ingredients': meal.ingredients,
-          'instructions': meal.instuctions,
-          'calories': meal.calories,
-          'proteins': meal.proteins,
-          'fat': meal.fat,
-          'carbs': meal.carbs,
-        },
-        collection: ApiPaths.storedMeals(uid),
-      );
+  Future<void> addIngredient(Ingredient ingredient, String uid) =>
+      _addDocument(document: {
+        'name': ingredient.name,
+        'caloriesPer100g': ingredient.caloriesPer100g,
+        'proteinsPer100g': ingredient.proteinsPer100g,
+        'carbsPer100g': ingredient.carbsPer100g,
+        'fatPer100g': ingredient.fatPer100g,
+      }, collection: ApiPaths.ingredients(uid));
+
+  @override
+  void addMeal(Meal meal, String uid) {
+    _addDocument(
+      document: {
+        'name': meal.name,
+        'imageUrl': meal.imageUrl,
+        'ingredients': meal.ingredients,
+        'instructions': meal.instuctions,
+        'calories': meal.calories,
+        'proteins': meal.proteins,
+        'fat': meal.fat,
+        'carbs': meal.carbs,
+      },
+      collection: ApiPaths.storedMeals(uid),
+    );
+  }
 
   @override
   void logMeal({required Meal meal, required String uid, DateTime? time}) =>
@@ -91,9 +105,10 @@ class FirestoreRepository implements Repository {
             .toList());
   }
 
+  // TODO: refactor to general upload that returns the download url
   @override
   Future<void> uploadProfilePicture(XFile image, String uid) async {
-    Reference ref = FirebaseStorage.instance.ref().child(uid);
+    Reference ref = FirebaseStorage.instance.ref().child('$uid/profilepicture');
 
     await ref.putFile(File(image.path));
     ref.getDownloadURL().then((value) {
@@ -111,11 +126,25 @@ class FirestoreRepository implements Repository {
   }
 
   @override
+  Future<String> uploadMealImage(XFile image, String uid) async {
+    Reference ref =
+        FirebaseStorage.instance.ref().child('$uid/meals/${image.name}');
+
+    await ref.putFile(File(image.path));
+    return ref.getDownloadURL();
+  }
+
+  @override
   Future<String?> getProfilePictureUrl(String uid) async {
     Reference ref = FirebaseStorage.instance.ref().child(uid);
 
     return ref.getDownloadURL();
   }
+
+  @override
+  Stream<List<Ingredient>?> getIngredients(String uid) =>
+      _getCollectionStream<Ingredient>(
+          path: ApiPaths.ingredients(uid), fromMap: Ingredient.fromMap);
 
   /// Returns a stream of a collection for the given path
   ///
@@ -124,11 +153,12 @@ class FirestoreRepository implements Repository {
   /// [sortField] optional. If present the collection will be sorted by this field
   /// [descending] if [sortField] is present, this determines the sort order
   ///              (ascending or descending). False by default
-  Stream<List<T>> _getCollectionStream<T>(
-      {required String path,
-      required T Function(Map<String, dynamic>) fromMap,
-      String? sortField,
-      bool descending = false}) {
+  Stream<List<T>> _getCollectionStream<T>({
+    required String path,
+    required T Function(Map<String, dynamic>) fromMap,
+    String? sortField,
+    bool descending = false,
+  }) {
     if (sortField != null) {
       return FirebaseFirestore.instance
           .collection(path)

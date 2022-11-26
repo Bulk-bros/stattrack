@@ -18,24 +18,29 @@ class AddMealSelect extends ConsumerStatefulWidget {
 }
 
 class _AddMealSelectState extends ConsumerState<AddMealSelect> {
-  Meal? activeMeal;
-  String? errorMsg;
+  String? _searchInput;
+  Meal? _activeMeal;
+  String? _errorMsg;
 
   void _updateAcitveMeal(Meal meal) {
     setState(() {
-      activeMeal = meal;
+      _activeMeal = meal;
     });
   }
 
   void _logMeal(BuildContext context, String uid, Repository repo) {
     try {
-      repo.logMeal(meal: activeMeal!, uid: uid);
+      repo.logMeal(meal: _activeMeal!, uid: uid);
       Navigator.pop(context);
     } catch (e) {
       setState(() {
-        errorMsg = "Something wen't wrong... Please try again";
+        _errorMsg = "Something wen't wrong... Please try again";
       });
     }
+  }
+
+  void _updateState() {
+    setState(() {});
   }
 
   @override
@@ -46,42 +51,39 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              ...widget.meals.map(
-                (meal) {
-                  return Column(
-                    children: <Widget>[
-                      MealCard(
-                        meal: meal,
-                        onPressed: (m) => _updateAcitveMeal(m),
-                        backgroundColor:
-                            activeMeal == meal ? Palette.accent[400] : null,
-                        color: activeMeal == meal ? Colors.white : null,
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                    ],
-                  );
-                },
-              )
-            ],
-          ),
-        ),
+        _buildList(context),
         MainButton(
-          callback: activeMeal == null
+          callback: _activeMeal == null
               ? null
               : () => _logMeal(context, auth.currentUser!.uid, repo),
           label: 'Eat Meal',
         ),
         Text(
-          errorMsg != null ? errorMsg! : '',
+          _errorMsg != null ? _errorMsg! : '',
           textAlign: TextAlign.center,
         ),
       ],
+    );
+  }
+
+  Widget _buildList(BuildContext context) {
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          ...widget.meals
+              .where((meal) => meal.name.toLowerCase().contains(
+                  _searchInput != null ? _searchInput!.toLowerCase() : ''))
+              .map(
+                (meal) => MealCard(
+                  meal: meal,
+                  onPressed: (m) => _updateAcitveMeal(m),
+                  backgroundColor:
+                      _activeMeal == meal ? Palette.accent[400] : null,
+                  color: _activeMeal == meal ? Colors.white : null,
+                ),
+              ),
+        ],
+      ),
     );
   }
 }

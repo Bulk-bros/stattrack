@@ -44,10 +44,10 @@ class MealCard extends StatelessWidget {
                 child: Container(
                   width: 200,
                   height: 200,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: AssetImage("assets/images/foodstockpic.jpg"),
+                      image: NetworkImage(meal.imageUrl),
                       fit: BoxFit.fill,
                     ),
                   ),
