@@ -29,30 +29,6 @@ class CreateMeal extends ConsumerStatefulWidget {
 }
 
 class _CreateMealState extends ConsumerState<CreateMeal> {
-  final TextEditingController _nameController = TextEditingController();
-
-  String get _name => _nameController.text;
-  XFile? _image;
-  Map<Ingredient, num> ingredients = {};
-
-  void _submit() {
-    print("make this function search for food");
-  }
-
-  void _updateState() {
-    setState(() {});
-  }
-
-  void _navToCreateIngredient(BuildContext context) {
-    Navigator.push(
-      context,
-      PageTransition(
-        type: PageTransitionType.rightToLeft,
-        child: CreateIngredientPage(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);

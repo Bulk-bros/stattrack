@@ -1,6 +1,7 @@
 /// Represents a meal with macros and instructions that a person can eat
 class Meal {
   final String name;
+  final String imageUrl;
   final Map<String?, num>? ingredients;
   final List<String?>? instuctions;
   final num calories;
@@ -10,6 +11,7 @@ class Meal {
 
   Meal({
     required this.name,
+    required this.imageUrl,
     this.ingredients,
     this.instuctions,
     required this.calories,
@@ -41,6 +43,7 @@ class Meal {
 
     return Meal(
       name: document["name"],
+      imageUrl: document["imageUrl"],
       ingredients: ingredients,
       instuctions: instructions,
       calories: num.parse(document["calories"].toString().split('.').first),

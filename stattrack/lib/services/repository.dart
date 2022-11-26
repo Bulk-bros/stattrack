@@ -49,6 +49,12 @@ abstract class Repository {
   /// [uid] the id of the user to upload the image for
   Future<void> uploadProfilePicture(XFile image, String uid);
 
+  /// Uploads an image for a meal
+  ///
+  /// [image] the image to be uploaded
+  /// [uid] the id of the user that want to upload the image
+  Future<String> uploadMealImage(XFile image, String uid);
+
   /// Returns the url for the profile picture of the user with the given
   /// user id
   ///

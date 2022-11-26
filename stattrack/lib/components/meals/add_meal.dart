@@ -88,7 +88,13 @@ class _AddMealState extends ConsumerState<AddMeal> {
                 return const Text('');
               }
               if (snapshot.data == null || snapshot.data!.isEmpty) {
-                return const Text('No meals');
+                return const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'No meals',
+                    textAlign: TextAlign.center,
+                  ),
+                );
               }
               return SizedBox(
                 height: widget.height * 0.8,

@@ -458,6 +458,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       MealCard(
         meal: Meal(
           name: "Salad",
+          imageUrl: "asd",
           calories: 500,
           proteins: 50,
           fat: 5,
@@ -470,6 +471,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       MealCard(
         meal: Meal(
           name: "Taco wrap",
+          imageUrl: "asd",
           calories: 638,
           proteins: 38,
           fat: 32,

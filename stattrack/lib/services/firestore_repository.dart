@@ -57,6 +57,7 @@ class FirestoreRepository implements Repository {
     _addDocument(
       document: {
         'name': meal.name,
+        'imageUrl': meal.imageUrl,
         'ingredients': meal.ingredients,
         'instructions': meal.instuctions,
         'calories': meal.calories,
@@ -104,9 +105,10 @@ class FirestoreRepository implements Repository {
             .toList());
   }
 
+  // TODO: refactor to general upload that returns the download url
   @override
   Future<void> uploadProfilePicture(XFile image, String uid) async {
-    Reference ref = FirebaseStorage.instance.ref().child(uid);
+    Reference ref = FirebaseStorage.instance.ref().child('$uid/profilepicture');
 
     await ref.putFile(File(image.path));
     ref.getDownloadURL().then((value) {
@@ -121,6 +123,15 @@ class FirestoreRepository implements Repository {
         .update(<String, dynamic>{
       'profilePicture': newUrl,
     });
+  }
+
+  @override
+  Future<String> uploadMealImage(XFile image, String uid) async {
+    Reference ref =
+        FirebaseStorage.instance.ref().child('$uid/meals/${image.name}');
+
+    await ref.putFile(File(image.path));
+    return ref.getDownloadURL();
   }
 
   @override

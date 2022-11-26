@@ -76,8 +76,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
   }
 
   /// Adds a meal to the logged in user
-  void _addMeal(BuildContext context, AuthBase auth, Repository repo) {
-    // TODO: Add image empty check
+  void _addMeal(BuildContext context, AuthBase auth, Repository repo) async {
     if (!_isValidName) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -94,6 +93,12 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Make sure all instructions are filled out!'),
+        ),
+      );
+    } else if (_image == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Need to select an image'),
         ),
       );
     } else {
@@ -119,9 +124,13 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             100;
       }
 
+      String imageUrl =
+          await repo.uploadMealImage(_image!, auth.currentUser!.uid);
+
       repo.addMeal(
           Meal(
             name: _name,
+            imageUrl: imageUrl,
             ingredients: ingredients,
             instuctions: _instructions.values.toList(),
             calories: calories,
@@ -130,7 +139,6 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             carbs: carbs,
           ),
           auth.currentUser!.uid);
-      // TODO: Upload image
 
       if (!mounted) return;
       Navigator.pop(context);
