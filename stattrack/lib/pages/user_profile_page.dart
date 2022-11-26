@@ -438,6 +438,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       MealCard(
         meal: Meal(
           name: "Salad",
+          imageUrl: "asd",
           calories: 500,
           proteins: 50,
           fat: 5,
@@ -450,6 +451,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       MealCard(
         meal: Meal(
           name: "Taco wrap",
+          imageUrl: "asd",
           calories: 638,
           proteins: 38,
           fat: 32,
@@ -458,14 +460,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         timeValue: "16:13",
         onPressed: (id) => print("pressed $id"),
       ),
-    ];
-  }
-
-  // TODO: Ask torstein if this is in use... should not be since it's moved
-  // to custom bottom bar so it's available for every pages with nav bar
-  List<Widget> _buildAddMeal() {
-    return [
-      AddMeal(),
     ];
   }
 }
