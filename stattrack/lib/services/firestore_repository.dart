@@ -9,6 +9,7 @@ import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import '../models/meal.dart';
+import 'package:path/path.dart' as Path;
 
 class FirestoreRepository implements Repository {
   @override
@@ -146,6 +147,14 @@ class FirestoreRepository implements Repository {
 
     await ref.putFile(File(image.path));
     return ref.getDownloadURL();
+  }
+
+  @override
+  void deleteImage(String url) async {
+    final String fileUrl = Uri.decodeFull(Path.basename(url))
+        .replaceAll(new RegExp(r'(\?alt).*'), '');
+
+    await FirebaseStorage.instance.ref().child(fileUrl).delete();
   }
 
   /// Returns a stream of a collection for the given path

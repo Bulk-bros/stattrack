@@ -108,4 +108,9 @@ abstract class Repository {
   /// [image] the image to upload
   /// [path] the path to where the image should be uploaded
   Future<String> uploadImage(XFile image, String path);
+
+  /// Deletes an image from the storage.
+  ///
+  /// [url] url of the image to be deleted
+  void deleteImage(String url);
 }
