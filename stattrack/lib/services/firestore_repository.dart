@@ -16,14 +16,6 @@ class FirestoreRepository implements Repository {
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
 
   @override
-  Stream<List<Meal>> getMeals(String uid) {
-    return _getCollectionStream(
-      path: ApiPaths.meal(uid),
-      fromMap: Meal.fromMap,
-    );
-  }
-
-  @override
   void addUser(User user, String uid) {
     _addDocument(
       document: {
@@ -43,6 +35,15 @@ class FirestoreRepository implements Repository {
   }
 
   @override
+  void updateProfilePicturePath(String uid, String url) =>
+      _updateDocumentField('users/$uid', 'profilePicture', 'url');
+
+  @override
+  Stream<List<Ingredient>?> getIngredients(String uid) =>
+      _getCollectionStream<Ingredient>(
+          path: ApiPaths.ingredients(uid), fromMap: Ingredient.fromMap);
+
+  @override
   Future<void> addIngredient(Ingredient ingredient, String uid) =>
       _addDocument(document: {
         'name': ingredient.name,
@@ -51,6 +52,14 @@ class FirestoreRepository implements Repository {
         'carbsPer100g': ingredient.carbsPer100g,
         'fatPer100g': ingredient.fatPer100g,
       }, collection: ApiPaths.ingredients(uid));
+
+  @override
+  Stream<List<Meal>> getMeals(String uid) {
+    return _getCollectionStream(
+      path: ApiPaths.meal(uid),
+      fromMap: Meal.fromMap,
+    );
+  }
 
   @override
   void addMeal(Meal meal, String uid) {
@@ -68,20 +77,6 @@ class FirestoreRepository implements Repository {
       collection: ApiPaths.storedMeals(uid),
     );
   }
-
-  @override
-  void logMeal({required Meal meal, required String uid, DateTime? time}) =>
-      _addDocument(
-        document: {
-          'name': meal.name,
-          'calories': meal.calories,
-          'proteins': meal.proteins,
-          'carbs': meal.carbs,
-          'fat': meal.fat,
-          'time': time ?? DateTime.now(),
-        },
-        collection: ApiPaths.log(uid),
-      );
 
   @override
   Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
@@ -106,28 +101,26 @@ class FirestoreRepository implements Repository {
   }
 
   @override
+  void logMeal({required Meal meal, required String uid, DateTime? time}) =>
+      _addDocument(
+        document: {
+          'name': meal.name,
+          'calories': meal.calories,
+          'proteins': meal.proteins,
+          'carbs': meal.carbs,
+          'fat': meal.fat,
+          'time': time ?? DateTime.now(),
+        },
+        collection: ApiPaths.log(uid),
+      );
+
+  @override
   Future<String> uploadImage(XFile image, String path) async {
     Reference ref = FirebaseStorage.instance.ref().child(path);
 
     await ref.putFile(File(image.path));
     return ref.getDownloadURL();
   }
-
-  @override
-  void updateProfilePicturePath(String uid, String url) =>
-      _updateDocumentField('users/$uid', 'profilePicture', 'url');
-
-  @override
-  Future<String?> getProfilePictureUrl(String uid) async {
-    Reference ref = FirebaseStorage.instance.ref().child(uid);
-
-    return ref.getDownloadURL();
-  }
-
-  @override
-  Stream<List<Ingredient>?> getIngredients(String uid) =>
-      _getCollectionStream<Ingredient>(
-          path: ApiPaths.ingredients(uid), fromMap: Ingredient.fromMap);
 
   /// Returns a stream of a collection for the given path
   ///

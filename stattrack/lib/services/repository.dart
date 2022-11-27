@@ -18,17 +18,23 @@ abstract class Repository {
   /// [uid] the id of the user to add
   void addUser(User user, String uid);
 
+  /// Updates the profile picture path
+  ///
+  /// [uid] the user where the profile picture path should be updated
+  /// [url] the url of the picture to update to
+  void updateProfilePicturePath(String uid, String url);
+
+  /// Returns a stream with all ingredients stored for the user
+  /// with the given user id
+  ///
+  /// [uid] the user id of the user the get ingredients for
+  Stream<List<Ingredient>?> getIngredients(String uid);
+
   /// Adds an ingredient to the database
   ///
   /// [ingredient] the ingredient to be added
   /// [uid] the id of the user the meal should be added to
   Future<void> addIngredient(Ingredient ingredient, String uid);
-
-  /// Adds a meal to the database
-  ///
-  /// [meal] the meal to be added
-  /// [uid] the id of the user the meal should be added to
-  void addMeal(Meal meal, String uid);
 
   /// Returns a stream with the all the meals stored for the user with
   /// the given user if
@@ -36,31 +42,21 @@ abstract class Repository {
   /// [uid] the user if of the user to fetch all meals from
   Stream<List<Meal>> getMeals(String uid);
 
+  /// Adds a meal to the database
+  ///
+  /// [meal] the meal to be added
+  /// [uid] the id of the user the meal should be added to
+  void addMeal(Meal meal, String uid);
+
   /// Returns a stream with the consumed meals of the user with the given id
   ///
   /// [uid] the user id of the user to find the consumed meals of
   Stream<List<ConsumedMeal>> getLog(String uid);
 
+  /// Returns a stream with todays consumed meals for a given user
+  ///
+  /// [uid] the user id of the user to find the consumed meals of
   Stream<List<ConsumedMeal>> getTodaysMeals(String uid);
-
-  /// Uploads an image to the storage. The url of the image is returned
-  /// when the image is uploaded.
-  ///
-  /// [image] the image to upload
-  /// [path] the path to where the image should be uploaded
-  Future<String> uploadImage(XFile image, String path);
-
-  /// Updates the profile picture path
-  ///
-  /// [uid] the user where the profile picture path should be updated
-  /// [url] the url of the picture to update to
-  void updateProfilePicturePath(String uid, String url);
-
-  /// Returns the url for the profile picture of the user with the given
-  /// user id
-  ///
-  /// [uid] the user id to get the profile picture url for
-  Future<String?> getProfilePictureUrl(String uid);
 
   /// Adds a meal to the log.
   ///
@@ -70,9 +66,10 @@ abstract class Repository {
   /// time is logged.
   void logMeal({required Meal meal, required String uid, DateTime? time});
 
-  /// Returns a stream with all ingredients stored for the user
-  /// with the given user id
+  /// Uploads an image to the storage. The url of the image is returned
+  /// when the image is uploaded.
   ///
-  /// [uid] the user id of the user the get ingredients for
-  Stream<List<Ingredient>?> getIngredients(String uid);
+  /// [image] the image to upload
+  /// [path] the path to where the image should be uploaded
+  Future<String> uploadImage(XFile image, String path);
 }
