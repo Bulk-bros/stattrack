@@ -233,6 +233,9 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
               ),
             ],
           ),
+          const SizedBox(
+            height: elementSpacing,
+          ),
           ..._ingredients.keys.map((index) {
             return IngredientSelect(
               index: index,
