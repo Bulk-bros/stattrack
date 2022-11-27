@@ -14,13 +14,13 @@ class ConsumedMealCard extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  Meal meal;
+  ConsumedMeal meal;
 
   String? timeValue; //change to date later on
 
   Color? backgroundColor;
   Color? color;
-  final void Function(Meal) onPressed;
+  final void Function(ConsumedMeal) onPressed;
 
   void _handlePressed() {
     onPressed(meal);

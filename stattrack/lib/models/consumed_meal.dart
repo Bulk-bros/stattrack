@@ -6,6 +6,7 @@ class ConsumedMeal {
   final num proteins;
   final num carbs;
   final num fat;
+  final String? imageUrl;
 
   ConsumedMeal({
     required this.name,
@@ -14,6 +15,7 @@ class ConsumedMeal {
     required this.proteins,
     required this.carbs,
     required this.fat,
+    this.imageUrl,
   });
 
   /// converts a document object from firestore to a ConsumedMeal object

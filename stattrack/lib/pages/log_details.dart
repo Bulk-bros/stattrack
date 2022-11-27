@@ -114,7 +114,7 @@ class LogDetails extends StatelessWidget {
                     (meal) => Column(
                       children: [
                         ConsumedMealCard(
-                            meal: _convertToMeal(meal),
+                            meal: meal,
                             timeValue:
                                 " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
                             onPressed: (meal) {
@@ -135,23 +135,25 @@ class LogDetails extends StatelessWidget {
     );
   }
 
-  void _showMealDetails(Meal meal, BuildContext context) {
+  void _showMealDetails(ConsumedMeal meal, BuildContext context) {
     Navigator.push(
         context,
         PageTransition(
             type: PageTransitionType.rightToLeft,
             child: MealDetails(
-              meal: meal,
+              meal: _convertToMeal(meal),
             )));
   }
 
   Meal _convertToMeal(ConsumedMeal meal) {
+    print(meal.imageUrl);
     return Meal(
       name: meal.name,
       calories: meal.calories,
       proteins: meal.proteins,
       fat: meal.fat,
       carbs: meal.carbs,
+      imageUrl: meal.imageUrl,
     );
   }
 
