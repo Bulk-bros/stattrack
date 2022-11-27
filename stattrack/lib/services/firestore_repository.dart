@@ -56,7 +56,7 @@ class FirestoreRepository implements Repository {
 
   @override
   void updateProfilePicturePath(String uid, String url) =>
-      _updateDocumentField('users/$uid', 'profilePicture', 'url');
+      _updateDocumentField('users/$uid', 'profilePicture', url);
 
   @override
   Stream<List<Ingredient>?> getIngredients(String uid) =>

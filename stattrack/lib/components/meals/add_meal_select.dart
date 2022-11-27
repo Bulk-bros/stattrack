@@ -42,25 +42,6 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
     setState(() {});
   }
 
-  void _removeMeal(BuildContext context, Meal meal) {
-    final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
-
-    repo.deleteMeal(auth.currentUser!.uid, meal.id).then((value) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Meal deleted'),
-        ),
-      );
-    }).catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Meal deleted'),
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
@@ -86,33 +67,24 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
 
   Widget _buildList(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        itemCount: widget.meals.length,
-        itemBuilder: (c, index) {
-          return Dismissible(
-            key: Key('$index'),
-            onDismissed: (direction) {
-              _removeMeal(context, widget.meals[index]);
-            },
-            child: Column(
-              children: <Widget>[
-                MealCard(
-                  meal: widget.meals[index],
-                  onPressed: (m) => _updateAcitveMeal(m),
-                  backgroundColor: _activeMeal == widget.meals[index]
-                      ? Palette.accent[400]
-                      : null,
-                  color:
-                      _activeMeal == widget.meals[index] ? Colors.white : null,
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+      child: ListView(children: <Widget>[
+        ...widget.meals.map(
+          (meal) => Column(
+            children: <Widget>[
+              MealCard(
+                meal: meal,
+                onPressed: (m) => _updateAcitveMeal(m),
+                backgroundColor:
+                    _activeMeal == meal ? Palette.accent[400] : null,
+                color: _activeMeal == meal ? Colors.white : null,
+              ),
+              const SizedBox(
+                height: 16.0,
+              ),
+            ],
+          ),
+        ),
+      ]),
     );
   }
 }
