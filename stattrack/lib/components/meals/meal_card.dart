@@ -113,30 +113,6 @@ class MealCard extends ConsumerWidget {
                 ),
               ],
             ),
-            timeValue != null
-                ? Column(
-                    children: <Widget>[
-                      Text(
-                        'Time:',
-                        style: TextStyle(
-                          fontSize: FontStyles.fsTitle3,
-                          fontWeight: FontStyles.fwTitle,
-                          color: color ?? Colors.black87,
-                        ),
-                      ),
-                      Text(
-                        timeValue!,
-                        style: TextStyle(
-                          fontSize: FontStyles.fsBody,
-                          fontWeight: FontStyles.fwBody,
-                          color: color ?? Colors.black87,
-                        ),
-                      ),
-                    ],
-                  )
-                : const SizedBox(
-                    height: 0.0,
-                  ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
