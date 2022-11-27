@@ -78,6 +78,12 @@ abstract class Repository {
   /// [uid] the id of the user the meal should be added to
   void addMeal(Meal meal, String uid);
 
+  /// Removes a meal from a user
+  ///
+  /// [uid] id of the user to remove the meal from
+  /// [meal] id of the meal to remove
+  Future<void> deleteMeal(String uid, String mealId);
+
   /// Returns a stream with the consumed meals of the user with the given id
   ///
   /// [uid] the user id of the user to find the consumed meals of

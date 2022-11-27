@@ -85,6 +85,7 @@ class FirestoreRepository implements Repository {
   void addMeal(Meal meal, String uid) {
     _addDocument(
       document: {
+        'id': meal.id,
         'name': meal.name,
         'imageUrl': meal.imageUrl,
         'ingredients': meal.ingredients,
@@ -95,8 +96,13 @@ class FirestoreRepository implements Repository {
         'carbs': meal.carbs,
       },
       collection: ApiPaths.storedMeals(uid),
+      docId: meal.id,
     );
   }
+
+  @override
+  Future<void> deleteMeal(String uid, String mealId) =>
+      _deleteDocument('users/$uid/meals/$mealId');
 
   @override
   Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
@@ -209,5 +215,12 @@ class FirestoreRepository implements Repository {
     return FirebaseFirestore.instance.doc(path).update(<String, dynamic>{
       field: value,
     });
+  }
+
+  /// Deletes a document
+  ///
+  /// [path] the path to the document to be deleted
+  Future<void> _deleteDocument(String path) {
+    return FirebaseFirestore.instance.doc(path).delete();
   }
 }

@@ -445,6 +445,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       spacing,
       MealCard(
         meal: Meal(
+          id: UniqueKey().toString(),
           name: "Salad",
           imageUrl: "asd",
           calories: 500,
@@ -458,6 +459,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       spacing,
       MealCard(
         meal: Meal(
+          id: UniqueKey().toString(),
           name: "Taco wrap",
           imageUrl: "asd",
           calories: 638,

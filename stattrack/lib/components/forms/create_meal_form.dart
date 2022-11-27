@@ -128,6 +128,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
 
       repo.addMeal(
           Meal(
+            id: UniqueKey().toString(),
             name: _name,
             imageUrl: imageUrl,
             ingredients: ingredients,
