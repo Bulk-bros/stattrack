@@ -189,26 +189,31 @@ class SettingsPage extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(31.0),
         // Column separating all settings from logout button
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            // Column for all settings
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                _buildProfileSettings(context, ref),
-                SizedBox(
-                  height: spacing,
-                ),
-                _buildConsumptionSettings(context, ref),
-              ],
-            ),
-            MainButton(
-              callback: () => _signOut(context),
-              label: "Log out",
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              // Column for all settings
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _buildProfileSettings(context, ref),
+                  SizedBox(
+                    height: spacing,
+                  ),
+                  _buildConsumptionSettings(context, ref),
+                ],
+              ),
+              const SizedBox(
+                height: 31.0,
+              ),
+              MainButton(
+                callback: () => _signOut(context),
+                label: "Log out",
+              ),
+            ],
+          ),
         ),
       ),
     );
