@@ -154,6 +154,11 @@ class FirestoreRepository implements Repository {
         (snapshot) => snapshot.docs.map((doc) => fromMap(doc.data())).toList());
   }
 
+  /// Returns a stream of an object of type T, based on a document stored
+  /// in the firestore
+  ///
+  /// [path] path to the document
+  /// [fromMap] a function that converts the document to an object of type T
   Stream<T?> _getDocumentStream<T>(
       String path, T Function(Map<String, dynamic>) fromMap) {
     return FirebaseFirestore.instance
@@ -163,10 +168,17 @@ class FirestoreRepository implements Repository {
         .map((document) => document != null ? fromMap(document) : null);
   }
 
-  Future<void> _addDocument(
-      {required Map<String, dynamic> document,
-      required String collection,
-      String? docId}) {
+  /// Adds a document to the firestore
+  ///
+  /// [document] the document to be added
+  /// [collection] a path to the collection the document should be added to
+  /// [docId] if given, the document will get this id. If no, a random id will
+  /// be given
+  Future<void> _addDocument({
+    required Map<String, dynamic> document,
+    required String collection,
+    String? docId,
+  }) {
     return FirebaseFirestore.instance
         .collection(collection)
         .doc(docId)
