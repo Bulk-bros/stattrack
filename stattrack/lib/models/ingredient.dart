@@ -27,4 +27,16 @@ class Ingredient {
   String toString() {
     return 'Ingredient{name: $name, caloriesPer100g: $caloriesPer100g, proteinsPer100g: $proteinsPer100g, fatPer100g: $fatPer100g, carbsPer100g: $carbsPer100g}';
   }
+
+  bool operator ==(dynamic other) =>
+      other != null &&
+      other is Ingredient &&
+      other.name == name &&
+      other.caloriesPer100g == caloriesPer100g &&
+      other.proteinsPer100g == proteinsPer100g &&
+      other.fatPer100g == fatPer100g &&
+      other.carbsPer100g == carbsPer100g;
+
+  @override
+  int get hashCode => super.hashCode;
 }

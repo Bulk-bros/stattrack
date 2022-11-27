@@ -182,6 +182,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       children: [
         spacing,
         SingleStatCard(
+            key: const Key("calories"),
             content: SingleStatLayout(
               categoryText: "Calories",
               content: SizedBox(
@@ -198,6 +199,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             size: 230),
         spacing,
         SingleStatCard(
+          key: const Key("proteins"),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -220,6 +222,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         ),
         spacing,
         SingleStatCard(
+          key: const Key("carbs"),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -242,6 +245,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         ),
         spacing,
         SingleStatCard(
+          key: const Key("fat"),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -270,6 +274,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   Widget _buildUserInformation(BuildContext context, String profilePictureUrl,
       String name, num age, num weight, num height) {
     return ColumnSuper(
+      key: const Key("userInformation"),
       outerDistance: -10,
       children: [
         const SizedBox(
@@ -352,6 +357,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         Row(
           children: [
             Container(
+              key: const Key("todaysMacros"),
               width: 160,
               alignment: Alignment.centerLeft,
               child: _userInformationTextButton(
@@ -362,6 +368,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
               }),
             ),
             Container(
+              key: const Key("todaysMeals"),
               width: 160,
               alignment: Alignment.centerLeft,
               child: _userInformationTextButton(
@@ -419,6 +426,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       );
     } else {
       return Container(
+        key: const Key("profileImage"),
         width: 110,
         height: 110,
         decoration: const BoxDecoration(
