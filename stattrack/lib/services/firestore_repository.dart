@@ -35,6 +35,26 @@ class FirestoreRepository implements Repository {
   }
 
   @override
+  void updateWeight(String uid, num value) =>
+      _updateDocumentField('users/$uid', 'weight', value);
+
+  @override
+  void updateDailyCalorieConsumption(String uid, num value) =>
+      _updateDocumentField('users/$uid', 'dailyCalories', value);
+
+  @override
+  void updateDailyProteinConsumption(String uid, num value) =>
+      _updateDocumentField('users/$uid', 'dailyProteins', value);
+
+  @override
+  void updateDailyCarbsConsumption(String uid, num value) =>
+      _updateDocumentField('users/$uid', 'dailyCarbs', value);
+
+  @override
+  void updateDailyFatConsumption(String uid, num value) =>
+      _updateDocumentField('users/$uid', 'dailyFat', value);
+
+  @override
   void updateProfilePicturePath(String uid, String url) =>
       _updateDocumentField('users/$uid', 'profilePicture', 'url');
 
@@ -185,7 +205,7 @@ class FirestoreRepository implements Repository {
   /// [path] the path to the document that should be updated
   /// [field] the field in the specified document that shoud be updated
   /// [value] the value that should be replaced in the field
-  Future<void> _updateDocumentField(String path, String field, String value) {
+  Future<void> _updateDocumentField(String path, String field, dynamic value) {
     return FirebaseFirestore.instance.doc(path).update(<String, dynamic>{
       field: value,
     });

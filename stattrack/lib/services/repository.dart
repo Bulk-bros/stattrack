@@ -18,6 +18,36 @@ abstract class Repository {
   /// [uid] the id of the user to add
   void addUser(User user, String uid);
 
+  /// Updates the weight for a user
+  ///
+  /// [uid] the id of the user to update the weight
+  /// [value] the new value to set the weight to
+  void updateWeight(String uid, num value);
+
+  /// Updates the daily calorie consumption for a user
+  ///
+  /// [uid] the user id of the user to update
+  /// [value] the new value to set daily calorie consumption to
+  void updateDailyCalorieConsumption(String uid, num value);
+
+  /// Updates the daily protein consumption for a user
+  ///
+  /// [uid] the user id of the user to update
+  /// [value] the new value to set daily protein consumption to
+  void updateDailyProteinConsumption(String uid, num value);
+
+  /// Updates the daily carbs consumption for a user
+  ///
+  /// [uid] the user id of the user to update
+  /// [value] the new value to set daily carbs consumption to
+  void updateDailyCarbsConsumption(String uid, num value);
+
+  /// Updates the daily fat consumption for a user
+  ///
+  /// [uid] the user id of the user to update
+  /// [value] the new value to set daily fat consumption to
+  void updateDailyFatConsumption(String uid, num value);
+
   /// Updates the profile picture path
   ///
   /// [uid] the user where the profile picture path should be updated
