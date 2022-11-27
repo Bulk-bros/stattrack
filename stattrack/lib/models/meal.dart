@@ -1,7 +1,7 @@
 /// Represents a meal with macros and instructions that a person can eat
 class Meal {
   final String name;
-  final String imageUrl;
+  final String? imageUrl;
   final Map<String?, num>? ingredients;
   final List<String?>? instuctions;
   final num calories;
@@ -11,7 +11,7 @@ class Meal {
 
   Meal({
     required this.name,
-    required this.imageUrl,
+    this.imageUrl,
     this.ingredients,
     this.instuctions,
     required this.calories,

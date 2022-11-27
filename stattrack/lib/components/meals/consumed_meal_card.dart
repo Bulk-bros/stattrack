@@ -4,8 +4,8 @@ import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
-class MealCard extends StatelessWidget {
-  MealCard({
+class ConsumedMealCard extends StatelessWidget {
+  ConsumedMealCard({
     Key? key,
     required this.meal,
     this.timeValue,
@@ -39,6 +39,33 @@ class MealCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              timeValue != null
+                  ? Text(
+                      timeValue!,
+                      style: TextStyle(
+                        fontSize: FontStyles.fsBody,
+                        fontWeight: FontStyles.fwBody,
+                        color: color ?? Colors.black87,
+                      ),
+                    )
+                  : const SizedBox(
+                      height: 0,
+                    ),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: const <Widget>[
+                  Text('Details'),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16.0,
+                  ),
+                ],
+              ),
+            ],
+          ),
           const SizedBox(
             height: 10.0,
           ),

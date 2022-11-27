@@ -13,6 +13,7 @@ import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'package:stattrack/models/meal.dart';
+import 'package:stattrack/pages/meal_details.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -21,6 +22,7 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
+import '../components/meals/consumed_meal_card.dart';
 import '../models/consumed_meal.dart';
 
 class LogDetails extends StatelessWidget {
@@ -40,10 +42,10 @@ class LogDetails extends StatelessWidget {
         appBar: CustomAppBar(
           headerTitle: time,
         ),
-        body: _buildBody());
+        body: _buildBody(context));
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(context) {
     num calories = 0;
     num fat = 0;
     num proteins = 0;
@@ -111,12 +113,12 @@ class LogDetails extends StatelessWidget {
                   ...meals.map(
                     (meal) => Column(
                       children: [
-                        MealCard(
+                        ConsumedMealCard(
                             meal: _convertToMeal(meal),
                             timeValue:
                                 " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
                             onPressed: (meal) {
-                              print(meal);
+                              _showMealDetails(meal, context);
                             }),
                         const SizedBox(
                           height: 20,
@@ -133,13 +135,24 @@ class LogDetails extends StatelessWidget {
     );
   }
 
+  void _showMealDetails(Meal meal, BuildContext context) {
+    Navigator.push(
+        context,
+        PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: MealDetails(
+              meal: meal,
+            )));
+  }
+
   Meal _convertToMeal(ConsumedMeal meal) {
     return Meal(
-        name: meal.name,
-        calories: meal.calories,
-        proteins: meal.proteins,
-        fat: meal.fat,
-        carbs: meal.carbs);
+      name: meal.name,
+      calories: meal.calories,
+      proteins: meal.proteins,
+      fat: meal.fat,
+      carbs: meal.carbs,
+    );
   }
 
   Widget _buildHeaderText(String text) {
