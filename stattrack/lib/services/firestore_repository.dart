@@ -114,14 +114,8 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void updateProfilePicturePath(String uid, String url) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .update(<String, dynamic>{
-      'profilePicture': url,
-    });
-  }
+  void updateProfilePicturePath(String uid, String url) =>
+      _updateDocumentField('users/$uid', 'profilePicture', 'url');
 
   @override
   Future<String?> getProfilePictureUrl(String uid) async {
@@ -179,5 +173,16 @@ class FirestoreRepository implements Repository {
         .set(document)
         .then((value) => print("Document added"))
         .catchError((error) => print("Failed to add document: $error"));
+  }
+
+  /// Updates the field of a document
+  ///
+  /// [path] the path to the document that should be updated
+  /// [field] the field in the specified document that shoud be updated
+  /// [value] the value that should be replaced in the field
+  Future<void> _updateDocumentField(String path, String field, String value) {
+    return FirebaseFirestore.instance.doc(path).update(<String, dynamic>{
+      field: value,
+    });
   }
 }

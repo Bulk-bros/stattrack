@@ -77,6 +77,9 @@ class _AddMealState extends ConsumerState<AddMeal> {
               ),
             ],
           ),
+          const SizedBox(
+            height: 16.0,
+          ),
           BorderedTextInput(
             hintText: 'Search',
             onChanged: (value) => _updateSearch(value),
