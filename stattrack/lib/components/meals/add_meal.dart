@@ -103,7 +103,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
                 );
               }
               return SizedBox(
-                height: widget.height * 0.79,
+                height: widget.height * 0.75,
                 child: AddMealSelect(
                     meals: snapshot.data!
                         .where((meal) =>
