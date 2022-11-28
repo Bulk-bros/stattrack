@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
+import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -19,6 +20,7 @@ class MealCard extends ConsumerWidget {
   }) : super(key: key);
 
   Meal meal;
+
   String? timeValue; //change to date later on
 
   Color? backgroundColor;

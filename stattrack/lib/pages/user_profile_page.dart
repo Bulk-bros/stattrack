@@ -14,7 +14,7 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
-import 'package:stattrack/components/cards/single_stat_card.dart';
+import 'package:stattrack/components/cards/card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'dart:math' as math;
 
@@ -462,10 +462,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 
   List<Widget> _buildTodaysMeals() {
+
     return [
       // TODO: use consumed meal card when Torstein has finished created that
       // component
     ];
+
   }
 }
 

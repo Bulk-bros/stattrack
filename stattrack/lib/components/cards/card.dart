@@ -6,12 +6,17 @@ import 'package:flutter/material.dart';
 ///
 class SingleStatCard extends StatelessWidget {
   SingleStatCard(
-      {Key? key, required this.content, this.size = 100, this.padded = true})
+      {Key? key,
+      required this.content,
+      this.size,
+      this.padded = true,
+      this.color = Colors.white})
       : super(key: key);
 
   Widget content;
   double? size;
   bool? padded;
+  Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class SingleStatCard extends StatelessWidget {
       padding: padded! ? const EdgeInsets.all(20) : const EdgeInsets.all(0),
       height: size,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: color,
         borderRadius: const BorderRadius.all(Radius.circular(5)),
         boxShadow: [
           BoxShadow(
