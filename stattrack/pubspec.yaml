@@ -43,7 +43,6 @@ dependencies:
 
   percent_indicator: ^4.0.1
 
-
   firebase_auth: ^4.1.1
   google_sign_in: ^5.4.2
 
@@ -54,6 +53,7 @@ dependencies:
   week_of_year: ^2.0.0
   image_picker: ^0.8.6
   firebase_storage: ^11.0.5
+  flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +66,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+flutter_icons:
+  androind: true
+  ios: true
+  image_path: 'assets/logo-shape.png'
+  adaptive_icon_background: '#ffffff'
+  adaptive_icon_foreground: 'assets/logo-shape.png'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
