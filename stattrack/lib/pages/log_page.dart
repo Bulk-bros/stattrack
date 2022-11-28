@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
-import 'package:stattrack/components/cards/single_stat_card.dart';
+import 'package:stattrack/components/cards/card.dart';
 import 'package:stattrack/components/stats/stat_card_layout.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/pages/log_details.dart';
@@ -153,6 +153,7 @@ class _LogPageState extends ConsumerState<LogPage> {
                 );
               }
               if (snapshot.hasError) {
+                print(snapshot.data);
                 return _buildErrorText('Error: ${snapshot.error}');
               }
               if (!snapshot.hasData) {
