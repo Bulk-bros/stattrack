@@ -16,7 +16,7 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
-import 'package:stattrack/components/cards/single_stat_card.dart';
+import 'package:stattrack/components/cards/card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/app/custom_bottom_bar.dart';
@@ -433,34 +433,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 
   List<Widget> _buildTodaysMeals() {
-    return [
-      spacing,
-      MealCard(
-        meal: Meal(
-          name: "Salad",
-          imageUrl: "asd",
-          calories: 500,
-          proteins: 50,
-          fat: 5,
-          carbs: 150,
-        ),
-        timeValue: "08:45",
-        onPressed: (id) => print("pressed $id"),
-      ),
-      spacing,
-      MealCard(
-        meal: Meal(
-          name: "Taco wrap",
-          imageUrl: "asd",
-          calories: 638,
-          proteins: 38,
-          fat: 32,
-          carbs: 241,
-        ),
-        timeValue: "16:13",
-        onPressed: (id) => print("pressed $id"),
-      ),
-    ];
+    return [];
   }
 }
 
