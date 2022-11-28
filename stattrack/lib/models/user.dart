@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class User {
   final String name;
   final String profilePictureUrl;
-  final num weight;
   final num height;
   final Timestamp birthday;
   final num dailyCalories;
@@ -14,7 +13,6 @@ class User {
   User({
     required this.name,
     required this.profilePictureUrl,
-    required this.weight,
     required this.height,
     required this.birthday,
     required this.dailyCalories,
@@ -35,7 +33,6 @@ class User {
     return User(
         name: document["name"],
         profilePictureUrl: document["profilePicture"],
-        weight: document["weight"],
         height: document["height"],
         birthday: document["birthday"],
         dailyCalories: document["dailyCalories"],
@@ -46,6 +43,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{name: $name, weight: $weight, height: $height, birthday: $birthday, dailyCalories: $dailyCalories, dailyProteins: $dailyProteins, dailyFat: $dailyFat}';
+    return 'User{name: $name, height: $height, birthday: $birthday, dailyCalories: $dailyCalories, dailyProteins: $dailyProteins, dailyFat: $dailyFat}';
   }
 }

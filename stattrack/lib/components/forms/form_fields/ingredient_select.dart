@@ -29,6 +29,18 @@ class _IngredientSelectState extends State<IngredientSelect> {
 
   Ingredient? _selectedIngredient;
 
+  var seen = <Ingredient>{};
+
+  List<DropdownMenuItem<Ingredient>> _buildDropdownMenuItems() {
+    return widget.ingredients
+        .where((element) => !seen.contains(element))
+        .map((ingredient) => DropdownMenuItem<Ingredient>(
+              value: ingredient,
+              child: Text(ingredient.name),
+            ))
+        .toList();
+  }
+
   void _submit() {
     print('submitting');
   }
@@ -61,7 +73,9 @@ class _IngredientSelectState extends State<IngredientSelect> {
             Expanded(
               child: DropdownButton<Ingredient>(
                 hint: const Text('Select ingredient'),
-                value: _selectedIngredient,
+                value: List.from(seen).contains(_selectedIngredient)
+                    ? null
+                    : _selectedIngredient,
                 icon: const Icon(Icons.arrow_drop_down),
                 elevation: 16,
                 style: const TextStyle(
@@ -75,13 +89,7 @@ class _IngredientSelectState extends State<IngredientSelect> {
                 isExpanded: true,
                 onChanged: (Ingredient? value) =>
                     _updateSelectedIngredient(value),
-                items: widget.ingredients
-                    .map<DropdownMenuItem<Ingredient>>((Ingredient value) {
-                  return DropdownMenuItem<Ingredient>(
-                    value: value,
-                    child: Text(value.name),
-                  );
-                }).toList(),
+                items: _buildDropdownMenuItems(),
               ),
             ),
             const SizedBox(
