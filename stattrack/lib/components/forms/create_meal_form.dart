@@ -18,7 +18,6 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
-import 'package:stattrack/utils/validator.dart';
 
 class CreateMealForm extends ConsumerStatefulWidget {
   const CreateMealForm({Key? key, required this.storedIngredients})
@@ -44,6 +43,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
 
   @override
   void initState() {
+    super.initState();
     _ingredients = {_ingredientIndex: null};
     _instructions = {_instructionIndex: null};
   }

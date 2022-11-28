@@ -23,7 +23,6 @@ class IngredientSelect extends StatefulWidget {
 
 class _IngredientSelectState extends State<IngredientSelect> {
   final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
   String get _amount => _controller.text;
   bool get _isValidAmount => Validator.isPositiveFloat(_amount);
 
@@ -39,10 +38,6 @@ class _IngredientSelectState extends State<IngredientSelect> {
               child: Text(ingredient.name),
             ))
         .toList();
-  }
-
-  void _submit() {
-    print('submitting');
   }
 
   void _updateState() {

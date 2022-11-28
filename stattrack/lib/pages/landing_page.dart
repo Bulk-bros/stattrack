@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/pages/account_setup/account_setup_page.dart';
 import 'package:stattrack/pages/auth_pages/sign_in_page.dart';
 import 'package:stattrack/pages/nav_wrapper.dart';
-import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';

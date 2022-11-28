@@ -145,7 +145,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                     ? 'Only numbers'
                     : null,
               ),
-              autocorrect: true,
+              autocorrect: false,
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               onEditingComplete: _caloriesEditingComplete,
               onChanged: (name) => _updateState(),
@@ -159,7 +160,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                     ? 'Only numbers'
                     : null,
               ),
-              autocorrect: true,
+              autocorrect: false,
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               onEditingComplete: _proteinsEditingComplete,
               onChanged: (name) => _updateState(),
@@ -172,7 +174,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 errorText:
                     _showInputErrors && !_isValidCarbs ? 'Only numbers' : null,
               ),
-              autocorrect: true,
+              autocorrect: false,
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               onEditingComplete: _carbsEditingComplete,
               onChanged: (name) => _updateState(),
@@ -185,7 +188,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 errorText:
                     _showInputErrors && !_isValidFat ? 'Only numbers' : null,
               ),
-              autocorrect: true,
+              autocorrect: false,
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               onEditingComplete: () => _submit(auth, repo),
               onChanged: (name) => _updateState(),

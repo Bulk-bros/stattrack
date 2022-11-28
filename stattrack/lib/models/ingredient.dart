@@ -28,6 +28,7 @@ class Ingredient {
     return 'Ingredient{name: $name, caloriesPer100g: $caloriesPer100g, proteinsPer100g: $proteinsPer100g, fatPer100g: $fatPer100g, carbsPer100g: $carbsPer100g}';
   }
 
+  @override
   bool operator ==(dynamic other) =>
       other != null &&
       other is Ingredient &&

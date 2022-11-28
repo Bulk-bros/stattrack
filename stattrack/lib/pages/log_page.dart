@@ -117,15 +117,6 @@ class _LogPageState extends ConsumerState<LogPage> {
     return Scaffold(
       appBar: CustomAppBar(
         headerTitle: 'Log',
-        actions: [
-          IconButton(
-            // TODO: Nav to stats page
-            onPressed: () => print('stats'),
-            icon: const Icon(
-              Icons.bar_chart,
-            ),
-          ),
-        ],
       ),
       body: _buildBody(),
     );

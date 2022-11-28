@@ -23,6 +23,7 @@ class _EmailSignInPageState extends State<EmailSignInPage> {
 
   @override
   void initState() {
+    super.initState();
     _showSignUpForm = widget.showSignUp ?? false;
   }
 

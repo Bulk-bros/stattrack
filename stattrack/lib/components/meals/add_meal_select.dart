@@ -38,10 +38,6 @@ class _AddMealSelectState extends ConsumerState<AddMealSelect> {
     }
   }
 
-  void _updateState() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);

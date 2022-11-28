@@ -1,4 +1,3 @@
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 
@@ -20,8 +19,6 @@ class InstructionsField extends StatefulWidget {
 
 class _InstructionsFieldState extends State<InstructionsField> {
   final TextEditingController _controller = TextEditingController();
-
-  String get _value => _controller.text;
 
   @override
   Widget build(BuildContext context) {

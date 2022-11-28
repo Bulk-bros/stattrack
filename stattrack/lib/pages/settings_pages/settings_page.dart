@@ -7,7 +7,6 @@ import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
-import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
