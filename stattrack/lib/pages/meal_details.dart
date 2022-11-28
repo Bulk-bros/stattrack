@@ -9,7 +9,7 @@ import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
-import 'package:stattrack/components/cards/single_stat_card.dart';
+import 'package:stattrack/components/cards/card.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
@@ -28,7 +28,7 @@ import '../models/consumed_meal.dart';
 class MealDetails extends StatelessWidget {
   MealDetails({Key? key, required this.meal}) : super(key: key);
 
-  Meal meal;
+  ConsumedMeal meal;
 
   final spacing = const SizedBox(
     height: 5,
@@ -36,39 +36,61 @@ class MealDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: CustomAppBar(
-          headerTitle: "",
-        ),
-        body: _buildBody());
+    return Scaffold(body: _buildBody(context));
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(context) {
     return CustomBody(
-        header: _buildheader(), bodyWidgets: [..._buildBodyWidgets()]);
+        header: _buildheader(context), bodyWidgets: [..._buildBodyWidgets()]);
   }
 
-  Widget _buildheader() {
+  Widget _buildheader(context) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 80.0,
-          child: Container(
-            width: 200,
-            height: 200,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage("assets/images/foodstockpic.jpg"),
-                fit: BoxFit.fill,
+        const SizedBox(
+          height: 39,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.navigate_before_rounded),
+              iconSize: 40,
+            ),
+            Column(
+              children: [
+                CircleAvatar(
+                  radius: 65.0,
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/foodstockpic.jpg"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                _buildHeaderText(meal.name)
+              ],
+            ),
+            Opacity(
+              opacity: 0,
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.navigate_before_rounded),
+                iconSize: 40,
               ),
             ),
-          ),
+          ],
         ),
-        const SizedBox(
-          height: 8,
-        ),
-        _buildHeaderText(meal.name)
       ],
     );
   }
@@ -80,7 +102,6 @@ class MealDetails extends StatelessWidget {
     const carbsLabel = 'Carbs';
     return [
       SingleStatCard(
-        size: 160,
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -177,41 +198,107 @@ class MealDetails extends StatelessWidget {
         height: 20,
       ),
       SingleStatCard(
-          content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Ingredients",
-            style: TextStyle(
-                fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwTitle),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Ingredients",
+              style: TextStyle(
+                  fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwTitle),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Column(
-                  children: [..._createIngredientList()],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [..._createIngredientList("name")],
                 ),
-              ])
-        ],
-      ))
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [..._createIngredientList("value")],
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      SingleStatCard(
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Step By Step",
+              style: TextStyle(
+                  fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwTitle),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [..._createInstrucitonList()],
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     ];
   }
 
-  List<Widget> _createIngredientList() {
-    List<Widget> ingredients = [];
+  List<Widget> _createInstrucitonList() {
+    List<Widget> list = [];
 
-    if (meal.ingredients != null) {
-      for (String? string in meal.ingredients!.keys) {
-        ingredients.add(Text("- $string"));
+    if (meal.instuctions != null) {
+      for (int i = 0; i < meal.instuctions!.length; i++) {
+        list.add(Text("${i + 1}. ${meal.instuctions![i]}"));
       }
-    } else if (meal.ingredients == null) {
-      ingredients.add(const Text("No ingredients found"));
+    } else {
+      list.add(const Text("No instructions found"));
+    }
+    return list;
+  }
+
+  List<Widget> _createIngredientList(String wantedList) {
+    List<Widget> list = [];
+
+    if (wantedList == "name") {
+      if (meal.ingredients != null) {
+        for (String? string in meal.ingredients!.keys) {
+          list.add(Text(
+            "- $string",
+            style: const TextStyle(
+                fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwBody),
+          ));
+        }
+      } else if (meal.ingredients == null) {
+        list.add(const Text("No ingredients found"));
+      }
+    }
+    if (wantedList == "value") {
+      if (meal.ingredients != null) {
+        for (num number in meal.ingredients!.values) {
+          list.add(Text(
+            "${number}g",
+            style: const TextStyle(
+                fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwBody),
+          ));
+        }
+      } else if (meal.ingredients == null) {
+        list.add(const Text("No ingredients found"));
+      }
     }
 
-    return ingredients;
+    return list;
   }
 
   Widget _buildHeaderText(String text) {
