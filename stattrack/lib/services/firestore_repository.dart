@@ -77,8 +77,11 @@ class FirestoreRepository implements Repository {
           'calories': meal.calories,
           'proteins': meal.proteins,
           'carbs': meal.carbs,
+          'instructions': meal.instuctions,
+          'ingredients': meal.ingredients,
           'fat': meal.fat,
           'time': time ?? DateTime.now(),
+          'imageUrl': meal.imageUrl,
         },
         collection: ApiPaths.log(uid),
       );
