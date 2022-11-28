@@ -8,7 +8,7 @@ import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
-import 'package:stattrack/components/cards/card.dart';
+import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
@@ -69,7 +69,7 @@ class LogDetails extends StatelessWidget {
             children: [
               _buildHeaderText("Overview"),
               spacing,
-              SingleStatCard(
+              CustomCard(
                 color: Palette.accent[400],
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,7 +135,7 @@ class LogDetails extends StatelessWidget {
     );
   }
 
-  void showMealDetails(ConsumedMeal meal, BuildContext context) {
+  static void showMealDetails(ConsumedMeal meal, BuildContext context) {
     Navigator.push(
         context,
         PageTransition(

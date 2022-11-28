@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
-import 'package:stattrack/components/cards/card.dart';
+import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/stats/stat_card_layout.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/pages/log_details.dart';
@@ -226,7 +226,7 @@ class _LogPageState extends ConsumerState<LogPage> {
 
   /// Returns a nav widget
   Widget _buildNav() {
-    return SingleStatCard(
+    return CustomCard(
       content: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(

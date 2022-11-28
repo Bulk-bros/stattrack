@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/cards/custom_card.dart';
 
 import 'package:stattrack/components/meals/consumed_meal_card.dart';
 
@@ -18,7 +19,7 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
-import 'package:stattrack/components/cards/card.dart';
+import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'dart:math' as math;
 
@@ -178,7 +179,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     return Column(
       children: [
         spacing,
-        SingleStatCard(
+        CustomCard(
             key: const Key("calories"),
             content: SingleStatLayout(
               categoryText: "Calories",
@@ -195,7 +196,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             ),
             size: 230),
         spacing,
-        SingleStatCard(
+        CustomCard(
           key: const Key("proteins"),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -218,7 +219,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           ),
         ),
         spacing,
-        SingleStatCard(
+        CustomCard(
           key: const Key("carbs"),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -241,7 +242,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           ),
         ),
         spacing,
-        SingleStatCard(
+        CustomCard(
           key: const Key("fat"),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -478,6 +479,25 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         if (snapshot.hasError) {
           return _buildErrorText(snapshot.hasError.toString());
         }
+        if (meals!.isEmpty) {
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                spacing,
+                CustomCard(
+                  content: const SizedBox(
+                    height: 120,
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      "No meals registered today",
+                      style: TextStyle(
+                          fontSize: FontStyles.fsTitle2,
+                          fontWeight: FontStyles.fwTitle),
+                    ),
+                  ),
+                ),
+              ]);
+        }
 
         return _buildTodaysMeals(meals!, context);
       },
@@ -497,11 +517,7 @@ Widget _buildTodaysMeals(List<ConsumedMeal> meals, context) {
                     " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
                 meal: meal,
                 onPressed: (meal) {
-                  LogDetails(
-                    meals: [...meals],
-                    time:
-                        " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
-                  ).showMealDetails(meal, context);
+                  LogDetails.showMealDetails(meal, context);
                 })
           ],
         ),

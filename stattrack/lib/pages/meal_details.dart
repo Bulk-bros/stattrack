@@ -9,7 +9,7 @@ import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
-import 'package:stattrack/components/cards/card.dart';
+import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
@@ -101,7 +101,7 @@ class MealDetails extends StatelessWidget {
     const fatLabel = 'Fat';
     const carbsLabel = 'Carbs';
     return [
-      SingleStatCard(
+      CustomCard(
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -197,7 +197,7 @@ class MealDetails extends StatelessWidget {
       const SizedBox(
         height: 20,
       ),
-      SingleStatCard(
+      CustomCard(
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -228,7 +228,7 @@ class MealDetails extends StatelessWidget {
       const SizedBox(
         height: 20,
       ),
-      SingleStatCard(
+      CustomCard(
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
