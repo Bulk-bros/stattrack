@@ -118,7 +118,7 @@ class LogDetails extends StatelessWidget {
                             timeValue:
                                 " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
                             onPressed: (meal) {
-                              _showMealDetails(meal, context);
+                              showMealDetails(meal, context);
                             }),
                         const SizedBox(
                           height: 20,
@@ -135,7 +135,7 @@ class LogDetails extends StatelessWidget {
     );
   }
 
-  void _showMealDetails(ConsumedMeal meal, BuildContext context) {
+  void showMealDetails(ConsumedMeal meal, BuildContext context) {
     Navigator.push(
         context,
         PageTransition(

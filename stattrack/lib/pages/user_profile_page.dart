@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/meals/add_meal.dart';
+import 'package:stattrack/components/meals/consumed_meal_card.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/models/weight.dart';
+import 'package:stattrack/pages/log_details.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -106,7 +108,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                   _buildTodaysMacros(user.dailyCalories, user.dailyProteins,
                       user.dailyCarbs, user.dailyFat)
                 ]
-              : [..._buildTodaysMeals()],
+              : [_getTodaysMeals(context)],
         );
       }),
     );
@@ -468,14 +470,49 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     }
   }
 
-  List<Widget> _buildTodaysMeals() {
+  Widget _getTodaysMeals(context) {
+    return StreamBuilder<List<ConsumedMeal>>(
+      stream: _mealStream(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.active) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        final meals = snapshot.data;
+        if (snapshot.hasError) {
+          return _buildErrorText(snapshot.hasError.toString());
+        }
 
-    return [
-      // TODO: use consumed meal card when Torstein has finished created that
-      // component
-    ];
-
+        return _buildTodaysMeals(meals!, context);
+      },
+    );
   }
+}
+
+Widget _buildTodaysMeals(List<ConsumedMeal> meals, context) {
+  return Column(
+    children: [
+      ...meals.map(
+        (meal) => Column(
+          children: [
+            spacing,
+            ConsumedMealCard(
+                timeValue:
+                    " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
+                meal: meal,
+                onPressed: (meal) {
+                  LogDetails(
+                    meals: [...meals],
+                    time:
+                        " ${meal.time.day}.${meal.time.month}.${meal.time.year} ${meal.time.hour}:${meal.time.minute}",
+                  ).showMealDetails(meal, context);
+                })
+          ],
+        ),
+      ),
+    ],
+  );
 }
 
 class OpenPainter extends CustomPainter {
