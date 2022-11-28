@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/meals/add_meal.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
+import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -98,7 +99,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             user.profilePictureUrl,
             user.name,
             user.getAge(),
-            user.weight,
             user.height,
           ),
           bodyWidgets: activeButton == NavButtons.macros
@@ -272,7 +272,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// Creates user information for the header in the custombody
   Widget _buildUserInformation(BuildContext context, String profilePictureUrl,
-      String name, num age, num weight, num height) {
+      String name, num age, num height) {
     return ColumnSuper(
       key: const Key("userInformation"),
       outerDistance: -10,
@@ -328,15 +328,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                               categoryText: "age",
                               amountText: "$age",
                               color: Colors.white),
-                          SingleStatLayout(
-                              categoryText: "weight",
-                              amountText: "$weight",
-                              color: Colors.white,
-                              icon: const Icon(
-                                Icons.play_arrow,
-                                color: Colors.white,
-                                size: 16,
-                              )),
+                          _buildWeightComponent(),
                           SingleStatLayout(
                               categoryText: "height",
                               amountText: "$height",
@@ -381,6 +373,42 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildWeightComponent() {
+    final AuthBase auth = ref.read(authProvider);
+    final Repository repo = ref.read(repositoryProvider);
+
+    return StreamBuilder<List<Weight>>(
+      stream: repo.getWeights(auth.currentUser!.uid),
+      builder: (context, snapshot) {
+        String value = '';
+        bool progress = true;
+        if (snapshot.connectionState != ConnectionState.active ||
+            snapshot.data == null ||
+            snapshot.data!.isEmpty) {
+          value = '-';
+        } else {
+          value = '${snapshot.data![0].value}';
+
+          if (snapshot.data!.length > 1) {
+            progress = snapshot.data![0].value > snapshot.data![1].value;
+          }
+        }
+
+        return SingleStatLayout(
+          categoryText: "weight",
+          amountText: value,
+          color: Colors.white,
+          progress: progress,
+          icon: const Icon(
+            Icons.play_arrow,
+            color: Colors.white,
+            size: 16,
+          ),
+        );
+      },
     );
   }
 

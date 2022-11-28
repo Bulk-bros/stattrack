@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
+import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import '../models/meal.dart';
@@ -17,14 +18,13 @@ class FirestoreRepository implements Repository {
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
 
   @override
-  void addUser(User user, String uid) {
+  void addUser(User user, Weight weight, String uid) {
     _addDocument(
       document: {
         'name': user.name,
         'profilePicture': user.profilePictureUrl,
         'birthday': user.birthday,
         'height': user.height,
-        'weight': user.weight,
         'dailyCalories': user.dailyCalories,
         'dailyProteins': user.dailyProteins,
         'dailyCarbs': user.dailyCarbs,
@@ -33,11 +33,33 @@ class FirestoreRepository implements Repository {
       collection: 'users',
       docId: uid,
     );
+    _addDocument(
+      document: {
+        'weight': weight.value,
+        'time': weight.time,
+      },
+      collection: ApiPaths.weight(uid),
+    );
   }
 
   @override
-  void updateWeight(String uid, num value) =>
-      _updateDocumentField('users/$uid', 'weight', value);
+  void updateWeight(String uid, num value) {
+    _addDocument(
+      document: {
+        'weight': value,
+        'time': Timestamp.now(),
+      },
+      collection: ApiPaths.weight(uid),
+    );
+  }
+
+  @override
+  Stream<List<Weight>> getWeights(String uid) => _getCollectionStream(
+        path: ApiPaths.weight(uid),
+        fromMap: Weight.fromMap,
+        sortField: 'time',
+        descending: true,
+      );
 
   @override
   void updateDailyCalorieConsumption(String uid, num value) =>

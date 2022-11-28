@@ -6,6 +6,7 @@ import 'package:stattrack/components/buttons/form_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/models/user.dart';
+import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/api_paths.dart';
@@ -151,11 +152,14 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
             profilePictureUrl: imageUrl ?? '',
             birthday: parsedBirthday,
             height: num.parse(_height),
-            weight: num.parse(_weight),
             dailyCalories: num.parse(_calorie),
             dailyProteins: num.parse(_protein),
             dailyCarbs: num.parse(_carbs),
             dailyFat: num.parse(_fat),
+          ),
+          Weight(
+            value: num.parse(_weight),
+            time: Timestamp.now(),
           ),
           auth.currentUser!.uid);
     } catch (e) {

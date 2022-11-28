@@ -1,6 +1,8 @@
 class ApiPaths {
   static String user(String uid) => '/users/$uid';
 
+  static String weight(String uid) => '/users/$uid/weights';
+
   static String meal(String uid) => '/users/$uid/meals';
 
   static String mealImage(String uid, String imageId) => '$uid/meals/$imageId';

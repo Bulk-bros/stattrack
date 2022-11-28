@@ -12,16 +12,17 @@ import 'package:stattrack/styles/font_styles.dart';
 /// [color] the color of both text strings in the layout, default set to black (Colors.black)
 ///
 class SingleStatLayout extends StatelessWidget {
-  SingleStatLayout(
-      {Key? key,
-      required this.categoryText,
-      this.content,
-      this.amountText,
-      this.categoryTextSize = FontStyles.fsBodySmall,
-      this.amountTextSize = FontStyles.fsBody,
-      this.icon,
-      this.color = Colors.black})
-      : super(key: key);
+  SingleStatLayout({
+    Key? key,
+    required this.categoryText,
+    this.content,
+    this.amountText,
+    this.categoryTextSize = FontStyles.fsBodySmall,
+    this.amountTextSize = FontStyles.fsBody,
+    this.icon,
+    this.progress,
+    this.color = Colors.black,
+  }) : super(key: key);
 
   String categoryText;
   Widget? content;
@@ -29,6 +30,7 @@ class SingleStatLayout extends StatelessWidget {
   double amountTextSize;
   Color color = Colors.black;
   Icon? icon;
+  bool? progress;
   String? amountText;
 
   @override
@@ -53,10 +55,14 @@ class SingleStatLayout extends StatelessWidget {
               : MainAxisAlignment.start,
           children: [
             toDisplay,
-            Transform.rotate(
-              angle: -90 * math.pi / 180,
-              child: icon ?? const Text(""),
-            )
+            progress != null
+                ? Transform.rotate(
+                    angle: progress! ? -90 * math.pi / 180 : 90 * math.pi / 180,
+                    child: icon ?? const Text(""),
+                  )
+                : const SizedBox(
+                    height: 0.0,
+                  ),
           ],
         )
       ],
