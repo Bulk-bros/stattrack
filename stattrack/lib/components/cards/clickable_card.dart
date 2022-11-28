@@ -18,7 +18,7 @@ class ClickableCard extends StatelessWidget {
       style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? Colors.white,
           elevation: 25,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           shadowColor: Colors.black.withOpacity(0.40)),
       onPressed: onPressed,
       child: child,

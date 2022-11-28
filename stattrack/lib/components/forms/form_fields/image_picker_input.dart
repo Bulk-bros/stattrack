@@ -29,7 +29,7 @@ class ImagePickerInput extends StatelessWidget {
       if (image != null) {
         onImagePicked(image);
       }
-    } on PlatformException catch (e) {
+    } on PlatformException {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

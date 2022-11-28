@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'dart:ui' as ui;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:stattrack/components/meals/add_meal.dart';
-import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
@@ -19,11 +16,7 @@ import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
 import 'package:stattrack/components/cards/single_stat_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
-import 'package:stattrack/components/meals/meal_card.dart';
-import 'package:stattrack/components/app/custom_bottom_bar.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:math' as math;
-import 'package:stattrack/pages/account_setup/account_setup_page.dart';
 
 import 'package:stattrack/styles/palette.dart';
 
@@ -545,7 +538,6 @@ class OpenPainter extends CustomPainter {
 
   Color? color() {
     Color color;
-    double percentage = (current / total);
     if (current / total >= 1.05) {
       color = Colors.orange;
       if (current / total > 1.10) {

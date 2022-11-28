@@ -173,8 +173,8 @@ class FirestoreRepository implements Repository {
 
   @override
   void deleteImage(String url) async {
-    final String fileUrl = Uri.decodeFull(Path.basename(url))
-        .replaceAll(new RegExp(r'(\?alt).*'), '');
+    final String fileUrl =
+        Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
 
     await FirebaseStorage.instance.ref().child(fileUrl).delete();
   }
@@ -233,7 +233,6 @@ class FirestoreRepository implements Repository {
         .collection(collection)
         .doc(docId)
         .set(document)
-        .then((value) => print("Document added"))
         .catchError((error) => print("Failed to add document: $error"));
   }
 

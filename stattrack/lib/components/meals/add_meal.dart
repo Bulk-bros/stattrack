@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
@@ -32,7 +30,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
         context,
         PageTransition(
           type: PageTransitionType.rightToLeft,
-          child: CreateMeal(),
+          child: const CreateMeal(),
         ));
   }
 
