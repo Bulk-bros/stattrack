@@ -2,6 +2,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
+import 'package:stattrack/models/weight.dart';
 
 import '../models/meal.dart';
 
@@ -16,13 +17,18 @@ abstract class Repository {
   ///
   /// [user] the user to add
   /// [uid] the id of the user to add
-  void addUser(User user, String uid);
+  void addUser(User user, Weight weight, String uid);
 
   /// Updates the weight for a user
   ///
   /// [uid] the id of the user to update the weight
   /// [value] the new value to set the weight to
   void updateWeight(String uid, num value);
+
+  /// Returns a list of all stored weights for the given user
+  ///
+  /// [uid] the id of the user
+  Stream<List<Weight>> getWeights(String uid);
 
   /// Updates the daily calorie consumption for a user
   ///
