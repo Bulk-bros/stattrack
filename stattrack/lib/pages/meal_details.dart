@@ -56,7 +56,10 @@ class MealDetails extends StatelessWidget {
           children: <Widget>[
             IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.navigate_before_rounded),
+              icon: const Icon(
+                Icons.navigate_before_rounded,
+                color: Colors.white,
+              ),
               iconSize: 40,
             ),
             Column(
