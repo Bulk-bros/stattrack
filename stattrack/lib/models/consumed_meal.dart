@@ -50,12 +50,6 @@ class ConsumedMeal extends Meal {
           num.parse(element.split(': ').last);
     }
 
-    // Convert firebase instructions to list of instructions
-    String instructionsString = document['instructions'].toString();
-    List<String> instructions = instructionsString
-        .substring(1, instructionsString.length - 1)
-        .split(', ');
-
     return ConsumedMeal(
         id: document["id"],
         name: document["name"],
@@ -64,7 +58,7 @@ class ConsumedMeal extends Meal {
         proteins: document["proteins"],
         carbs: document["carbs"],
         fat: document["fat"],
-        instuctions: instructions,
+        instuctions: document['instructions'],
         ingredients: ingredients,
         imageUrl: document["imageUrl"]);
   }

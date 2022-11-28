@@ -4,7 +4,7 @@ class Meal {
   final String name;
   final String imageUrl;
   final Map<String?, num>? ingredients;
-  final List<String?>? instuctions;
+  final List<dynamic>? instuctions;
   final num calories;
   final num proteins;
   final num fat;
@@ -37,18 +37,12 @@ class Meal {
           num.parse(element.split(': ').last);
     }
 
-    // Convert firebase instructions to list of instructions
-    String instructionsString = document['instructions'].toString();
-    List<String> instructions = instructionsString
-        .substring(1, instructionsString.length - 1)
-        .split(', ');
-
     return Meal(
       id: document["id"],
       name: document["name"],
       imageUrl: document["imageUrl"],
       ingredients: ingredients,
-      instuctions: instructions,
+      instuctions: document['instructions'],
       calories: num.parse(document["calories"].toString().split('.').first),
       proteins: num.parse(document["proteins"].toString().split('.').first),
       fat: num.parse(document["fat"].toString().split('.').first),

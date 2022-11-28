@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/ingredient.dart';
@@ -127,7 +128,7 @@ class FirestoreRepository implements Repository {
   void logMeal({required Meal meal, required String uid, DateTime? time}) =>
       _addDocument(
         document: {
-          'id': meal.id,
+          'id': UniqueKey().toString(),
           'name': meal.name,
           'calories': meal.calories,
           'proteins': meal.proteins,
