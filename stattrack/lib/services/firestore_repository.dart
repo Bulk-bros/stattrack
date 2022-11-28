@@ -127,6 +127,7 @@ class FirestoreRepository implements Repository {
   void logMeal({required Meal meal, required String uid, DateTime? time}) =>
       _addDocument(
         document: {
+          'id': meal.id,
           'name': meal.name,
           'calories': meal.calories,
           'proteins': meal.proteins,
@@ -142,7 +143,6 @@ class FirestoreRepository implements Repository {
 
   Future<void> deleteMeal(String uid, String mealId) =>
       _deleteDocument('users/$uid/meals/$mealId');
-
 
   @override
   Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
@@ -165,20 +165,6 @@ class FirestoreRepository implements Repository {
             .map((doc) => ConsumedMeal.fromMap(doc.data()))
             .toList());
   }
-
-  @override
-  void logMeal({required Meal meal, required String uid, DateTime? time}) =>
-      _addDocument(
-        document: {
-          'name': meal.name,
-          'calories': meal.calories,
-          'proteins': meal.proteins,
-          'carbs': meal.carbs,
-          'fat': meal.fat,
-          'time': time ?? DateTime.now(),
-        },
-        collection: ApiPaths.log(uid),
-      );
 
   @override
   Future<String> uploadImage(XFile image, String path) async {

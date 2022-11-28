@@ -2,7 +2,7 @@
 class Meal {
   final String id;
   final String name;
-  final String? imageUrl;
+  final String imageUrl;
   final Map<String?, num>? ingredients;
   final List<String?>? instuctions;
   final num calories;
@@ -13,7 +13,7 @@ class Meal {
   Meal({
     required this.id,
     required this.name,
-    this.imageUrl,
+    required this.imageUrl,
     this.ingredients,
     this.instuctions,
     required this.calories,

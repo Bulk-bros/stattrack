@@ -4,16 +4,18 @@ import 'package:stattrack/models/meal.dart';
 /// Represents a meal that is consumed by a user
 class ConsumedMeal extends Meal {
   @override
-  ConsumedMeal(
-      {required super.name,
-      required super.calories,
-      required super.proteins,
-      required super.fat,
-      required super.carbs,
-      required this.time,
-      super.ingredients,
-      super.instuctions,
-      super.imageUrl});
+  ConsumedMeal({
+    required super.id,
+    required super.name,
+    required super.calories,
+    required super.proteins,
+    required super.fat,
+    required super.carbs,
+    required this.time,
+    super.ingredients,
+    super.instuctions,
+    required super.imageUrl,
+  });
 
   final DateTime time;
 
@@ -55,6 +57,7 @@ class ConsumedMeal extends Meal {
         .split(', ');
 
     return ConsumedMeal(
+        id: document["id"],
         name: document["name"],
         time: document["time"].toDate(),
         calories: document["calories"],
