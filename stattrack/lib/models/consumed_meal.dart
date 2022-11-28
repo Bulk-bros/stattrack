@@ -1,32 +1,69 @@
-/// Represents a meal that is consumed by a user
-class ConsumedMeal {
-  final String name;
-  final DateTime time;
-  final num calories;
-  final num proteins;
-  final num carbs;
-  final num fat;
-  final String? imageUrl;
+import 'package:stattrack/components/forms/form_fields/instructions_field.dart';
+import 'package:stattrack/models/meal.dart';
 
-  ConsumedMeal({
-    required this.name,
-    required this.time,
-    required this.calories,
-    required this.proteins,
-    required this.carbs,
-    required this.fat,
-    this.imageUrl,
-  });
+/// Represents a meal that is consumed by a user
+class ConsumedMeal extends Meal {
+  @override
+  ConsumedMeal(
+      {required super.name,
+      required super.calories,
+      required super.proteins,
+      required super.fat,
+      required super.carbs,
+      required this.time,
+      super.ingredients,
+      super.instuctions,
+      super.imageUrl});
+
+  final DateTime time;
+
+// final String name;
+  // final DateTime time;
+  // final num calories;
+  // final num proteins;
+  // final num carbs;
+  // final num fat;
+  // final String? imageUrl;
+
+  // ConsumedMeal({
+  //   required this.name,
+  //   required this.time,
+  //   required this.calories,
+  //   required this.proteins,
+  //   required this.carbs,
+  //   required this.fat,
+  //   this.imageUrl,
+  // });
 
   /// converts a document object from firestore to a ConsumedMeal object
   static ConsumedMeal fromMap(Map<String, dynamic> document) {
+    // Convert firebase ingredients to map of ingredients with amount
+    String ingredientsString = document['ingredients'].toString();
+    List<String> ingredientList = ingredientsString
+        .substring(1, ingredientsString.length - 1)
+        .split(', ');
+    Map<String?, num> ingredients = {};
+    for (var element in ingredientList) {
+      ingredients[element.split(': ').first] =
+          num.parse(element.split(': ').last);
+    }
+
+    // Convert firebase instructions to list of instructions
+    String instructionsString = document['instructions'].toString();
+    List<String> instructions = instructionsString
+        .substring(1, instructionsString.length - 1)
+        .split(', ');
+
     return ConsumedMeal(
         name: document["name"],
         time: document["time"].toDate(),
         calories: document["calories"],
         proteins: document["proteins"],
         carbs: document["carbs"],
-        fat: document["fat"]);
+        fat: document["fat"],
+        instuctions: instructions,
+        ingredients: ingredients,
+        imageUrl: document["imageUrl"]);
   }
 
   @override
