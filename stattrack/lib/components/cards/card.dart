@@ -8,7 +8,7 @@ class SingleStatCard extends StatelessWidget {
   SingleStatCard(
       {Key? key,
       required this.content,
-      this.size = 100,
+      this.size,
       this.padded = true,
       this.color = Colors.white})
       : super(key: key);
