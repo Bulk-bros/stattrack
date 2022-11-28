@@ -9,6 +9,7 @@ import 'package:stattrack/models/user.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import '../models/meal.dart';
+import 'package:path/path.dart' as Path;
 
 class FirestoreRepository implements Repository {
   @override
@@ -56,7 +57,7 @@ class FirestoreRepository implements Repository {
 
   @override
   void updateProfilePicturePath(String uid, String url) =>
-      _updateDocumentField('users/$uid', 'profilePicture', 'url');
+      _updateDocumentField('users/$uid', 'profilePicture', url);
 
   @override
   Stream<List<Ingredient>?> getIngredients(String uid) =>
@@ -85,6 +86,7 @@ class FirestoreRepository implements Repository {
   void addMeal(Meal meal, String uid) {
     _addDocument(
       document: {
+        'id': meal.id,
         'name': meal.name,
         'imageUrl': meal.imageUrl,
         'ingredients': meal.ingredients,
@@ -95,8 +97,13 @@ class FirestoreRepository implements Repository {
         'carbs': meal.carbs,
       },
       collection: ApiPaths.storedMeals(uid),
+      docId: meal.id,
     );
   }
+
+  @override
+  Future<void> deleteMeal(String uid, String mealId) =>
+      _deleteDocument('users/$uid/meals/$mealId');
 
   @override
   Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
@@ -140,6 +147,14 @@ class FirestoreRepository implements Repository {
 
     await ref.putFile(File(image.path));
     return ref.getDownloadURL();
+  }
+
+  @override
+  void deleteImage(String url) async {
+    final String fileUrl = Uri.decodeFull(Path.basename(url))
+        .replaceAll(new RegExp(r'(\?alt).*'), '');
+
+    await FirebaseStorage.instance.ref().child(fileUrl).delete();
   }
 
   /// Returns a stream of a collection for the given path
@@ -209,5 +224,12 @@ class FirestoreRepository implements Repository {
     return FirebaseFirestore.instance.doc(path).update(<String, dynamic>{
       field: value,
     });
+  }
+
+  /// Deletes a document
+  ///
+  /// [path] the path to the document to be deleted
+  Future<void> _deleteDocument(String path) {
+    return FirebaseFirestore.instance.doc(path).delete();
   }
 }

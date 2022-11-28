@@ -442,32 +442,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   List<Widget> _buildTodaysMeals() {
     return [
-      spacing,
-      MealCard(
-        meal: Meal(
-          name: "Salad",
-          imageUrl: "asd",
-          calories: 500,
-          proteins: 50,
-          fat: 5,
-          carbs: 150,
-        ),
-        timeValue: "08:45",
-        onPressed: (id) => print("pressed $id"),
-      ),
-      spacing,
-      MealCard(
-        meal: Meal(
-          name: "Taco wrap",
-          imageUrl: "asd",
-          calories: 638,
-          proteins: 38,
-          fat: 32,
-          carbs: 241,
-        ),
-        timeValue: "16:13",
-        onPressed: (id) => print("pressed $id"),
-      ),
+      // TODO: use consumed meal card when Torstein has finished created that
+      // component
     ];
   }
 }

@@ -13,6 +13,7 @@ import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/create_ingredient_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
@@ -124,10 +125,12 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             100;
       }
 
-      String imageUrl = await repo.uploadImage(_image!, auth.currentUser!.uid);
+      String imageUrl = await repo.uploadImage(_image!,
+          ApiPaths.mealImage(auth.currentUser!.uid, UniqueKey().toString()));
 
       repo.addMeal(
           Meal(
+            id: UniqueKey().toString(),
             name: _name,
             imageUrl: imageUrl,
             ingredients: ingredients,
