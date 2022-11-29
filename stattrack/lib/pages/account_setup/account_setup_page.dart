@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -142,7 +144,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
       String? imageUrl;
       if (_image != null) {
         imageUrl = await repo.uploadImage(
-            _image!, ApiPaths.profilePicture(auth.currentUser!.uid));
+            File(_image!.path), ApiPaths.profilePicture(auth.currentUser!.uid));
       }
 
       // Add user info to database

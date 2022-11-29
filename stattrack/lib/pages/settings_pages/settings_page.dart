@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +10,7 @@ import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
+import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
@@ -48,7 +52,7 @@ class SettingsPage extends ConsumerWidget {
     try {
       // Upload new image
       String imageUrl = await repo.uploadImage(
-          image, ApiPaths.profilePicture(auth.currentUser!.uid));
+          File(image.path), ApiPaths.profilePicture(auth.currentUser!.uid));
 
       // Update the path stored in the user document
       repo.updateProfilePicturePath(auth.currentUser!.uid, imageUrl);
@@ -177,6 +181,58 @@ class SettingsPage extends ConsumerWidget {
     }
   }
 
+  Future<void> _deleteAccount(BuildContext context, WidgetRef ref) {
+    final AuthBase auth = ref.read(authProvider);
+    final Repository repo = ref.read(repositoryProvider);
+
+    return showDialog(
+        context: context,
+        builder: (c) {
+          return AlertDialog(
+            title: const Text('Delete account'),
+            content: const Text(
+              'Are you sure you want to delete your account? All your user data will be lost!',
+            ),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.red,
+                ),
+                onPressed: () async {
+                  try {
+                    final User user = auth.currentUser!;
+                    await repo.deleteUser(user.uid);
+                    await auth.deleteUser(user);
+
+                    Navigator.of(c).pop();
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    Navigator.of(c).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Something went wrong. Please try again!',
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Delete'),
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.black87,
+                ),
+                onPressed: () {
+                  Navigator.of(c).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     double spacing = 31.0;
@@ -202,6 +258,10 @@ class SettingsPage extends ConsumerWidget {
                     height: spacing,
                   ),
                   _buildConsumptionSettings(context, ref),
+                  SizedBox(
+                    height: spacing,
+                  ),
+                  _buildDangerZone(context, ref),
                 ],
               ),
               const SizedBox(
@@ -317,6 +377,28 @@ class SettingsPage extends ConsumerWidget {
           dialogTitle: 'Change daily fat consumption',
           dialogHint: 'Daily fat consumption',
           updateAction: UpdateAction.fat,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDangerZone(BuildContext context, WidgetRef ref) {
+    double spacing = 16.0;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _buildSectionHeading('Danger zone'),
+        SizedBox(
+          height: spacing,
+        ),
+        MainButton(
+          callback: () => _deleteAccount(context, ref),
+          label: 'Delete account',
+          padding: const EdgeInsets.all(16.0),
+          backgroundColor: Colors.white,
+          color: Colors.red,
+          borderColor: Colors.red,
         ),
       ],
     );

@@ -39,6 +39,8 @@ abstract class AuthBase {
   Future<void> changePassword(String currentPassword, String newPassword);
 
   Future<void> resetPassword(String email);
+
+  Future<void> deleteUser(User user);
 }
 
 class Auth implements AuthBase {
@@ -165,5 +167,10 @@ class Auth implements AuthBase {
   @override
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+  }
+
+  @override
+  Future<void> deleteUser(User user) async {
+    user.delete();
   }
 }
