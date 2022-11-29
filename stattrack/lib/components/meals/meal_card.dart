@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
+import 'package:stattrack/main.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/meal.dart';
+import 'package:stattrack/pages/log_details.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
+import 'package:stattrack/styles/palette.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MealCard extends ConsumerWidget {
   MealCard({
@@ -32,20 +36,24 @@ class MealCard extends ConsumerWidget {
   }
 
   void _deleteMeal(BuildContext context, WidgetRef ref) {
-    final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    try {
+      final AuthBase auth = ref.read(authProvider);
+      final Repository repo = ref.read(repositoryProvider);
 
-    // Delete image
-    repo.deleteImage(meal.imageUrl);
+      // Delete image
+      repo.deleteImage(meal.imageUrl);
 
-    // Delete document
-    repo.deleteMeal(auth.currentUser!.uid, meal.id).then((value) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Meal deleted'),
-        ),
-      );
-    });
+      // Delete document
+      repo.deleteMeal(auth.currentUser!.uid, meal.id).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Meal deleted'),
+          ),
+        );
+      });
+    } catch (error) {
+      print(error);
+    }
   }
 
   @override
@@ -55,29 +63,43 @@ class MealCard extends ConsumerWidget {
     const fatLabel = 'Fat';
     const carbsLabel = 'Carbs';
 
-    return Dismissible(
-      key: Key(meal.id),
-      onDismissed: (direction) {
-        _deleteMeal(context, ref);
-      },
-      background: Container(
-        color: Colors.red,
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const <Widget>[
-              Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
-              Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
-            ],
-          ),
-        ),
+    return Slidable(
+      key: const ValueKey(0),
+      startActionPane: ActionPane(
+        extentRatio: 0.3,
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) => _deleteMeal(context, ref),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: "Delete",
+          )
+        ],
+      ),
+      endActionPane: ActionPane(
+        extentRatio: 0.3,
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) => LogDetails.showMealDetails(
+                ConsumedMeal(
+                    id: meal.id,
+                    name: meal.name,
+                    calories: meal.calories,
+                    proteins: meal.proteins,
+                    fat: meal.fat,
+                    carbs: meal.carbs,
+                    time: DateTime.now(),
+                    imageUrl: meal.imageUrl),
+                context),
+            backgroundColor: Palette.accent[400]!,
+            foregroundColor: Colors.white,
+            icon: Icons.info,
+            label: "Info",
+          )
+        ],
       ),
       child: ClickableCard(
         backgroundColor: backgroundColor,
