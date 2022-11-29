@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -125,7 +127,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             100;
       }
 
-      String imageUrl = await repo.uploadImage(_image!,
+      String imageUrl = await repo.uploadImage(File(_image!.path),
           ApiPaths.mealImage(auth.currentUser!.uid, UniqueKey().toString()));
 
       repo.addMeal(

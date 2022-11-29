@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/ingredient.dart';
@@ -18,6 +20,11 @@ abstract class Repository {
   /// [user] the user to add
   /// [uid] the id of the user to add
   void addUser(User user, Weight weight, String uid);
+
+  /// Deletes a user from the database
+  ///
+  /// [uid] the id of the user to delete
+  Future<void> deleteUser(String uid);
 
   /// Updates the weight for a user
   ///
@@ -113,7 +120,7 @@ abstract class Repository {
   ///
   /// [image] the image to upload
   /// [path] the path to where the image should be uploaded
-  Future<String> uploadImage(XFile image, String path);
+  Future<String> uploadImage(File image, String path);
 
   /// Deletes an image from the storage.
   ///

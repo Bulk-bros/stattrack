@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
@@ -12,6 +13,7 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import '../models/meal.dart';
 import 'package:path/path.dart' as Path;
+import 'dart:io';
 
 class FirestoreRepository implements Repository {
   @override
@@ -41,6 +43,33 @@ class FirestoreRepository implements Repository {
       },
       collection: ApiPaths.weight(uid),
     );
+  }
+
+  @override
+  Future<void> deleteUser(String uid) async {
+    // Delete profile image
+    User? user = await getUsers(uid).first;
+    if (user != null) {
+      deleteImage(user.profilePictureUrl);
+    }
+
+    // Delete meal images
+    List<Meal> meals = await getMeals(uid).first;
+    for (var meal in meals) {
+      deleteImage(meal.imageUrl);
+    }
+
+    // Delete log
+    await _deleteCollection(ApiPaths.log(uid));
+    // Delete ingredients
+    await _deleteCollection(ApiPaths.ingredients(uid));
+    // Delete weights
+    await _deleteCollection(ApiPaths.weight(uid));
+    // Delete meals
+    await _deleteCollection(ApiPaths.meal(uid));
+
+    // Delete user in firestore
+    await _deleteDocument(ApiPaths.user(uid));
   }
 
   @override
@@ -125,23 +154,25 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void logMeal({required Meal meal, required String uid, DateTime? time}) =>
-      _addDocument(
-        document: {
-          'id': UniqueKey().toString(),
-          'name': meal.name,
-          'calories': meal.calories,
-          'proteins': meal.proteins,
-          'carbs': meal.carbs,
-          'instructions': meal.instuctions,
-          'ingredients': meal.ingredients,
-          'fat': meal.fat,
-          'time': time ?? DateTime.now(),
-          'imageUrl': meal.imageUrl,
-        },
-        collection: ApiPaths.log(uid),
-      );
+  void logMeal({required Meal meal, required String uid, DateTime? time}) {
+    _addDocument(
+      document: {
+        'id': UniqueKey().toString(),
+        'name': meal.name,
+        'calories': meal.calories,
+        'proteins': meal.proteins,
+        'carbs': meal.carbs,
+        'instructions': meal.instuctions,
+        'ingredients': meal.ingredients,
+        'fat': meal.fat,
+        'time': time ?? DateTime.now(),
+        'imageUrl': meal.imageUrl,
+      },
+      collection: ApiPaths.log(uid),
+    );
+  }
 
+  @override
   Future<void> deleteMeal(String uid, String mealId) =>
       _deleteDocument('users/$uid/meals/$mealId');
 
@@ -168,11 +199,18 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  Future<String> uploadImage(XFile image, String path) async {
+  Future<String> uploadImage(File image, String path) async {
     Reference ref = FirebaseStorage.instance.ref().child(path);
 
     await ref.putFile(File(image.path));
     return ref.getDownloadURL();
+  }
+
+  Future<Uint8List?> getImageData(String url) async {
+    final String fileUrl =
+        Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
+
+    return FirebaseStorage.instance.ref().child(fileUrl).getData();
   }
 
   @override
@@ -220,6 +258,14 @@ class FirestoreRepository implements Repository {
         .snapshots()
         .map((snapshot) => snapshot.data())
         .map((document) => document != null ? fromMap(document) : null);
+  }
+
+  Future<void> _deleteCollection(String path) {
+    return FirebaseFirestore.instance.collection(path).get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
   }
 
   /// Adds a document to the firestore
