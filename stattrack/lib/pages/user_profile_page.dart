@@ -499,7 +499,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
               ]);
         }
 
-        return _buildTodaysMeals(meals!, context);
+        return _buildTodaysMeals(meals, context);
       },
     );
   }

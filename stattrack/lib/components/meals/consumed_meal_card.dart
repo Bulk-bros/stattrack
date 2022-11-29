@@ -84,16 +84,10 @@ class ConsumedMealCard extends StatelessWidget {
                       height: 200,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: meal.imageUrl == null
-                            ? const DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/foodstockpic.jpg"),
-                                fit: BoxFit.fill,
-                              )
-                            : DecorationImage(
-                                image: NetworkImage(meal.imageUrl!),
-                                fit: BoxFit.fill,
-                              ),
+                        image: DecorationImage(
+                          image: NetworkImage(meal.imageUrl),
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                   ),
