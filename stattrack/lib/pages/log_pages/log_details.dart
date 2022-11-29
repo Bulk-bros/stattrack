@@ -1,29 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
-import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/cards/clickable_card.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
-import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
-import 'package:stattrack/components/meals/meal_card.dart';
+import 'package:stattrack/components/meals/consumed_meal_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
-import 'package:stattrack/models/meal.dart';
-import 'package:stattrack/pages/meal_details.dart';
-import 'package:stattrack/pages/settings_pages/change_password_page.dart';
-import 'package:stattrack/pages/user_profile_page.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/models/consumed_meal.dart';
+import 'package:stattrack/pages/meal_pages/meal_details_page.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
-
-import '../components/meals/consumed_meal_card.dart';
-import '../models/consumed_meal.dart';
 
 class LogDetails extends StatelessWidget {
   LogDetails({Key? key, required this.meals, required this.time})

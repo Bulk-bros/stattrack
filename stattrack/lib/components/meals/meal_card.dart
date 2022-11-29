@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
-import 'package:stattrack/main.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/meal.dart';
-import 'package:stattrack/pages/log_details.dart';
+import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
@@ -85,14 +84,17 @@ class MealCard extends ConsumerWidget {
           SlidableAction(
             onPressed: (context) => LogDetails.showMealDetails(
                 ConsumedMeal(
-                    id: meal.id,
-                    name: meal.name,
-                    calories: meal.calories,
-                    proteins: meal.proteins,
-                    fat: meal.fat,
-                    carbs: meal.carbs,
-                    time: DateTime.now(),
-                    imageUrl: meal.imageUrl),
+                  id: meal.id,
+                  name: meal.name,
+                  calories: meal.calories,
+                  proteins: meal.proteins,
+                  fat: meal.fat,
+                  carbs: meal.carbs,
+                  time: DateTime.now(),
+                  imageUrl: meal.imageUrl,
+                  ingredients: meal.ingredients,
+                  instuctions: meal.instuctions,
+                ),
                 context),
             backgroundColor: Palette.accent[400]!,
             foregroundColor: Colors.white,

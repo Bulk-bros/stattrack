@@ -10,7 +10,7 @@ import 'package:stattrack/components/meals/consumed_meal_card.dart';
 
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/models/weight.dart';
-import 'package:stattrack/pages/log_details.dart';
+import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
@@ -19,7 +19,6 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
-import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/stats/single_stat_layout.dart';
 import 'dart:math' as math;
 

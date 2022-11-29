@@ -12,7 +12,7 @@ import 'package:stattrack/components/forms/form_fields/instructions_field.dart';
 import 'package:stattrack/models/IngredientAmount.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/meal.dart';
-import 'package:stattrack/pages/create_ingredient_page.dart';
+import 'package:stattrack/pages/meal_pages/create_ingredient_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/api_paths.dart';
