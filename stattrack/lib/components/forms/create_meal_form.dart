@@ -208,8 +208,8 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
           BorderedTextInput(
             controller: _nameController,
             hintText: 'Name',
-            textInputAction: TextInputAction.unspecified,
-            onEditingComplete: () {},
+            textInputAction: TextInputAction.done,
+            onEditingComplete: () => FocusScope.of(context).unfocus(),
             onChanged: (name) => _updateState,
           ),
           const SizedBox(

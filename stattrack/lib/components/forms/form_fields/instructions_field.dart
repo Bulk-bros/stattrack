@@ -31,8 +31,8 @@ class _InstructionsFieldState extends State<InstructionsField> {
               child: BorderedTextInput(
                 controller: _controller,
                 hintText: 'Instruction',
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () {},
+                textInputAction: TextInputAction.done,
+                onEditingComplete: () => FocusScope.of(context).unfocus(),
                 onChanged: (value) => widget.onChange(widget.index, value),
               ),
             ),

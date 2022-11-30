@@ -142,11 +142,14 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               decoration: InputDecoration(
                 hintText: 'Calories per 100g',
                 errorText: _showInputErrors && !_isValidCalories
-                    ? 'Only numbers'
+                    ? 'Only numbers. Use "." instead of ","'
                     : null,
               ),
               autocorrect: false,
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(
+                signed: true,
+                decimal: true,
+              ),
               textInputAction: TextInputAction.next,
               onEditingComplete: _caloriesEditingComplete,
               onChanged: (name) => _updateState(),
@@ -157,11 +160,14 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               decoration: InputDecoration(
                 hintText: 'Proteins per 100g',
                 errorText: _showInputErrors && !_isValidProteins
-                    ? 'Only numbers'
+                    ? 'Only numbers. Use "." instead of ","'
                     : null,
               ),
               autocorrect: false,
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(
+                signed: true,
+                decimal: true,
+              ),
               textInputAction: TextInputAction.next,
               onEditingComplete: _proteinsEditingComplete,
               onChanged: (name) => _updateState(),
@@ -171,11 +177,15 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               focusNode: _carbsFocusNode,
               decoration: InputDecoration(
                 hintText: 'Carbs per 100g',
-                errorText:
-                    _showInputErrors && !_isValidCarbs ? 'Only numbers' : null,
+                errorText: _showInputErrors && !_isValidCarbs
+                    ? 'Only numbers. Use "." instead of ","'
+                    : null,
               ),
               autocorrect: false,
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(
+                signed: true,
+                decimal: true,
+              ),
               textInputAction: TextInputAction.next,
               onEditingComplete: _carbsEditingComplete,
               onChanged: (name) => _updateState(),
@@ -185,11 +195,15 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               focusNode: _fatFocusNode,
               decoration: InputDecoration(
                 hintText: 'Fat per 100g',
-                errorText:
-                    _showInputErrors && !_isValidFat ? 'Only numbers' : null,
+                errorText: _showInputErrors && !_isValidFat
+                    ? 'Only numbers. Use "." instead of ","'
+                    : null,
               ),
               autocorrect: false,
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(
+                signed: true,
+                decimal: true,
+              ),
               textInputAction: TextInputAction.next,
               onEditingComplete: () => _submit(auth, repo),
               onChanged: (name) => _updateState(),

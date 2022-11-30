@@ -93,10 +93,11 @@ class _IngredientSelectState extends State<IngredientSelect> {
             Flexible(
               child: BorderedTextInput(
                 controller: _controller,
-                hintText: 'Amount',
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
-                onEditingComplete: () {},
+                hintText: 'Amount (g)',
+                textInputAction: TextInputAction.done,
+                keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true, signed: true),
+                onEditingComplete: () => FocusScope.of(context).unfocus(),
                 onChanged: (amount) => _updateState(),
               ),
             ),
