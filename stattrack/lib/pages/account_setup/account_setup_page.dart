@@ -40,7 +40,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   SubPages _activePage = SubPages.generalInfo;
 
   String? _name;
-  String? _birth;
+  DateTime? _birth;
   num? _height;
   num? _weight = 83;
   File? _profileImg;
@@ -95,9 +95,8 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
     final String uid = ref.read(authProvider).currentUser!.uid;
     final Repository repo = ref.read(repositoryProvider);
 
-    // Convert string to timestamp
-    final formatter = DateFormat('dd.MM.yyyy');
-    final parsedBirthday = Timestamp.fromDate(formatter.parse(_birth!));
+    // Convert datetime to timestamp
+    final parsedBirthday = Timestamp.fromDate(_birth!);
 
     // Upload profile picture
     String? imageUrl;

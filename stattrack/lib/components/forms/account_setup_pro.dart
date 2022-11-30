@@ -136,7 +136,7 @@ class _AccountSetupProState extends State<AccountSetupPro> {
                 : null,
             controller: _fatController,
             focusNode: _fatFocusNode,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             keyboardType: const TextInputType.numberWithOptions(
                 decimal: true, signed: true),
             onEditingComplete: _submit,

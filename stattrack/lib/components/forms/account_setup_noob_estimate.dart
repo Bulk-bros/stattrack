@@ -34,18 +34,18 @@ class AccountSetupNoobEstimate extends StatelessWidget {
     // Times a number between 1 and 2 representing the persons activity
     // throughout the day
     if (activityLevel == 1) {
-      calories = calories * 1.2;
+      calories = calories * 1.3;
     } else if (activityLevel == 2) {
       calories = calories * 1.5;
     } else if (activityLevel == 3) {
       calories = calories * 1.8;
     }
 
-    // Times 1.05 for 5% increase or 0.95 for 5% decrease
+    // Times 1.1 for 10% increase or 0.9 for 10% decrease
     if (weightDirection == 'gain') {
-      calories = calories * 1.05;
+      calories = calories * 1.1;
     } else if (weightDirection == 'lose') {
-      calories = calories * 0.95;
+      calories = calories * 0.9;
     }
 
     return calories;

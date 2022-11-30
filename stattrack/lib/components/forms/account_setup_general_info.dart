@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
@@ -15,7 +16,7 @@ class AccountSetupGeneralInfo extends StatefulWidget {
     required this.onComplete,
   }) : super(key: key);
 
-  final void Function(String, String, num, num, File?) onComplete;
+  final void Function(String, DateTime, num, num, File?) onComplete;
 
   @override
   _AccountSetupGeneralInfoState createState() =>
@@ -24,22 +25,20 @@ class AccountSetupGeneralInfo extends StatefulWidget {
 
 class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _birthController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
 
   final FocusNode _nameFocusNode = FocusNode();
-  final FocusNode _birthFocusNode = FocusNode();
+  final FocusNode _birthdayFocusNode = FocusNode();
   final FocusNode _heightFocusNode = FocusNode();
   final FocusNode _weightFocusNode = FocusNode();
 
   String get _name => _nameController.text;
-  String get _birth => _birthController.text;
+  DateTime? _selectedBirthday;
   String get _height => _heightController.text;
   String get _weight => _weightController.text;
 
   bool get _isValidName => Validator.isValidName(_name);
-  bool get _isValidBirth => Validator.isValidBirthday(_birth);
   bool get _isValidHeight => Validator.isPositiveFloat(_height);
   bool get _isValidWeight => Validator.isPositiveFloat(_weight);
 
@@ -48,12 +47,7 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
   bool _showError = false;
 
   void _nameEditingComplete() {
-    final newFocus = _isValidName ? _birthFocusNode : _nameFocusNode;
-    FocusScope.of(context).requestFocus(newFocus);
-  }
-
-  void _birthEditingComplete() {
-    final newFocus = _isValidBirth ? _heightFocusNode : _birthFocusNode;
+    final newFocus = _isValidName ? _birthdayFocusNode : _nameFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
@@ -63,7 +57,10 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
   }
 
   void _submit() {
-    if (!_isValidName || !_isValidBirth || !_isValidHeight || !_isValidWeight) {
+    if (!_isValidName ||
+        _selectedBirthday == null ||
+        !_isValidHeight ||
+        !_isValidWeight) {
       setState(() {
         _showError = true;
       });
@@ -72,8 +69,8 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
       if (_image != null) {
         image = File(_image!.path);
       }
-      widget.onComplete(
-          _name, _birth, num.parse(_height), num.parse(_weight), image);
+      widget.onComplete(_name, _selectedBirthday!, num.parse(_height),
+          num.parse(_weight), image);
     }
   }
 
@@ -106,18 +103,7 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
             keyboardType: TextInputType.name,
             onEditingComplete: _nameEditingComplete,
           ),
-          _buildInput(
-            label: 'Birthday',
-            errorText: _showError && !_isValidBirth
-                ? 'Make sure it\'s valid format (dd.mm.yyyy)'
-                : null,
-            hint: 'Your date of birth',
-            controller: _birthController,
-            focusNode: _birthFocusNode,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.datetime,
-            onEditingComplete: _birthEditingComplete,
-          ),
+          _buildDatePicker(),
           _buildInput(
             label: 'Height',
             hint: 'Your height in cm',
@@ -173,6 +159,79 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDatePicker() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        const Text(
+          'Birthday',
+          style: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontStyles.fwTitle,
+          ),
+        ),
+        const SizedBox(
+          height: 8.0,
+        ),
+        TextButton(
+          focusNode: _birthdayFocusNode,
+          style: TextButton.styleFrom(
+            side: BorderSide(
+              color: _showError && _selectedBirthday == null
+                  ? Colors.red[700]!
+                  : Colors.black87,
+              width: 1.0,
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 22.0,
+              horizontal: 14.0,
+            ),
+          ),
+          onPressed: () {
+            DatePicker.showDatePicker(
+              context,
+              showTitleActions: true,
+              minTime: DateTime(1900, 1, 1),
+              maxTime: DateTime.now(),
+              onConfirm: (date) {
+                setState(() {
+                  _selectedBirthday = date;
+                });
+              },
+              currentTime: DateTime.now(),
+            );
+          },
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              _selectedBirthday == null
+                  ? 'Your date of birth'
+                  : '${_selectedBirthday!.day}.${_selectedBirthday!.month}.${_selectedBirthday!.year}',
+              style: const TextStyle(
+                color: Colors.black54,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 8.0,
+        ),
+        Text(
+          _showError && _selectedBirthday == null
+              ? '   Need to select a birthday'
+              : '',
+          style: TextStyle(
+            color: Colors.red[700],
+            fontSize: 12.0,
+          ),
+        ),
+        SizedBox(
+          height: _showError ? 16.0 : 0.0,
+        ),
+      ],
     );
   }
 
