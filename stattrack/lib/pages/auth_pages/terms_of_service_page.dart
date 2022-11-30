@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
 class TermsOfServicePage extends StatelessWidget {
-  const TermsOfServicePage({Key? key}) : super(key: key);
+  const TermsOfServicePage({Key? key, required this.onAccept})
+      : super(key: key);
+
+  final void Function() onAccept;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,11 @@ class TermsOfServicePage extends StatelessWidget {
           ]),
           _buildSection(title: 'Your soul', body: [
             'By creating a account you accept that during the lifespan of your account your soul is sold to us at bulk bros :)'
-          ])
+          ]),
+          MainButton(
+            callback: onAccept,
+            label: 'Accept',
+          ),
         ],
       ),
     );

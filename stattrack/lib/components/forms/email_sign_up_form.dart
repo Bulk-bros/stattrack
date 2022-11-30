@@ -4,7 +4,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
 import 'package:stattrack/pages/auth_pages/terms_of_service_page.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/utils/validator.dart';
 
 class EmailSignUpForm extends StatefulWidget {
@@ -185,7 +184,12 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                     context,
                     PageTransition(
                       type: PageTransitionType.rightToLeft,
-                      child: const TermsOfServicePage(),
+                      child: TermsOfServicePage(
+                        onAccept: () => setState(() {
+                          _isChecked = true;
+                          Navigator.of(context).pop();
+                        }),
+                      ),
                     ),
                   ),
                   child: const Text(
