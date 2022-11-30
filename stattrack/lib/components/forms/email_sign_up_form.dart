@@ -139,7 +139,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                 labelText: 'Password',
                 hintText: 'Your password',
                 errorText: _showInputErrors && !_isValidPassword
-                    ? '8-20 characters, both lower and uppercase and atleast one number'
+                    ? '8-20 characters, lower and uppercase, \natleast one number and one symbol'
                     : null,
               ),
               obscureText: true,
@@ -177,7 +177,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                     });
                   },
                 ),
-                const Text('I have read and agree with the Terms of Service'),
+                const Text('I have read and agree with the \nTerms of Service'),
               ],
             ),
             const SizedBox(
