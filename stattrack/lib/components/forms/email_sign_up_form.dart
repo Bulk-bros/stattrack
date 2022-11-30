@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
+import 'package:stattrack/pages/auth_pages/terms_of_service_page.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/utils/validator.dart';
 
 class EmailSignUpForm extends StatefulWidget {
@@ -177,7 +180,21 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                     });
                   },
                 ),
-                const Text('I have read and agree with the \nTerms of Service'),
+                TextButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: const TermsOfServicePage(),
+                    ),
+                  ),
+                  child: const Text(
+                    'I have read and agree with the \nTerms of Service',
+                    style: TextStyle(
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(
