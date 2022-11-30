@@ -11,6 +11,7 @@ class MainButton extends StatelessWidget {
     this.backgroundColor,
     this.color,
     this.borderColor,
+    this.fontWeight,
   }) : super(key: key);
 
   final VoidCallback? callback;
@@ -19,6 +20,7 @@ class MainButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? color;
   final Color? borderColor;
+  final FontWeight? fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class MainButton extends StatelessWidget {
         label,
         style: TextStyle(
           color: color ?? Colors.white,
-          fontWeight: FontStyles.fw600,
+          fontWeight: fontWeight ?? FontStyles.fw600,
           fontSize: FontStyles.fs400,
         ),
       ),
