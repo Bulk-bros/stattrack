@@ -10,6 +10,7 @@ import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
@@ -120,7 +121,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
 
     String barcode = "";
     return await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Cancel", false, ScanMode.DEFAULT);
+        "#ff51cf66", "Cancel", true, ScanMode.BARCODE);
   }
 
   Future<void> send(String barcode) async {
