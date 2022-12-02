@@ -78,6 +78,9 @@ class ConsumedMealCard extends StatelessWidget {
                     height: 8,
                   ),
                   CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage:
+                        const AssetImage('assets/gifs/loading.gif'),
                     radius: 40.0,
                     child: Container(
                       width: 200,

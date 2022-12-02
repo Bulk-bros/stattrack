@@ -88,17 +88,17 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
   }
 
   void _caloriesEditingComplete() {
-    final newFocus = _isValidCalories ? _proteinsFocusNode : _caloriesFocusNode;
+    final newFocus = _isValidCalories ? _fatFocusNode : _caloriesFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
-  void _proteinsEditingComplete() {
-    final newFocus = _isValidProteins ? _carbsFocusNode : _proteinsFocusNode;
+  void _fatEditingComplete() {
+    final newFocus = _isValidFat ? _carbsFocusNode : _fatFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
   void _carbsEditingComplete() {
-    final newFocus = _isValidCarbs ? _fatFocusNode : _carbsFocusNode;
+    final newFocus = _isValidCarbs ? _proteinsFocusNode : _carbsFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
@@ -155,11 +155,11 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               onChanged: (name) => _updateState(),
             ),
             TextFormField(
-              controller: _proteinsController,
-              focusNode: _proteinsFocusNode,
+              controller: _fatController,
+              focusNode: _fatFocusNode,
               decoration: InputDecoration(
-                hintText: 'Proteins per 100g',
-                errorText: _showInputErrors && !_isValidProteins
+                hintText: 'Fat per 100g',
+                errorText: _showInputErrors && !_isValidFat
                     ? 'Only numbers. Use "." instead of ","'
                     : null,
               ),
@@ -169,7 +169,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 decimal: true,
               ),
               textInputAction: TextInputAction.next,
-              onEditingComplete: _proteinsEditingComplete,
+              onEditingComplete: _fatEditingComplete,
               onChanged: (name) => _updateState(),
             ),
             TextFormField(
@@ -191,11 +191,11 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               onChanged: (name) => _updateState(),
             ),
             TextFormField(
-              controller: _fatController,
-              focusNode: _fatFocusNode,
+              controller: _proteinsController,
+              focusNode: _proteinsFocusNode,
               decoration: InputDecoration(
-                hintText: 'Fat per 100g',
-                errorText: _showInputErrors && !_isValidFat
+                hintText: 'Proteins per 100g',
+                errorText: _showInputErrors && !_isValidProteins
                     ? 'Only numbers. Use "." instead of ","'
                     : null,
               ),
@@ -204,7 +204,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 signed: true,
                 decimal: true,
               ),
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.done,
               onEditingComplete: () => _submit(auth, repo),
               onChanged: (name) => _updateState(),
             ),
