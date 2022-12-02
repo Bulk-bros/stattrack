@@ -49,6 +49,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
   bool _showInputErrors = false;
   bool _isLoading = false;
 
+  bool _showError = false;
+
   void _submit(AuthBase auth, Repository repo) async {
     setState(() {
       _isLoading = true;
@@ -105,6 +107,40 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
   void _carbsEditingComplete() {
     final newFocus = _isValidCarbs ? _fatFocusNode : _carbsFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
+  }
+
+  void _handleBarcodeButton() async {
+    await send(await scan());
+  }
+
+  Future<String> scan() async {
+    setState(() {
+      _showError = false;
+    });
+
+    String barcode = "";
+    return await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666", "Cancel", false, ScanMode.DEFAULT);
+  }
+
+  Future<void> send(String barcode) async {
+    var response = await http.get(
+      Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json'),
+    );
+
+    try {
+      Ingredient ingredient = Ingredient.fromJson(jsonDecode(response.body));
+
+      _nameController.text = ingredient.name;
+      _caloriesController.text = ingredient.caloriesPer100g.toString();
+      _proteinsController.text = ingredient.proteinsPer100g.toString();
+      _fatController.text = ingredient.fatPer100g.toString();
+      _carbsController.text = ingredient.carbsPer100g.toString();
+    } catch (e) {
+      setState(() {
+        _showError = true;
+      });
+    }
   }
 
   @override
@@ -223,140 +259,25 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
             const SizedBox(
               height: 20.0,
             ),
+            // TODO: Style button
             ElevatedButton(
-                onPressed: () async {
-                  String barcode = await scan();
-                  send(barcode);
-                },
-                child: Text("scan")),
+                onPressed: _handleBarcodeButton, child: Text("scan")),
             const SizedBox(
               height: 20.0,
             ),
-            ElevatedButton(onPressed: () {}, child: Text("send request")),
+            Text(
+              _showError
+                  ? 'Product not found, please enter nutriments manually :('
+                  : '',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.red[700],
+                fontSize: 12.0,
+              ),
+            ),
           ],
         ),
       ),
     );
-  }
-
-  Future<String> scan() async {
-    String barcode = "";
-    return await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Cancel", false, ScanMode.DEFAULT);
-  }
-
-  Future<void> _sendBarcode() async {
-    String barcode = "";
-    scan().then((value) {
-      barcode = value;
-    });
-    print(barcode);
-    print(barcode);
-    print(barcode);
-    print(barcode);
-    print(barcode);
-    print(barcode);
-    print(barcode);
-    print(barcode);
-    print(barcode);
-    var response = await http
-        .get(
-      Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json'),
-    )
-        .then((response) {
-      Ingredient ingredient = Ingredient.fromJson(jsonDecode(response.body));
-
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-      print(ingredient);
-
-      _nameController.text = ingredient.name;
-      _caloriesController.text = ingredient.caloriesPer100g.toString();
-      _proteinsController.text = ingredient.proteinsPer100g.toString();
-      _fatController.text = ingredient.fatPer100g.toString();
-      _carbsController.text = ingredient.carbsPer100g.toString();
-      _updateState();
-    }).catchError((error) {
-      print('error: $error');
-    });
-
-    // if (response.statusCode == 200) {
-    //   // If the server did return a 201 CREATED response,
-    //   // then parse the JSON.
-
-    //   print(ingredient);
-    //   print(ingredient);
-    //   print(ingredient);
-    //   print(ingredient);
-    //   print(ingredient);
-    //   print(ingredient);
-    //   print(ingredient);
-    //   print(ingredient);
-    // } else {
-    //   // If the server did not return a 201 CREATED response,
-    //   // then throw an exception.
-
-    //   throw Exception('Failed to create album.');
-    // }
-  }
-
-  Future<void> send(String barcode) async {
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-    print('BARCODE: $barcode');
-
-    var response = await http.get(
-      Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json'),
-    );
-
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-    print('RESPONSE: $response');
-
-    Ingredient ingredient = Ingredient.fromJson(jsonDecode(response.body));
-
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-    print(ingredient);
-
-    _nameController.text = ingredient.name;
-    _caloriesController.text = ingredient.caloriesPer100g.toString();
-    _proteinsController.text = ingredient.proteinsPer100g.toString();
-    _fatController.text = ingredient.fatPer100g.toString();
-    _carbsController.text = ingredient.carbsPer100g.toString();
   }
 }
