@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
@@ -8,6 +11,8 @@ import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/utils/validator.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:http/http.dart' as http;
 
 class CreateIngredientPage extends ConsumerStatefulWidget {
   const CreateIngredientPage({Key? key}) : super(key: key);
@@ -215,9 +220,143 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               callback: !_isLoading ? () => _submit(auth, repo) : null,
               label: 'Create Ingredient',
             ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  String barcode = await scan();
+                  send(barcode);
+                },
+                child: Text("scan")),
+            const SizedBox(
+              height: 20.0,
+            ),
+            ElevatedButton(onPressed: () {}, child: Text("send request")),
           ],
         ),
       ),
     );
+  }
+
+  Future<String> scan() async {
+    String barcode = "";
+    return await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666", "Cancel", false, ScanMode.DEFAULT);
+  }
+
+  Future<void> _sendBarcode() async {
+    String barcode = "";
+    scan().then((value) {
+      barcode = value;
+    });
+    print(barcode);
+    print(barcode);
+    print(barcode);
+    print(barcode);
+    print(barcode);
+    print(barcode);
+    print(barcode);
+    print(barcode);
+    print(barcode);
+    var response = await http
+        .get(
+      Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json'),
+    )
+        .then((response) {
+      Ingredient ingredient = Ingredient.fromJson(jsonDecode(response.body));
+
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+      print(ingredient);
+
+      _nameController.text = ingredient.name;
+      _caloriesController.text = ingredient.caloriesPer100g.toString();
+      _proteinsController.text = ingredient.proteinsPer100g.toString();
+      _fatController.text = ingredient.fatPer100g.toString();
+      _carbsController.text = ingredient.carbsPer100g.toString();
+      _updateState();
+    }).catchError((error) {
+      print('error: $error');
+    });
+
+    // if (response.statusCode == 200) {
+    //   // If the server did return a 201 CREATED response,
+    //   // then parse the JSON.
+
+    //   print(ingredient);
+    //   print(ingredient);
+    //   print(ingredient);
+    //   print(ingredient);
+    //   print(ingredient);
+    //   print(ingredient);
+    //   print(ingredient);
+    //   print(ingredient);
+    // } else {
+    //   // If the server did not return a 201 CREATED response,
+    //   // then throw an exception.
+
+    //   throw Exception('Failed to create album.');
+    // }
+  }
+
+  Future<void> send(String barcode) async {
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+    print('BARCODE: $barcode');
+
+    var response = await http.get(
+      Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json'),
+    );
+
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+    print('RESPONSE: $response');
+
+    Ingredient ingredient = Ingredient.fromJson(jsonDecode(response.body));
+
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+    print(ingredient);
+
+    _nameController.text = ingredient.name;
+    _caloriesController.text = ingredient.caloriesPer100g.toString();
+    _proteinsController.text = ingredient.proteinsPer100g.toString();
+    _fatController.text = ingredient.fatPer100g.toString();
+    _carbsController.text = ingredient.carbsPer100g.toString();
   }
 }

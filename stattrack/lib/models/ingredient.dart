@@ -40,4 +40,27 @@ class Ingredient {
 
   @override
   int get hashCode => super.hashCode;
+
+  factory Ingredient.fromJson(Map<String, dynamic> json) {
+    final Map<String, dynamic> product = json["product"];
+    final Map<String, dynamic> nutriments = product["nutriments"];
+    final dynamic calories = num.parse('${nutriments["energy-kcal_100g"]}');
+    print(calories);
+    try {
+      return Ingredient(
+          name: '${product["generic_name"]} ${product["product_name"]}',
+          caloriesPer100g: num.parse('${nutriments["energy-kcal_100g"]}'),
+          proteinsPer100g: num.parse('${nutriments["proteins_100g"]}'),
+          fatPer100g: num.parse('${nutriments["fat_100g"]}'),
+          carbsPer100g: num.parse('${nutriments["carbohydrates_100g"]}'));
+    } catch (e) {
+      print(e);
+      return Ingredient(
+          name: "error",
+          caloriesPer100g: 123,
+          proteinsPer100g: 123,
+          fatPer100g: 123,
+          carbsPer100g: 123);
+    }
+  }
 }
