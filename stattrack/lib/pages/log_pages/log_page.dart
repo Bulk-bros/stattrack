@@ -230,7 +230,6 @@ class _LogPageState extends ConsumerState<LogPage> {
       content: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _navItem(
               label: 'Daily',
@@ -270,17 +269,15 @@ class _LogPageState extends ConsumerState<LogPage> {
       {required String label,
       required VoidCallback onPress,
       required bool active}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
-        color: active ? Palette.accent[400] : Colors.transparent,
-      ),
-      child: SizedBox(
-        height: 40.0,
-        child: TextButton(
-          onPressed: onPress,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: active ? Palette.accent[400] : Colors.transparent,
+        ),
+        child: Expanded(
+          child: TextButton(
+            onPressed: onPress,
             child: Text(
               label,
               style: TextStyle(

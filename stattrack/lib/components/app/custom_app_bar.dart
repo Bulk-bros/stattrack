@@ -21,11 +21,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(
-        headerTitle ?? '',
-        style: const TextStyle(
-          fontSize: FontStyles.fsTitle1,
-          fontWeight: FontStyles.fwTitle,
+      title: FittedBox(
+        fit: BoxFit.fitWidth,
+        child: Text(
+          headerTitle ?? '',
+          style: const TextStyle(
+            fontSize: FontStyles.fsTitle1,
+            fontWeight: FontStyles.fwTitle,
+          ),
         ),
       ),
       centerTitle: true,
