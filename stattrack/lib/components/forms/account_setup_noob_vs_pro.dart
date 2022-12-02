@@ -18,7 +18,7 @@ class AccountSetupNoobVsPro extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         const Text(
-          'Do you know your daily calori consumption?',
+          'Do you know your daily calorie consumption?',
           style: TextStyle(
             fontWeight: FontStyles.fwTitle,
           ),

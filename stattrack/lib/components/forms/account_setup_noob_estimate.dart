@@ -158,7 +158,7 @@ class AccountSetupNoobEstimate extends StatelessWidget {
               height: 25.0,
             ),
             const Text(
-              'Try these macros for a week and step one a weight every day at the same time and see if your bodyweight is changing in the right directions. Remember, these numbers are only estimate and might vary from person to person. Thats why you can, whenever you feel like it, go to settings and change them manually if your weight is not going in the right direction:)',
+              'Try these macros for a week and step on a weight scale every day at the same time and see if your bodyweight is changing in the right directions. Remember, these numbers are only estimate and might vary from person to person. Thats why you can, whenever you feel like it, go to settings and change them manually if your weight is not going in the right direction:)',
             ),
           ],
         ),
