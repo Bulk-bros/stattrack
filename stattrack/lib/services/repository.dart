@@ -37,6 +37,12 @@ abstract class Repository {
   /// [uid] the id of the user
   Stream<List<Weight>> getWeights(String uid);
 
+  /// Returns a list of all stored weights the current month
+  /// for a given user
+  ///
+  /// [uid] the id of the user
+  Stream<List<Weight>> getWeightsThisMonth(String uid);
+
   /// Updates the daily calorie consumption for a user
   ///
   /// [uid] the user id of the user to update
