@@ -42,10 +42,13 @@ class Validator {
   /// Returns [true] if the birthday if valid, [false] otherwise
   ///
   /// [birthday] to validate
-  static isValidBirthday(String birthday) {
+  static isValidBirthday(DateTime? birthday) {
+    if (birthday == null) return false;
+
     final birthdayRegex = RegExp(
         r"^(?:0[1-9]|[12][0-9]|3[01])[-/.](?:0[1-9]|1[012])[-/.](?:19\d{2}|20[01][0-9]|2020)$");
-    return birthdayRegex.hasMatch(birthday);
+    return birthdayRegex
+        .hasMatch('${birthday.day}.${birthday.month}.${birthday.year}');
   }
 
   /// Returns [true] if input is a positive floating decimal, [false] otherwise
