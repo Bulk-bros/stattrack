@@ -215,6 +215,13 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               callback: !_isLoading ? () => _submit(auth, repo) : null,
               label: 'Create Ingredient',
             ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            MainButton(
+              callback: !_isLoading ? () => _submit(auth, repo) : null,
+              label: 'Scan Barcode',
+            ),
           ],
         ),
       ),
