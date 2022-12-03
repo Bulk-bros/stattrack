@@ -3,6 +3,12 @@ import 'package:stattrack/components/cards/clickable_card.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
+/// A clickable card that displays a consumed meal
+/// [meal] a consumed meal to be displayed
+/// [timeValue] the time the consumed meal was consumed
+/// [backgroundColor] Background color of the consumed meal card
+/// [color] Color of the text displayed in the card
+/// [onPressed] the action to be called when the card is pressed
 class ConsumedMealCard extends StatelessWidget {
   ConsumedMealCard({
     Key? key,

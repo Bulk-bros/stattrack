@@ -10,6 +10,9 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
+/// Showcases a meal in a modal with all its nutriments
+/// [meal] the meal to be shown in the modal
+/// [width] width of the modal
 class MealShowcase extends ConsumerStatefulWidget {
   MealShowcase({Key? key, required this.meal, this.width}) : super(key: key);
 

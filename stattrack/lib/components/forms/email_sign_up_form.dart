@@ -8,6 +8,8 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/utils/validator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+/// Form displayed upon signing up with email
+/// [auth] authentication repository
 class EmailSignUpForm extends StatefulWidget {
   const EmailSignUpForm({Key? key, required this.auth}) : super(key: key);
 
@@ -97,11 +99,15 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     setState(() {});
   }
 
+  /// Handles the event when "next" is clicked on keyboard
+  /// if the email is valid, focus new input field. Otherwise stay at current input field
   void _emailEditingComplete() {
     final newFocus = _isValidEmail ? _passwordFocusNode : _emailFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
+  /// Handles the event when "next" is clicked on the keyboard
+  /// if the password is valid it will focus on the confirm password field
   void _passwordEditingComplete() {
     final newFocus =
         _isValidPassword ? _passwordConfirmFocusNode : _passwordFocusNode;

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
+/// A clickable card that displays a meal
+/// [meal] a meal to be displayed
+/// [onPressed] the action to be called when the card is pressed
 class MealCard extends StatelessWidget {
   const MealCard({Key? key, required this.meal, required this.onPressed})
       : super(key: key);

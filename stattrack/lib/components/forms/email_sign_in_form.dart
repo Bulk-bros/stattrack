@@ -5,6 +5,8 @@ import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart'
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/utils/validator.dart';
 
+/// Form displayed upon signing in with email
+/// [auth] authentication repository
 class EmailSignInForm extends StatefulWidget {
   const EmailSignInForm({Key? key, required this.auth}) : super(key: key);
 
@@ -31,6 +33,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   String _authErrorMsg = '';
   bool _showAuthError = false;
 
+  ///handles the submittion of form
   void _submit() async {
     setState(() {
       _showAuthError = false;
