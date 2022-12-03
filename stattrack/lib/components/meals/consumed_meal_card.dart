@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/cards/clickable_card.dart';
 import 'package:stattrack/models/consumed_meal.dart';
-import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
 class ConsumedMealCard extends StatelessWidget {
@@ -89,7 +88,7 @@ class ConsumedMealCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: NetworkImage(meal.imageUrl),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

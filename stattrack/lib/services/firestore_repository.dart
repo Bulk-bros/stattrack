@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
@@ -229,11 +227,11 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void deleteImage(String url) async {
+  Future<void> deleteImage(String url) async {
     final String fileUrl =
         Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
 
-    await FirebaseStorage.instance.ref().child(fileUrl).delete();
+    return await FirebaseStorage.instance.ref().child(fileUrl).delete();
   }
 
   /// Returns a stream of a collection for the given path
