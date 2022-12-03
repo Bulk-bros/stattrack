@@ -112,6 +112,8 @@ class MealCard extends ConsumerWidget {
             Column(
               children: <Widget>[
                 CircleAvatar(
+                  backgroundColor: Colors.white,
+                  backgroundImage: const AssetImage('assets/gifs/loading.gif'),
                   radius: 40.0,
                   child: Container(
                     width: 200,

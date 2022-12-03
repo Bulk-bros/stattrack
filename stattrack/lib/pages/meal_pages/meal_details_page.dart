@@ -1,3 +1,4 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/app/custom_body.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
@@ -44,6 +45,8 @@ class MealDetails extends StatelessWidget {
             Column(
               children: [
                 CircleAvatar(
+                  backgroundColor: Colors.white,
+                  backgroundImage: const AssetImage('assets/gifs/loading.gif'),
                   radius: 65.0,
                   child: Container(
                     width: 200,
@@ -222,32 +225,32 @@ class MealDetails extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [..._createInstrucitonList()],
-                ),
-              ],
-            )
+            _buildInstructions(),
           ],
         ),
       ),
     ];
   }
 
-  List<Widget> _createInstrucitonList() {
-    List<Widget> list = [];
+  Widget _buildInstructions() {
+    int stepNumber = 0;
 
-    if (meal.instuctions != null) {
-      for (int i = 0; i < meal.instuctions!.length; i++) {
-        list.add(Text("${i + 1}. ${meal.instuctions![i]}"));
-      }
-    } else {
-      list.add(const Text("No instructions found"));
-    }
-    return list;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        ...meal.instuctions!.map((intruction) {
+          stepNumber += 1;
+
+          return RowSuper(
+            alignment: Alignment.topLeft,
+            children: <Widget>[
+              Text('$stepNumber. '),
+              Text(intruction),
+            ],
+          );
+        })
+      ],
+    );
   }
 
   List<Widget> _createIngredientList(String wantedList) {
