@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// A card that should display a single stat, placing it in the center of the main axis
+/// A custom card that displays information
 /// [content] A widget that is to be displayed in the single stat card
 /// [size] Size of the card, default is set to 100px
 ///

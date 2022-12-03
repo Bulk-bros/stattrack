@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
+/// A custom text input field styled with a stylish border
+/// [controller] the controller for the editable text field
+/// [focusNode] node to be focused on when clicked
+/// [hintText] prompt text to be displayed inside the text field before it is edited
+/// [errorText] Text to be displayed in case of an error related to the text field
+/// [textInputAction] action to be executed when the keyboard is done
+/// [keyboardType] The type of keyboard to be used (number pad, normal, etc.)
+/// [onEditingComplete] function to be called when editing is completed
+/// [onChanged] function to be called when field is changed
+/// [titleText] text of the title displayed above the field
+/// [obsucred] obscuration of the text, hides text in input field
 class BorderedTextInput extends StatelessWidget {
   const BorderedTextInput(
       {Key? key,

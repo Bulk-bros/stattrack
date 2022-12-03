@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
+/// Custom button to be displayed as the main focusing point of a page
+/// [callback] Function to be called when button is pressed
+/// [backgroundColor] The main color of the button
+/// [color] Color of the label
+/// [borderColor] Color of the border surrounding the backgroundColor
+/// [fontWeight] Weight of the label text
 class MainButton extends StatelessWidget {
   const MainButton({
     Key? key,

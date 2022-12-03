@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// Custom clickable card that displays information
+/// [child] Widget to be displayed within the card
+/// [onPressed] logic that should happen when the card is pressed
+/// [backgroundColor] color of the clickable card
 class ClickableCard extends StatelessWidget {
   const ClickableCard(
       {Key? key,
