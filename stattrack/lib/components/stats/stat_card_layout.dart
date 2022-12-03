@@ -66,6 +66,7 @@ class StatCard extends StatelessWidget {
     );
   }
 
+  /// item to be displayed in the stat card
   Widget _statItem(String label, num value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

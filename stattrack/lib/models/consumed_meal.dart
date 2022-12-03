@@ -1,6 +1,16 @@
 import 'package:stattrack/models/meal.dart';
 
 /// Represents a meal that is consumed by a user
+/// [id] the id of the consumed meal
+/// [name] consumed meal title
+/// [calories] the total amount of calories in the meal
+/// [proteins] the total amount of proteins in the meal
+/// [fat] the total amount of fat in the meal
+/// [carbs] the total amount of carbohydrates in the meal
+/// [time] the time the meal was consumed
+/// [ingredients] a list of the ingredients for the meal
+/// [instuctions] a list of instructions for the meal
+/// [imageUrl] the url for the image related to the meal
 class ConsumedMeal extends Meal {
   @override
   ConsumedMeal({

@@ -1,5 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Represents a user in the application
+/// [name] name of the user
+/// [profilePictureUrl] the url of the profile picture related to the user
+/// [height] height of a user
+/// [birthday] birthdate of a user
+/// [dailyCalories] the amount of calories wanted to be consumed daily
+/// [dailyProteins] the amount of proteins wanted ot be consumed daily
+/// [dailyCarbs] the amount of carbohydrates wanted to be consumed daily
+/// [dailyFat] the amount of fat wanted to be consumed daily
+///
 class User {
   final String name;
   final String profilePictureUrl;

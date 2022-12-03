@@ -1,4 +1,13 @@
 /// Represents a ingredeint that is used in meals
+/// [name] name of the ingredient
+/// [unit] the unit the ingredient is measured in
+/// [caloriesPerUnit] the number of calories per unit
+/// [proteinsPerUnit] the number of proteins per unit
+/// [fatPerUnit] the number of fat per unit
+/// [carbsPerUnit] the number of carbohydrates per unit
+/// [saltPerUnit] the number of salts per unit
+/// [saturatedFatPerUnit] the number of saturated fat per unit
+/// [sugarsPerUnit] the number of sugars per unit
 class Ingredient {
   final String name;
   final String unit;
@@ -22,8 +31,8 @@ class Ingredient {
     required this.sugarsPerUnit,
   });
 
+  ///Creates an ingredient from the document map from the database
   static Ingredient fromMap(Map<String, dynamic> document) {
-    print(document);
     return Ingredient(
       name: document['name'],
       unit: document['unit'],
@@ -59,6 +68,7 @@ class Ingredient {
   @override
   int get hashCode => super.hashCode;
 
+  /// Converts a json object into an ingredient
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> product = json["product"];
     final Map<String, dynamic> nutriments = product["nutriments"];

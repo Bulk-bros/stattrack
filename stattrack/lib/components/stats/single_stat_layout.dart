@@ -10,6 +10,8 @@ import 'package:stattrack/styles/font_styles.dart';
 /// [amountTextSize] the size of the amountText, default set to fs400 (16.0)
 /// [icon] an icon to be displayed to the right of an amountText default set to null
 /// [color] the color of both text strings in the layout, default set to black (Colors.black)
+/// [progress] a boolean value that should be used when a progress should be shown
+/// [content] the content that wanted to be displayed
 ///
 class SingleStatLayout extends StatelessWidget {
   SingleStatLayout({
@@ -69,6 +71,7 @@ class SingleStatLayout extends StatelessWidget {
     );
   }
 
+  /// Creates a text widget styled to look right in the single stat layout
   Widget _buildAmountText(String amountText) {
     return Text(
       amountText,
