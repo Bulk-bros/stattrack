@@ -32,6 +32,9 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^2.1.1
 
+  http: ^0.13.5
+  
+
   flutter_slidable: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +43,8 @@ dependencies:
   flutter_svg: ^1.1.5
 
   firebase_core: ^2.1.1
+
+  flutter_barcode_scanner: ^2.0.0
 
   assorted_layout_widgets: ^7.0.0
 

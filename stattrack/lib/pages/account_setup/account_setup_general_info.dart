@@ -93,25 +93,25 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
           const SizedBox(
             height: 25.0,
           ),
-          _buildInput(
-            label: 'Name',
-            hint: 'Your full name',
-            errorText: _showError && !_isValidName ? 'Cannot be empty' : null,
+          BorderedTextInput(
+            hintText: "Your full name",
+            titleText: "Name",
             controller: _nameController,
             focusNode: _nameFocusNode,
+            errorText: _showError && !_isValidName ? 'Cannot be empty' : null,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
             onEditingComplete: _nameEditingComplete,
           ),
           _buildDatePicker(),
-          _buildInput(
-            label: 'Height',
-            hint: 'Your height in cm',
+          BorderedTextInput(
+            hintText: 'Your height in cm',
+            titleText: "Height",
+            controller: _heightController,
+            focusNode: _heightFocusNode,
             errorText: _showError && !_isValidHeight
                 ? 'Only decimal numbers. Use "." instead of ","'
                 : null,
-            controller: _heightController,
-            focusNode: _heightFocusNode,
             textInputAction: TextInputAction.next,
             keyboardType: const TextInputType.numberWithOptions(
               decimal: true,
@@ -119,14 +119,14 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
             ),
             onEditingComplete: _heightEditingComplete,
           ),
-          _buildInput(
-            label: 'Weight',
-            hint: 'Your weight in kg',
-            errorText: _showError && !_isValidWeight
-                ? 'Only decimal numbers. Use "." instead of ","'
-                : null,
+          BorderedTextInput(
+            hintText: 'Your Weight in kg',
+            titleText: "Weight",
             controller: _weightController,
             focusNode: _weightFocusNode,
+            errorText: _showError && !_isValidHeight
+                ? 'Only decimal numbers. Use "." instead of ","'
+                : null,
             textInputAction: TextInputAction.done,
             keyboardType: const TextInputType.numberWithOptions(
               decimal: true,
@@ -230,46 +230,6 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
         ),
         SizedBox(
           height: _showError ? 16.0 : 0.0,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInput({
-    required String label,
-    required String hint,
-    String? errorText,
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required TextInputAction textInputAction,
-    required TextInputType keyboardType,
-    required void Function() onEditingComplete,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.black87,
-            fontWeight: FontStyles.fwTitle,
-          ),
-        ),
-        const SizedBox(
-          height: 8.0,
-        ),
-        BorderedTextInput(
-          hintText: hint,
-          errorText: errorText,
-          controller: controller,
-          focusNode: focusNode,
-          textInputAction: textInputAction,
-          keyboardType: keyboardType,
-          onEditingComplete: onEditingComplete,
-          onChanged: (value) => _updateState(),
-        ),
-        const SizedBox(
-          height: 16.0,
         ),
       ],
     );
