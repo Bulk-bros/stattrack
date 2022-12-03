@@ -125,8 +125,9 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
   }
 
   Future<void> send(String barcode) async {
+    String url = 'https://world.openfoodfacts.org/api/v0/product/$barcode.json';
     var response = await http.get(
-      Uri.parse('https://world.openfoodfacts.org/api/v0/product/$barcode.json'),
+      Uri.parse(url),
     );
 
     try {
