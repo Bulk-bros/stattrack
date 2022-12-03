@@ -23,7 +23,6 @@ class Ingredient {
   });
 
   static Ingredient fromMap(Map<String, dynamic> document) {
-    print(document);
     return Ingredient(
       name: document['name'],
       unit: document['unit'],
