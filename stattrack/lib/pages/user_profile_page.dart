@@ -490,7 +490,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                       "No meals registered today",
                       style: TextStyle(
                           fontSize: FontStyles.fsTitle2,
-                          fontWeight: FontStyles.fwTitle),
+                          fontWeight: FontStyles.fwBody),
                     ),
                   ),
                 ),
