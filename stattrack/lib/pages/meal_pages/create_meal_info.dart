@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
+import 'package:stattrack/styles/font_styles.dart';
+import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 
 class CreateMealInfo extends StatefulWidget {
-  const CreateMealInfo({Key? key, required this.onComplete}) : super(key: key);
+  const CreateMealInfo(
+      {Key? key, required this.navPrev, required this.onComplete})
+      : super(key: key);
 
-  final void Function(String, File) onComplete;
+  final void Function() navPrev;
+  final void Function(String, Uint8List) onComplete;
 
   @override
   _CreateMealInfoState createState() => _CreateMealInfoState();
@@ -42,18 +48,8 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
     } else {
       final imageData = await _cropController.onCropImage();
 
-      File? image;
-      XFile? file;
       if (imageData != null) {
-        file = XFile.fromData(imageData.bytes);
-        image = File(file.path);
-      }
-
-      print(image);
-      print(file!.name);
-
-      if (image != null) {
-        widget.onComplete(_name, image);
+        widget.onComplete(_name, imageData.bytes);
       }
     }
   }
@@ -67,6 +63,13 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        const SizedBox(
+          height: 20.0,
+        ),
+        _buildHeader(),
+        const SizedBox(
+          height: 20.0,
+        ),
         BorderedTextInput(
           titleText: 'Name:',
           hintText: 'Name',
@@ -105,6 +108,34 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
             : const SizedBox(
                 height: 0,
               ),
+      ],
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          onPressed: widget.navPrev,
+          icon: const Icon(Icons.close),
+        ),
+        const Text(
+          'Info',
+          style: TextStyle(
+            fontSize: FontStyles.fsTitle1,
+            fontWeight: FontStyles.fwTitle,
+          ),
+        ),
+        TextButton(
+          onPressed: _handleComplete,
+          child: Text(
+            'Next',
+            style: TextStyle(
+              color: Palette.accent[400],
+            ),
+          ),
+        )
       ],
     );
   }
