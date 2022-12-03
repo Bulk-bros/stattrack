@@ -12,7 +12,7 @@ class ConsumedMeal extends Meal {
     required super.fat,
     required super.carbs,
     required this.time,
-    super.ingredients,
+    required super.ingredients,
     super.instuctions,
     required super.imageUrl,
   });

@@ -1,43 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
-import 'package:stattrack/components/meals/add_meal_select.dart';
+import 'package:stattrack/components/meals/meal_card.dart';
+import 'package:stattrack/components/meals/meal_showcase.dart';
+import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
-import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
 class AddMeal extends ConsumerStatefulWidget {
-  const AddMeal({Key? key, required this.height}) : super(key: key);
-
-  // Height of the widget
-  final double height;
+  const AddMeal({Key? key}) : super(key: key);
 
   @override
   _AddMealState createState() => _AddMealState();
 }
 
 class _AddMealState extends ConsumerState<AddMeal> {
-  String _searchInput = '';
+  String _searchWord = '';
 
-  void _showCreateMeal(BuildContext context) {
-    Navigator.push(
-        context,
-        PageTransition(
-          type: PageTransitionType.rightToLeft,
-          child: const CreateMeal(),
-        ));
+  void _updateSearchWord(String value) {
+    setState(() {
+      _searchWord = value;
+    });
   }
 
-  void _updateSearch(String search) {
-    setState(() {
-      _searchInput = search.toLowerCase();
-    });
+  void _goToCreateMeal(BuildContext context) {
+    Navigator.of(context).push(
+      PageTransition(
+        child: const CreateMeal(),
+        type: PageTransitionType.rightToLeft,
+      ),
+    );
+  }
+
+  Future<void> _openMealModal(BuildContext context, Meal meal) {
+    final double modalContentWidth = MediaQuery.of(context).size.width * 1;
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            insetPadding: const EdgeInsets.all(20.0),
+            contentPadding: const EdgeInsets.all(16.0),
+            content: MealShowcase(meal: meal, width: modalContentWidth),
+          );
+        });
   }
 
   @override
@@ -50,68 +63,107 @@ class _AddMealState extends ConsumerState<AddMeal> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(
-                    color: Palette.accent[200],
-                    fontSize: FontStyles.fsBody,
-                  ),
-                ),
+          _buildNav(context),
+          _buildSearch(),
+          const SizedBox(
+            height: 25.0,
+          ),
+          _buildGrid(auth, repo, context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNav(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(
+            'Cancel',
+            style: TextStyle(
+              color: Palette.accent[400],
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => _goToCreateMeal(context),
+          child: Text(
+            'Create new meal',
+            style: TextStyle(
+              color: Palette.accent[400],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearch() {
+    return BorderedTextInput(
+      hintText: 'Search...',
+      onChanged: (value) => _updateSearchWord(value),
+    );
+  }
+
+  Widget _buildGrid(AuthBase auth, Repository repo, BuildContext context) {
+    return StreamBuilder<List<Meal>>(
+      stream: repo.getMeals(auth.currentUser!.uid),
+      builder: ((context, snapshot) {
+        print(snapshot.data);
+        if (snapshot.connectionState != ConnectionState.active) {
+          return Center(
+            child: SizedBox(
+              height: 50.0,
+              width: 50.0,
+              child: CircularProgressIndicator(
+                color: Palette.accent[400],
               ),
-              TextButton(
-                onPressed: () => _showCreateMeal(context),
-                child: Text(
-                  'Create new meal',
-                  style: TextStyle(
-                    color: Palette.accent[200],
-                    fontSize: FontStyles.fsBody,
-                  ),
+            ),
+          );
+        }
+        if (snapshot.data == null || snapshot.data!.isEmpty) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const Text(
+                'You have no meals. Create one to get started!',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 16.0,
+              ),
+              MainButton(
+                callback: () => _goToCreateMeal(context),
+                label: 'Create a new meal',
+              ),
+            ],
+          );
+        }
+
+        List<Meal> meals = snapshot.data!
+            .where((meal) =>
+                meal.name.toLowerCase().contains(_searchWord.toLowerCase()))
+            .toList();
+
+        return Expanded(
+          child: GridView.count(
+            childAspectRatio: 1,
+            crossAxisCount: 2,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+            children: <Widget>[
+              ...meals.map(
+                (meal) => MealCard(
+                  meal: meal,
+                  onPressed: (m) => _openMealModal(context, m),
                 ),
               ),
             ],
           ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          BorderedTextInput(
-            hintText: 'Search',
-            onChanged: (value) => _updateSearch(value),
-          ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          StreamBuilder<List<Meal>>(
-            stream: repo.getMeals(auth.currentUser!.uid),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.active) {
-                return const Text('');
-              }
-              if (snapshot.data == null || snapshot.data!.isEmpty) {
-                return const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'No meals',
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
-              return SizedBox(
-                height: widget.height * 0.70,
-                child: AddMealSelect(
-                    meals: snapshot.data!
-                        .where((meal) =>
-                            meal.name.toLowerCase().contains(_searchInput))
-                        .toList()),
-              );
-            },
-          ),
-        ],
-      ),
+        );
+      }),
     );
   }
 }

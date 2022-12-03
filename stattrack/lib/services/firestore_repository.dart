@@ -225,11 +225,11 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void deleteImage(String url) async {
+  Future<void> deleteImage(String url) async {
     final String fileUrl =
         Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
 
-    await FirebaseStorage.instance.ref().child(fileUrl).delete();
+    return await FirebaseStorage.instance.ref().child(fileUrl).delete();
   }
 
   /// Returns a stream of a collection for the given path

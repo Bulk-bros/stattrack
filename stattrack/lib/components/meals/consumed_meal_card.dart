@@ -89,7 +89,7 @@ class ConsumedMealCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: NetworkImage(meal.imageUrl),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
