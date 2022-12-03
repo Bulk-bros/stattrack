@@ -92,6 +92,17 @@ class FirestoreRepository implements Repository {
       );
 
   @override
+  Stream<List<Weight>> getWeightsThisMonth(String uid) {
+    return FirebaseFirestore.instance
+        .collection(ApiPaths.weight(uid))
+        // TODO: Where statement to get every weight from beggining of month till today
+        //.where('time', isGreaterThanOrEqualTo: DateTime.now().)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Weight.fromMap(doc.data())).toList());
+  }
+
+  @override
   void updateDailyCalorieConsumption(String uid, num value) =>
       _updateDocumentField('users/$uid', 'dailyCalories', value);
 
