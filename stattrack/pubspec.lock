@@ -169,6 +169,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  custom_image_crop:
+    dependency: "direct main"
+    description:
+      name: custom_image_crop
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   dart_style:
     dependency: transitive
     description:
@@ -176,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -338,6 +352,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  gesture_x_detector:
+    dependency: transitive
+    description:
+      name: gesture_x_detector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   glob:
     dependency: transitive
     description:
