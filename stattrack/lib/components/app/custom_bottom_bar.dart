@@ -5,12 +5,16 @@ import 'package:stattrack/styles/palette.dart';
 import '../../utils/nav_button_options.dart';
 
 /// A custom Bottom navigation bar, which is to be displayed at the bottom of the screen
-/// [onChange] function
+/// [onChange] A function that is to happen on a change event
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({Key? key, required this.onChange}) : super(key: key);
 
   final void Function(String) onChange;
 
+  /// _handleNavPressed handles when the navigation bar is pressed
+  /// Handles navigation according to the iconIndex
+  /// [context] Buildcontext of current build
+  /// [iconIndex] the index of the icon that is pressed
   void _handleNavPressed(BuildContext context, int iconIndex) {
     double modalHeight = MediaQuery.of(context).size.height * 0.8;
 
