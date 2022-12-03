@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
+import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/utils/validator.dart';
 
@@ -96,35 +98,26 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       padding: const EdgeInsets.all(31.0),
       child: Form(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            TextFormField(
+            BorderedTextInput(
+              hintText: "...",
+              titleText: "Email",
               key: const Key('emailSignInEmailTextFormField'),
               controller: _emailController,
               focusNode: _emailFocusNode,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Your email address',
-                errorText:
-                    _showInputErrors && !_isValidEmail ? 'Invalid email' : null,
-              ),
-              autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               onEditingComplete: _emailEditingComplete,
               onChanged: (email) => _updateState(),
             ),
-            TextFormField(
+            BorderedTextInput(
+              obsucred: true,
+              hintText: "...",
+              titleText: "Password",
               key: const Key('emailSignInPasswordTextFormField'),
               controller: _passwordController,
               focusNode: _passwordFocusNode,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Your password',
-                errorText: _showInputErrors && _password.isEmpty
-                    ? 'Password cannot be empty'
-                    : null,
-              ),
-              obscureText: true,
               textInputAction: TextInputAction.done,
               onEditingComplete: _password.isNotEmpty ? _submit : null,
               onChanged: (password) => _updateState(),
@@ -132,9 +125,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
             const SizedBox(
               height: 39.0,
             ),
-            FormButton(
+            MainButton(
               key: const Key('emailSignInFormButton'),
-              onPressed: enableButton ? _submit : null,
+              callback: enableButton ? _submit : null,
               label: 'Sign In',
             ),
             Column(

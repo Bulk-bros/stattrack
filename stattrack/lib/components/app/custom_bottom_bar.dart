@@ -4,6 +4,8 @@ import 'package:stattrack/styles/palette.dart';
 
 import '../../utils/nav_button_options.dart';
 
+/// A custom Bottom navigation bar, which is to be displayed at the bottom of the screen
+/// [onChange] function
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({Key? key, required this.onChange}) : super(key: key);
 

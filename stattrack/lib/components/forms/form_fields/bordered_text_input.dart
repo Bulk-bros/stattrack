@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
 class BorderedTextInput extends StatelessWidget {
-  const BorderedTextInput({
-    Key? key,
-    this.controller,
-    this.focusNode,
-    required this.hintText,
-    this.errorText,
-    this.textInputAction,
-    this.keyboardType,
-    this.onEditingComplete,
-    this.onChanged,
-    this.titleText,
-  }) : super(key: key);
+  const BorderedTextInput(
+      {Key? key,
+      this.controller,
+      this.focusNode,
+      required this.hintText,
+      this.errorText,
+      this.textInputAction,
+      this.keyboardType,
+      this.onEditingComplete,
+      this.onChanged,
+      this.titleText,
+      this.obsucred = false})
+      : super(key: key);
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -24,6 +25,7 @@ class BorderedTextInput extends StatelessWidget {
   final void Function()? onEditingComplete;
   final void Function(String)? onChanged;
   final String? titleText;
+  final bool obsucred;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class BorderedTextInput extends StatelessWidget {
           height: 8.0,
         ),
         TextField(
+          obscureText: obsucred,
           controller: controller,
           focusNode: focusNode,
           decoration: InputDecoration(
