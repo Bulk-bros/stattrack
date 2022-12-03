@@ -5,7 +5,6 @@ import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/meals/meal_showcase.dart';
-import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
@@ -111,7 +110,6 @@ class _AddMealState extends ConsumerState<AddMeal> {
     return StreamBuilder<List<Meal>>(
       stream: repo.getMeals(auth.currentUser!.uid),
       builder: ((context, snapshot) {
-        print(snapshot.data);
         if (snapshot.connectionState != ConnectionState.active) {
           return Center(
             child: SizedBox(

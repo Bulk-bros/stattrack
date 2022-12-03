@@ -1,4 +1,3 @@
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/styles/font_styles.dart';

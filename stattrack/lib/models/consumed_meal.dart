@@ -1,4 +1,3 @@
-import 'package:stattrack/components/forms/form_fields/instructions_field.dart';
 import 'package:stattrack/models/meal.dart';
 
 /// Represents a meal that is consumed by a user
