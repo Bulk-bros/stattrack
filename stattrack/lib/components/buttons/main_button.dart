@@ -15,6 +15,7 @@ class MainButton extends StatelessWidget {
     Key? key,
     required this.callback,
     required this.label,
+    this.elevation,
     this.padding,
     this.backgroundColor,
     this.color,
@@ -24,6 +25,7 @@ class MainButton extends StatelessWidget {
 
   final VoidCallback? callback;
   final String label;
+  final double? elevation;
   final EdgeInsets? padding;
   final Color? backgroundColor;
   final Color? color;
@@ -35,6 +37,7 @@ class MainButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: callback,
       style: ElevatedButton.styleFrom(
+        elevation: elevation ?? 2,
         backgroundColor: backgroundColor ?? Palette.accent[400],
         padding: padding ?? const EdgeInsets.all(25.0),
         side: borderColor != null

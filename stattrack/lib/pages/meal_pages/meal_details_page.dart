@@ -55,7 +55,7 @@ class MealDetails extends StatelessWidget {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         image: NetworkImage(meal.imageUrl),
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -257,29 +257,21 @@ class MealDetails extends StatelessWidget {
     List<Widget> list = [];
 
     if (wantedList == "name") {
-      if (meal.ingredients != null) {
-        for (String? string in meal.ingredients!.keys) {
-          list.add(Text(
-            "- $string",
-            style: const TextStyle(
-                fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwBody),
-          ));
-        }
-      } else if (meal.ingredients == null) {
-        list.add(const Text("No ingredients found"));
+      for (String? string in meal.ingredients.keys) {
+        list.add(Text(
+          "- $string",
+          style: const TextStyle(
+              fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwBody),
+        ));
       }
     }
     if (wantedList == "value") {
-      if (meal.ingredients != null) {
-        for (num number in meal.ingredients!.values) {
-          list.add(Text(
-            "${number}g",
-            style: const TextStyle(
-                fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwBody),
-          ));
-        }
-      } else if (meal.ingredients == null) {
-        list.add(const Text("No ingredients found"));
+      for (num number in meal.ingredients.values) {
+        list.add(Text(
+          "${number}g",
+          style: const TextStyle(
+              fontSize: FontStyles.fsBody, fontWeight: FontStyles.fwBody),
+        ));
       }
     }
 

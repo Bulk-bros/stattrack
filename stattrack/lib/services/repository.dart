@@ -131,5 +131,5 @@ abstract class Repository {
   /// Deletes an image from the storage.
   ///
   /// [url] url of the image to be deleted
-  void deleteImage(String url);
+  Future<void> deleteImage(String url);
 }
