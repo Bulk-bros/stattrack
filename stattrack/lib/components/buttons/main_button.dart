@@ -4,6 +4,8 @@ import 'package:stattrack/styles/palette.dart';
 
 /// Custom button to be displayed as the main focusing point of a page
 /// [callback] Function to be called when button is pressed
+/// [label] Text displayed by the main button
+/// [padding] Padding around the button
 /// [backgroundColor] The main color of the button
 /// [color] Color of the label
 /// [borderColor] Color of the border surrounding the backgroundColor
