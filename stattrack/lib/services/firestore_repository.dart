@@ -120,6 +120,7 @@ class FirestoreRepository implements Repository {
   Future<void> addIngredient(Ingredient ingredient, String uid) =>
       _addDocument(document: {
         'name': ingredient.name,
+        'unit': ingredient.unit,
         'caloriesPerUnit': ingredient.caloriesPerUnit,
         'proteinsPerUnit': ingredient.proteinsPerUnit,
         'carbsPerUnit': ingredient.carbsPerUnit,
