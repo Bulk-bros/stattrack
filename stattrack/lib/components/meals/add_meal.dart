@@ -49,15 +49,6 @@ class _AddMealState extends ConsumerState<AddMeal> {
     );
   }
 
-  void _goToRecommendMeal(BuildContext context) {
-    Navigator.of(context).push(
-      PageTransition(
-        child: const RecommendMealPage(),
-        type: PageTransitionType.rightToLeft,
-      ),
-    );
-  }
-
   Future<void> _openMealModal(BuildContext context, Meal meal) {
     final double modalContentWidth = MediaQuery.of(context).size.width * 1;
 

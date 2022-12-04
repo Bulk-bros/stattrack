@@ -13,7 +13,6 @@ import 'package:stattrack/models/IngredientAmount.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_ingredient_page.dart';
-import 'package:stattrack/pages/meal_pages/recommend_meal_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/services/api_paths.dart';
@@ -149,7 +148,7 @@ class _RecommendMealFormState extends ConsumerState<RecommendMealForm> {
         ),
       );
     } else {
-      Map<String?, num> ingredients = {};
+      Map<String, num> ingredients = {};
       num calories = 0;
       num proteins = 0;
       num fat = 0;
@@ -304,24 +303,24 @@ class _RecommendMealFormState extends ConsumerState<RecommendMealForm> {
           const SizedBox(
             height: sectionSpacing,
           ),
-          _buildHeading('Instructions'),
+          //  _buildHeading('Instructions'),
           const SizedBox(
             height: elementSpacing,
           ),
-          ..._instructions.keys.map((index) {
-            return InstructionsField(
-              index: index,
-              onChange: (i, value) => _updateInstruction(i, value),
-              delete: (i) => _deleteInstruction(i),
-            );
-          }),
-          MainButton(
-            callback: _addInstruction,
-            label: 'Add instruction',
-            padding: const EdgeInsets.all(16.0),
-            backgroundColor: Colors.white,
-            color: Palette.accent[400],
-          ),
+          //  ..._instructions.keys.map((index) {
+          //    return InstructionsField(
+          //      index: index,
+          //      onChange: (i, value) => _updateInstruction(i, value),
+          //      delete: (i) => _deleteInstruction(i),
+          //     );
+          //  }),
+          // MainButton(
+          //  callback: _addInstruction,
+          //  label: 'Add instruction',
+          //  padding: const EdgeInsets.all(16.0),
+          //  backgroundColor: Colors.white,
+          //  color: Palette.accent[400],
+          // ),
           const SizedBox(
             height: 50.0,
           ),
@@ -340,15 +339,16 @@ class _RecommendMealFormState extends ConsumerState<RecommendMealForm> {
             decoration: const InputDecoration(
               hintText: 'Recommended meal',
             ),
+            maxLines: 15,
           ),
           const SizedBox(
             height: 50.0,
           ),
-          MainButton(
-            callback: () => _addMeal(context, auth, repo),
-            label: 'Add Recommended meal',
-            padding: const EdgeInsets.all(16.0),
-          ),
+          //   MainButton(
+          //    callback: () => _addMeal(context, auth, repo),
+          //    label: 'Add Recommended meal',
+          //    padding: const EdgeInsets.all(16.0),
+          //  ),
         ],
       ),
     );

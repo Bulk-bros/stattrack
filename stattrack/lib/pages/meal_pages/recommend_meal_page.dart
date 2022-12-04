@@ -23,7 +23,7 @@ class _RecommendMealPageState extends ConsumerState<RecommendMealPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        headerTitle: 'Create Meal',
+        headerTitle: 'Recommend Meal',
       ),
       body: Padding(
         padding: const EdgeInsets.all(31.0),
