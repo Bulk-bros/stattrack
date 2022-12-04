@@ -282,13 +282,7 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              RowSuper(
-                alignment: Alignment.topLeft,
-                children: <Widget>[
-                  Text('$stepNumber. '),
-                  Text(instruction),
-                ],
-              ),
+              Text('$stepNumber. $instruction'),
               separetor,
             ],
           );
