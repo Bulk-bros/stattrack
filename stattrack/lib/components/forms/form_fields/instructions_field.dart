@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 
 class InstructionsField extends StatefulWidget {
-  const InstructionsField(
+  InstructionsField(
       {Key? key,
       required this.index,
       required this.onChange,
@@ -12,6 +12,13 @@ class InstructionsField extends StatefulWidget {
   final num index;
   final void Function(num, String) onChange;
   final void Function(num) delete;
+
+  ///Get the instructions from the text field
+  String getInstructions() {
+    return _controller.text;
+  }
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   _InstructionsFieldState createState() => _InstructionsFieldState();

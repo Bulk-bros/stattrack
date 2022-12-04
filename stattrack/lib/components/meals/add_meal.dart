@@ -13,6 +13,8 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 
+import '../../pages/meal_pages/recommend_meal_page.dart';
+
 class AddMeal extends ConsumerStatefulWidget {
   const AddMeal({Key? key}) : super(key: key);
 
@@ -33,6 +35,15 @@ class _AddMealState extends ConsumerState<AddMeal> {
     Navigator.of(context).push(
       PageTransition(
         child: const CreateMeal(),
+        type: PageTransitionType.rightToLeft,
+      ),
+    );
+  }
+
+  void _goToRecommendMeal(BuildContext context) {
+    Navigator.of(context).push(
+      PageTransition(
+        child: const RecommendMealPage(),
         type: PageTransitionType.rightToLeft,
       ),
     );
@@ -90,6 +101,15 @@ class _AddMealState extends ConsumerState<AddMeal> {
           onPressed: () => _goToCreateMeal(context),
           child: Text(
             'Create new meal',
+            style: TextStyle(
+              color: Palette.accent[400],
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => _goToRecommendMeal(context),
+          child: Text(
+            'Recommend meal',
             style: TextStyle(
               color: Palette.accent[400],
             ),
