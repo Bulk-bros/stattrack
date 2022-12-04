@@ -46,6 +46,7 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
   String _errorMsg = '';
   bool _showError = false;
 
+  /// Initializes the state of the component
   @override
   void initState() {
     super.initState();
@@ -61,6 +62,8 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
     });
   }
 
+  /// Removes the subscription from ingredient stream when component
+  /// is removed from tree
   @override
   void dispose() {
     super.dispose();
@@ -68,10 +71,12 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
     _ingredientStreamSubscription.cancel();
   }
 
+  /// Updates the state of the component
   void _updateState() {
     setState(() {});
   }
 
+  /// Handles the event when user is finished with adding ingredients
   void _handleComplete() {
     setState(() {
       _showError = false;
@@ -107,7 +112,10 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
     }
   }
 
-  /// Adds an ingredient to the list from the form
+  /// Adds an ingredient to the list based on the inputs stored
+  /// in the form
+  ///
+  /// If some values from the form are invalid an error messages is displayed
   void _addIngredient() {
     setState(() {
       _showError = false;
@@ -137,6 +145,7 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
     });
   }
 
+  /// Navigates to [create_ingredient_page]
   void _navToCreateIngredient(BuildContext context) {
     Navigator.of(context).push(
       PageTransition(
