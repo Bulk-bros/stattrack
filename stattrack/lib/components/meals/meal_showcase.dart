@@ -76,36 +76,39 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
 
     return SizedBox(
       width: widget.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              _buildHeader(),
-              separetor,
-              _buildNutrients(),
-              separetor,
-              _buildIngredients(),
-              separetor,
-              _buildInstructions(),
-            ],
-          ),
-          _editable
-              ? MainButton(
-                  callback: () => _deleteMeal(context, auth, repo),
-                  label: 'Delete meal',
-                  backgroundColor: Colors.white,
-                  borderColor: Colors.red,
-                  color: Colors.red,
-                  elevation: 0,
-                )
-              : MainButton(
-                  callback: () => _logMeal(auth, repo),
-                  label: 'Eat meal',
-                ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                _buildHeader(),
+                separetor,
+                _buildNutrients(),
+                separetor,
+                _buildIngredients(),
+                separetor,
+                _buildInstructions(),
+                separetor,
+              ],
+            ),
+            _editable
+                ? MainButton(
+                    callback: () => _deleteMeal(context, auth, repo),
+                    label: 'Delete meal',
+                    backgroundColor: Colors.white,
+                    borderColor: Colors.red,
+                    color: Colors.red,
+                    elevation: 0,
+                  )
+                : MainButton(
+                    callback: () => _logMeal(auth, repo),
+                    label: 'Eat meal',
+                  ),
+          ],
+        ),
       ),
     );
   }
@@ -217,6 +220,9 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
   }
 
   Widget _buildIngredients() {
+    List<String> ingredientNames = widget.meal.ingredients.keys.toList();
+    List<num> ingredientAmounts = widget.meal.ingredients.values.toList();
+
     const SizedBox separetor = SizedBox(
       height: 6.0,
     );
@@ -224,52 +230,35 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const Text(
-          'Ingredients:',
-          style: TextStyle(fontWeight: FontStyles.fwTitle),
-        ),
-        separetor,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[..._creatIngredientNameList(separetor)],
+          children: const [
+            Text(
+              'Ingredients:',
+              style: TextStyle(fontWeight: FontStyles.fwTitle),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[..._creatIngredientValueList(separetor)],
+            Text(
+              'Amount:',
+              style: TextStyle(fontWeight: FontStyles.fwTitle),
             ),
           ],
         ),
+        separetor,
+        for (var i = 0; i < ingredientNames.length; i++)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(ingredientNames[i]),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Text('${ingredientAmounts[i]}g'),
+            ],
+          ),
       ],
     );
-  }
-
-  List<Widget> _creatIngredientNameList(SizedBox separetor) {
-    List<Widget> list = [];
-
-    for (String? string in widget.meal.ingredients.keys) {
-      list.add(
-        Text('$string'),
-      );
-      list.add(separetor);
-    }
-
-    return list;
-  }
-
-  List<Widget> _creatIngredientValueList(SizedBox separetor) {
-    List<Widget> list = [];
-
-    for (num value in widget.meal.ingredients.values) {
-      list.add(
-        Text('${value}g'),
-      );
-      list.add(separetor);
-    }
-
-    return list;
   }
 
   Widget _buildInstructions() {

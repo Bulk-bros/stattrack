@@ -54,36 +54,41 @@ class CreateMealOverview extends StatelessWidget {
       height: 20.0,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SingleChildScrollView(
-          child: Column(
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildHeader(),
+              _buildHeader(context),
               separator,
-              _buildInfo(),
-              separator,
-              _buildNutrition(),
-              separator,
-              _buildIngredients(),
-              separator,
-              _buildInstructions(),
-              separator,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildInfo(),
+                  separator,
+                  _buildNutrition(),
+                  separator,
+                  _buildIngredients(),
+                  separator,
+                  _buildInstructions(),
+                  separator,
+                ],
+              ),
             ],
           ),
-        ),
-        MainButton(
-          callback: () => _handleComplete(context),
-          label: 'Create meal',
-        ),
-      ],
+          MainButton(
+            callback: () => _handleComplete(context),
+            label: 'Create meal',
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -105,7 +110,7 @@ class CreateMealOverview extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: onComplete,
+              onPressed: () => _handleComplete(context),
               child: Text(
                 'Next',
                 style: TextStyle(

@@ -105,7 +105,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
         ),
       );
     } else {
-      Map<String?, num> ingredients = {};
+      Map<String, num> ingredients = {};
       num calories = 0;
       num proteins = 0;
       num fat = 0;
