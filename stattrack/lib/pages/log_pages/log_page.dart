@@ -52,14 +52,6 @@ class _LogPageState extends ConsumerState<LogPage> {
     });
   }
 
-  /// Navigates to graph page
-  void _navToGrapgPage(BuildContext context) {
-    Navigator.of(context).push(PageTransition(
-      child: const GraphPage(),
-      type: PageTransitionType.rightToLeft,
-    ));
-  }
-
   /// Converts a list of [ConsumedMeal]'s to a map group by day, week,
   /// month or year based on the active nav item that is sorted by time
   ///
@@ -126,12 +118,6 @@ class _LogPageState extends ConsumerState<LogPage> {
     return Scaffold(
       appBar: CustomAppBar(
         headerTitle: 'Log',
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _navToGrapgPage(context),
-            icon: const Icon(Icons.bar_chart_rounded),
-          ),
-        ],
       ),
       body: _buildBody(),
     );
