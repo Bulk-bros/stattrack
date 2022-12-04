@@ -216,13 +216,21 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _showError
-                  ? Text(
-                      'Product not found, please enter nutriments manually :(',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.red[700],
-                        fontSize: 12.0,
-                      ),
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          'Product not found, please enter nutriments manually :(',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.red[700],
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
                     )
                   : const SizedBox(
                       height: 0,
@@ -310,7 +318,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                   signed: true,
                   decimal: true,
                 ),
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 onEditingComplete: () => _proteinEditingComplete(),
                 onChanged: (name) => _updateState(),
               ),
