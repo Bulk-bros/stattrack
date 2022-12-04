@@ -161,14 +161,16 @@ class _CreateMealInstructionsState extends State<CreateMealInstructions> {
               children: [
                 for (int index = 0; index < _instructions.length; index++)
                   ListBody(
-                    key: Key('$index. $index'),
+                    key: Key('$index'),
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Flexible(child: Text(_instructions[index])),
+                            Flexible(
+                                child: Text(
+                                    '${index + 1}. ${_instructions[index]}')),
                             const Icon(Icons.menu),
                           ],
                         ),

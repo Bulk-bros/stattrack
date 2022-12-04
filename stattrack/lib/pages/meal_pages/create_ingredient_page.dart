@@ -215,6 +215,18 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              _showError
+                  ? Text(
+                      'Product not found, please enter nutriments manually :(',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.red[700],
+                        fontSize: 12.0,
+                      ),
+                    )
+                  : const SizedBox(
+                      height: 0,
+                    ),
               BorderedTextInput(
                 titleText: "Ingredient name",
                 hintText: "Ingredient name",
@@ -305,8 +317,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               BorderedTextInput(
                 titleText: "Salt",
                 hintText: "Salts per 100g",
-                controller: _proteinsController,
-                focusNode: _proteinsFocusNode,
+                controller: _saltController,
+                focusNode: _saltFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
                   signed: true,
                   decimal: true,
@@ -314,19 +326,6 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 textInputAction: TextInputAction.done,
                 onEditingComplete: () => _submit(auth, repo),
                 onChanged: (name) => _updateState(),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                _showError
-                    ? 'Product not found, please enter nutriments manually :('
-                    : '',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.red[700],
-                  fontSize: 12.0,
-                ),
               ),
               const SizedBox(
                 height: 20.0,

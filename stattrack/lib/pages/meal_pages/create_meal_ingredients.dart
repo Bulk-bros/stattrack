@@ -343,7 +343,9 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(ingredientNames[i]),
+                  Flexible(
+                    child: Text(ingredientNames[i]),
+                  ),
                   Row(
                     children: [
                       Text('${ingredientAmounts[i]}g'),
