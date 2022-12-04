@@ -32,7 +32,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
   void _goToCreateMeal(BuildContext context) {
     Navigator.of(context).push(
       PageTransition(
-        child: const CreateMeal(),
+        child: const CreateMealPage(),
         type: PageTransitionType.rightToLeft,
       ),
     );

@@ -215,6 +215,26 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              _showError
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          'Product not found, please enter nutriments manually :(',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.red[700],
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    )
+                  : const SizedBox(
+                      height: 0,
+                    ),
               BorderedTextInput(
                 titleText: "Ingredient name",
                 hintText: "Ingredient name",
@@ -298,7 +318,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                   signed: true,
                   decimal: true,
                 ),
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 onEditingComplete: () => _proteinEditingComplete(),
                 onChanged: (name) => _updateState(),
               ),
@@ -314,19 +334,6 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 textInputAction: TextInputAction.done,
                 onEditingComplete: () => _submit(auth, repo),
                 onChanged: (name) => _updateState(),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                _showError
-                    ? 'Product not found, please enter nutriments manually :('
-                    : '',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.red[700],
-                  fontSize: 12.0,
-                ),
               ),
               const SizedBox(
                 height: 20.0,

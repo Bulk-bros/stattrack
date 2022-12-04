@@ -43,7 +43,7 @@ class ConsumedMeal extends Meal {
     List<String> ingredientList = ingredientsString
         .substring(1, ingredientsString.length - 1)
         .split(', ');
-    Map<String?, num> ingredients = {};
+    Map<String, num> ingredients = {};
     for (var element in ingredientList) {
       ingredients[element.split(': ').first] =
           num.parse(element.split(': ').last);

@@ -11,7 +11,6 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import '../models/meal.dart';
 import 'package:path/path.dart' as Path;
-import 'dart:io';
 
 class FirestoreRepository implements Repository {
   @override
@@ -148,8 +147,8 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void addMeal(Meal meal, String uid) {
-    _addDocument(
+  Future<void> addMeal(Meal meal, String uid) async {
+    return _addDocument(
       document: {
         'id': meal.id,
         'name': meal.name,
@@ -215,7 +214,15 @@ class FirestoreRepository implements Repository {
   Future<String> uploadImage(File image, String path) async {
     Reference ref = FirebaseStorage.instance.ref().child(path);
 
-    await ref.putFile(File(image.path));
+    await ref.putFile(image);
+    return ref.getDownloadURL();
+  }
+
+  @override
+  Future<String> uploadFileAsBytes(Uint8List bytes, String path) async {
+    Reference ref = FirebaseStorage.instance.ref().child(path);
+
+    await ref.putData(bytes);
     return ref.getDownloadURL();
   }
 
