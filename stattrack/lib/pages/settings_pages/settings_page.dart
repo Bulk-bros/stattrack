@@ -399,6 +399,7 @@ class SettingsPage extends ConsumerWidget {
           backgroundColor: Colors.white,
           color: Colors.red,
           borderColor: Colors.red,
+          elevation: 0,
         ),
       ],
     );

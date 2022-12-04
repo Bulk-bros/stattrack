@@ -75,7 +75,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
     final Repository repo = ref.read(repositoryProvider);
 
     return StreamBuilder<User?>(
-      stream: repo.getUsers(auth.currentUser!.uid),
+      stream: repo.getUser(auth.currentUser!.uid),
       builder: ((context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
           return const Center(

@@ -14,7 +14,7 @@ import 'package:path/path.dart' as Path;
 
 class FirestoreRepository implements Repository {
   @override
-  Stream<User?> getUsers(String uid) =>
+  Stream<User?> getUser(String uid) =>
       _getDocumentStream(ApiPaths.user(uid), User.fromMap);
 
   @override
@@ -45,7 +45,7 @@ class FirestoreRepository implements Repository {
   @override
   Future<void> deleteUser(String uid) async {
     // Delete profile image
-    User? user = await getUsers(uid).first;
+    User? user = await getUser(uid).first;
     if (user != null) {
       deleteImage(user.profilePictureUrl);
     }

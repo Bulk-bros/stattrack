@@ -76,7 +76,6 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
           controller: _nameController,
           errorText: _showError && !_isValidName ? 'Cannot be empty' : null,
           textInputAction: TextInputAction.done,
-          keyboardType: TextInputType.name,
           onChanged: (value) => _updateState(),
         ),
         _image != null

@@ -1,6 +1,6 @@
 # Sebastian
 
-## Walt through
+## Walk through
 
 - Easy to navigate
 - Nice that you can overwrite the recommended macros
