@@ -17,11 +17,11 @@ import 'package:stattrack/models/ingredient.dart';
 
 class OpenAI {
   static const String _apiKey = '';
-  static const String _engineId = 'davinci';
+  static const String _engineId = 'text-davinci-003';
   static const String _url =
       'https://api.openai.com/v1/engines/$_engineId/completions';
   static const String _prompt =
-      'Write a recipe based on these ingredients and instructions';
+      'Write a recipe based on these ingredients and instructions as a list:\n';
 
   static Future<String> recommendMeal(
       List<Ingredient> ingredients, List<String> instructions,
@@ -30,19 +30,17 @@ class OpenAI {
       double topP = 1,
       double frequencyPenalty = 0,
       double presencePenalty = 0,
-      int bestOf = 1,
-      int maxTokens = 250}) async {
+      int maxTokens = 200}) async {
     final String ingredientsString =
         ingredients.map((Ingredient ingredient) => ingredient.name).join(', ');
     final String instructionsString = instructions.join(', ');
     final String request = jsonEncode({
       'prompt':
-          '${OpenAI._prompt} \n Ingredients : $ingredientsString \n Instructions : $instructionsString',
+          '${OpenAI._prompt} Ingredients : $ingredientsString.' 'Instructions:',
       'temperature': temperature,
       'top_p': topP,
       'frequency_penalty': frequencyPenalty,
       'presence_penalty': presencePenalty,
-      'best_of': bestOf,
       'max_tokens': maxTokens,
     });
 
