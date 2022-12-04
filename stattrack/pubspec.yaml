@@ -64,7 +64,6 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   syncfusion_flutter_charts: ^20.3.59
   custom_image_crop: ^0.0.4
-  dropdown_search: ^5.0.3
 
 dev_dependencies:
   flutter_test:
