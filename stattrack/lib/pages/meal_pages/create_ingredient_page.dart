@@ -138,7 +138,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
   }
 
   void _sugarEditingComplete() {
-    final newFocus = _isValidSugar ? _proteinsFocusNode : _carbsFocusNode;
+    final newFocus = _isValidSugar ? _proteinsFocusNode : _sugarFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 

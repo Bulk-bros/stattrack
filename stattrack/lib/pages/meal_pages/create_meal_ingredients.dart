@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
@@ -124,6 +123,8 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
         _selectedIngredients[_ingredientIndex] = IngredientAmount(
             ingredient: _activeDropdownItem!, amount: num.parse(_amount));
       });
+      _activeDropdownItem = null;
+      _controller.text = '';
     }
   }
 
