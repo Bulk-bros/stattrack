@@ -305,8 +305,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
               BorderedTextInput(
                 titleText: "Salt",
                 hintText: "Salts per 100g",
-                controller: _proteinsController,
-                focusNode: _proteinsFocusNode,
+                controller: _saltController,
+                focusNode: _saltFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
                   signed: true,
                   decimal: true,
