@@ -117,7 +117,6 @@ class _CreateMealInstructionsState extends State<CreateMealInstructions> {
         BorderedTextInput(
           hintText: 'Instruction',
           controller: _controller,
-          keyboardType: TextInputType.name,
           onChanged: (value) => _updateState,
         ),
         MainButton(
