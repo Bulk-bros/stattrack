@@ -13,7 +13,7 @@ abstract class Repository {
   /// If no user is found with the given id, a stream of null is returned
   ///
   /// [uid] the user id of the user to find
-  Stream<User?> getUsers(String uid);
+  Stream<User?> getUser(String uid);
 
   /// Adds a user to the database
   ///

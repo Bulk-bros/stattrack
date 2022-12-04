@@ -32,7 +32,7 @@ class LandingPage extends ConsumerWidget {
             // If yes, redirect to profile page
             // If no, redirect to account setup page
             return StreamBuilder<app_user.User?>(
-                stream: repo.getUsers(auth.currentUser!.uid),
+                stream: repo.getUser(auth.currentUser!.uid),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.active) {
                     return const Center(
