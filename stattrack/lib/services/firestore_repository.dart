@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
@@ -13,7 +11,6 @@ import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import '../models/meal.dart';
 import 'package:path/path.dart' as Path;
-import 'dart:io';
 
 class FirestoreRepository implements Repository {
   @override
@@ -92,6 +89,17 @@ class FirestoreRepository implements Repository {
       );
 
   @override
+  Stream<List<Weight>> getWeightsThisMonth(String uid) {
+    return FirebaseFirestore.instance
+        .collection(ApiPaths.weight(uid))
+        // TODO: Where statement to get every weight from beggining of month till today
+        //.where('time', isGreaterThanOrEqualTo: DateTime.now().)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Weight.fromMap(doc.data())).toList());
+  }
+
+  @override
   void updateDailyCalorieConsumption(String uid, num value) =>
       _updateDocumentField('users/$uid', 'dailyCalories', value);
 
@@ -120,10 +128,14 @@ class FirestoreRepository implements Repository {
   Future<void> addIngredient(Ingredient ingredient, String uid) =>
       _addDocument(document: {
         'name': ingredient.name,
-        'caloriesPer100g': ingredient.caloriesPer100g,
-        'proteinsPer100g': ingredient.proteinsPer100g,
-        'carbsPer100g': ingredient.carbsPer100g,
-        'fatPer100g': ingredient.fatPer100g,
+        'unit': ingredient.unit,
+        'caloriesPerUnit': ingredient.caloriesPerUnit,
+        'proteinsPerUnit': ingredient.proteinsPerUnit,
+        'carbsPerUnit': ingredient.carbsPerUnit,
+        'fatPerUnit': ingredient.fatPerUnit,
+        'saturatedFatPerUnit': ingredient.saturatedFatPerUnit,
+        'saltPerUnit': ingredient.saltPerUnit,
+        'sugarPerUnit': ingredient.sugarsPerUnit,
       }, collection: ApiPaths.ingredients(uid));
 
   @override
@@ -135,8 +147,8 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void addMeal(Meal meal, String uid) {
-    _addDocument(
+  Future<void> addMeal(Meal meal, String uid) async {
+    return _addDocument(
       document: {
         'id': meal.id,
         'name': meal.name,
@@ -202,7 +214,15 @@ class FirestoreRepository implements Repository {
   Future<String> uploadImage(File image, String path) async {
     Reference ref = FirebaseStorage.instance.ref().child(path);
 
-    await ref.putFile(File(image.path));
+    await ref.putFile(image);
+    return ref.getDownloadURL();
+  }
+
+  @override
+  Future<String> uploadFileAsBytes(Uint8List bytes, String path) async {
+    Reference ref = FirebaseStorage.instance.ref().child(path);
+
+    await ref.putData(bytes);
     return ref.getDownloadURL();
   }
 
@@ -214,11 +234,11 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  void deleteImage(String url) async {
+  Future<void> deleteImage(String url) async {
     final String fileUrl =
         Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
 
-    await FirebaseStorage.instance.ref().child(fileUrl).delete();
+    return await FirebaseStorage.instance.ref().child(fileUrl).delete();
   }
 
   /// Returns a stream of a collection for the given path

@@ -6,6 +6,7 @@ import 'package:stattrack/components/cards/clickable_card.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/stats/stat_card_layout.dart';
 import 'package:stattrack/models/consumed_meal.dart';
+import 'package:stattrack/pages/log_pages/graph_page.dart';
 import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
@@ -49,6 +50,14 @@ class _LogPageState extends ConsumerState<LogPage> {
     setState(() {
       activeNavItem = selected;
     });
+  }
+
+  /// Navigates to graph page
+  void _navToGrapgPage(BuildContext context) {
+    Navigator.of(context).push(PageTransition(
+      child: const GraphPage(),
+      type: PageTransitionType.rightToLeft,
+    ));
   }
 
   /// Converts a list of [ConsumedMeal]'s to a map group by day, week,
@@ -117,6 +126,12 @@ class _LogPageState extends ConsumerState<LogPage> {
     return Scaffold(
       appBar: CustomAppBar(
         headerTitle: 'Log',
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => _navToGrapgPage(context),
+            icon: const Icon(Icons.bar_chart_rounded),
+          ),
+        ],
       ),
       body: _buildBody(),
     );
@@ -144,7 +159,6 @@ class _LogPageState extends ConsumerState<LogPage> {
                 );
               }
               if (snapshot.hasError) {
-                print(snapshot.data);
                 return _buildErrorText('Error: ${snapshot.error}');
               }
               if (!snapshot.hasData) {
@@ -230,7 +244,6 @@ class _LogPageState extends ConsumerState<LogPage> {
       content: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _navItem(
               label: 'Daily',
@@ -270,22 +283,18 @@ class _LogPageState extends ConsumerState<LogPage> {
       {required String label,
       required VoidCallback onPress,
       required bool active}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
-        color: active ? Palette.accent[400] : Colors.transparent,
-      ),
-      child: SizedBox(
-        height: 40.0,
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: active ? Palette.accent[400] : Colors.transparent,
+        ),
         child: TextButton(
           onPressed: onPress,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(
-              label,
-              style: TextStyle(
-                color: active ? Colors.white : Colors.black87,
-              ),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: active ? Colors.white : Colors.black87,
             ),
           ),
         ),

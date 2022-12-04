@@ -193,7 +193,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
               ),
               categoryTextSize: FontStyles.fsTitle3,
             ),
-            size: 230),
+            size: 231),
         spacing,
         CustomCard(
           key: const Key("proteins"),
@@ -344,10 +344,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           height: 5,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               key: const Key("todaysMacros"),
-              width: 160,
               alignment: Alignment.centerLeft,
               child: _userInformationTextButton(
                   "Todays macros", activeButton == NavButtons.macros, () {
@@ -358,7 +358,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
             ),
             Container(
               key: const Key("todaysMeals"),
-              width: 160,
               alignment: Alignment.centerLeft,
               child: _userInformationTextButton(
                   "Todays meals", activeButton == NavButtons.meals, () {
@@ -491,7 +490,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                       "No meals registered today",
                       style: TextStyle(
                           fontSize: FontStyles.fsTitle2,
-                          fontWeight: FontStyles.fwTitle),
+                          fontWeight: FontStyles.fwBody),
                     ),
                   ),
                 ),

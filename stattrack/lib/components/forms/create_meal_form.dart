@@ -105,7 +105,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
         ),
       );
     } else {
-      Map<String?, num> ingredients = {};
+      Map<String, num> ingredients = {};
       num calories = 0;
       num proteins = 0;
       num fat = 0;
@@ -113,16 +113,16 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
       for (var ingredientAmount in _ingredients.values) {
         ingredients[ingredientAmount!.ingredient.name] =
             ingredientAmount.amount;
-        calories += ingredientAmount.ingredient.caloriesPer100g *
+        calories += ingredientAmount.ingredient.caloriesPerUnit *
             ingredientAmount.amount /
             100;
-        proteins += ingredientAmount.ingredient.proteinsPer100g *
+        proteins += ingredientAmount.ingredient.proteinsPerUnit *
             ingredientAmount.amount /
             100;
-        fat += ingredientAmount.ingredient.fatPer100g *
+        fat += ingredientAmount.ingredient.fatPerUnit *
             ingredientAmount.amount /
             100;
-        carbs += ingredientAmount.ingredient.carbsPer100g *
+        carbs += ingredientAmount.ingredient.carbsPerUnit *
             ingredientAmount.amount /
             100;
       }

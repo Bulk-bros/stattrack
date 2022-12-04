@@ -1,31 +1,44 @@
 /// Represents a ingredeint that is used in meals
 class Ingredient {
   final String name;
-  final num caloriesPer100g;
-  final num proteinsPer100g;
-  final num fatPer100g;
-  final num carbsPer100g;
+  final String unit;
+  final num caloriesPerUnit;
+  final num proteinsPerUnit;
+  final num fatPerUnit;
+  final num carbsPerUnit;
+  final num saltPerUnit;
+  final num saturatedFatPerUnit;
+  final num sugarsPerUnit;
 
   Ingredient({
     required this.name,
-    required this.caloriesPer100g,
-    required this.proteinsPer100g,
-    required this.fatPer100g,
-    required this.carbsPer100g,
+    required this.unit,
+    required this.caloriesPerUnit,
+    required this.proteinsPerUnit,
+    required this.fatPerUnit,
+    required this.carbsPerUnit,
+    required this.saltPerUnit,
+    required this.saturatedFatPerUnit,
+    required this.sugarsPerUnit,
   });
 
   static Ingredient fromMap(Map<String, dynamic> document) {
     return Ingredient(
-        name: document['name'],
-        caloriesPer100g: document['caloriesPer100g'],
-        proteinsPer100g: document['proteinsPer100g'],
-        fatPer100g: document['fatPer100g'],
-        carbsPer100g: document['carbsPer100g']);
+      name: document['name'],
+      unit: document['unit'],
+      caloriesPerUnit: document['caloriesPerUnit'],
+      proteinsPerUnit: document['proteinsPerUnit'],
+      fatPerUnit: document['fatPerUnit'],
+      carbsPerUnit: document['carbsPerUnit'],
+      saltPerUnit: document['saltPerUnit'],
+      saturatedFatPerUnit: document['saturatedFatPerUnit'],
+      sugarsPerUnit: document['sugarPerUnit'],
+    );
   }
 
   @override
   String toString() {
-    return 'Ingredient{name: $name, caloriesPer100g: $caloriesPer100g, proteinsPer100g: $proteinsPer100g, fatPer100g: $fatPer100g, carbsPer100g: $carbsPer100g}';
+    return 'Ingredient{name: $name, caloriesPer100g: $caloriesPerUnit, proteinsPerUnit: $proteinsPerUnit, fatPerUnit: $fatPerUnit, carbsPerUnit: $carbsPerUnit, saltPerUnit : $saltPerUnit, saturatedFatPerUnit: $saturatedFatPerUnit, sugarsPerUnit: $sugarsPerUnit}';
   }
 
   @override
@@ -33,11 +46,36 @@ class Ingredient {
       other != null &&
       other is Ingredient &&
       other.name == name &&
-      other.caloriesPer100g == caloriesPer100g &&
-      other.proteinsPer100g == proteinsPer100g &&
-      other.fatPer100g == fatPer100g &&
-      other.carbsPer100g == carbsPer100g;
+      other.unit == unit &&
+      other.caloriesPerUnit == caloriesPerUnit &&
+      other.proteinsPerUnit == proteinsPerUnit &&
+      other.fatPerUnit == fatPerUnit &&
+      other.carbsPerUnit == carbsPerUnit &&
+      other.saltPerUnit == saltPerUnit &&
+      other.saturatedFatPerUnit == saturatedFatPerUnit &&
+      other.sugarsPerUnit == sugarsPerUnit;
 
   @override
   int get hashCode => super.hashCode;
+
+  factory Ingredient.fromJson(Map<String, dynamic> json) {
+    final Map<String, dynamic> product = json["product"];
+    final Map<String, dynamic> nutriments = product["nutriments"];
+    final dynamic calories = num.parse('${nutriments["energy-kcal_100g"]}');
+    print(calories);
+    try {
+      return Ingredient(
+          name: product["product_name"],
+          unit: '100g',
+          caloriesPerUnit: num.parse('${nutriments["energy-kcal_100g"]}'),
+          proteinsPerUnit: num.parse('${nutriments["proteins_100g"]}'),
+          fatPerUnit: num.parse('${nutriments["fat_100g"]}'),
+          carbsPerUnit: num.parse('${nutriments["carbohydrates_100g"]}'),
+          saltPerUnit: num.parse('${nutriments["salt_100g"]}'),
+          saturatedFatPerUnit: num.parse('${nutriments["saturated-fat_100g"]}'),
+          sugarsPerUnit: num.parse('${nutriments["sugars_100g"]}'));
+    } catch (e) {
+      throw Exception('Could not convert json to ingredient');
+    }
+  }
 }

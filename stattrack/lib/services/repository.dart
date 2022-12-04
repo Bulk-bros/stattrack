@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/user.dart';
@@ -36,6 +36,12 @@ abstract class Repository {
   ///
   /// [uid] the id of the user
   Stream<List<Weight>> getWeights(String uid);
+
+  /// Returns a list of all stored weights the current month
+  /// for a given user
+  ///
+  /// [uid] the id of the user
+  Stream<List<Weight>> getWeightsThisMonth(String uid);
 
   /// Updates the daily calorie consumption for a user
   ///
@@ -89,7 +95,7 @@ abstract class Repository {
   ///
   /// [meal] the meal to be added
   /// [uid] the id of the user the meal should be added to
-  void addMeal(Meal meal, String uid);
+  Future<void> addMeal(Meal meal, String uid);
 
   /// Removes a meal from a user
   ///
@@ -122,8 +128,14 @@ abstract class Repository {
   /// [path] the path to where the image should be uploaded
   Future<String> uploadImage(File image, String path);
 
+  /// Uploads data to the firebase storage
+  ///
+  /// [byte] the bytes the data is made of
+  /// [path] the path to where the data should be uploaded
+  Future<String> uploadFileAsBytes(Uint8List bytes, String path);
+
   /// Deletes an image from the storage.
   ///
   /// [url] url of the image to be deleted
-  void deleteImage(String url);
+  Future<void> deleteImage(String url);
 }

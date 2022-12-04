@@ -1,4 +1,3 @@
-import 'package:stattrack/components/forms/form_fields/instructions_field.dart';
 import 'package:stattrack/models/meal.dart';
 
 /// Represents a meal that is consumed by a user
@@ -12,7 +11,7 @@ class ConsumedMeal extends Meal {
     required super.fat,
     required super.carbs,
     required this.time,
-    super.ingredients,
+    required super.ingredients,
     super.instuctions,
     required super.imageUrl,
   });
@@ -44,7 +43,7 @@ class ConsumedMeal extends Meal {
     List<String> ingredientList = ingredientsString
         .substring(1, ingredientsString.length - 1)
         .split(', ');
-    Map<String?, num> ingredients = {};
+    Map<String, num> ingredients = {};
     for (var element in ingredientList) {
       ingredients[element.split(': ').first] =
           num.parse(element.split(': ').last);
