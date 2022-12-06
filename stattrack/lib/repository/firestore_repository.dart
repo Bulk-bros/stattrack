@@ -51,6 +51,7 @@ class Predicate {
 
 /// Exposes generic methods for CRUD operations to firestore
 class FirestoreRepository implements Repository {
+  // Singleton
   static final FirestoreRepository _firestoreRepository =
       FirestoreRepository._internal();
 
@@ -100,7 +101,7 @@ class FirestoreRepository implements Repository {
   }
 
   @override
-  Stream<List<T?>> getCollectionStream<T>({
+  Stream<List<T>> getCollectionStream<T>({
     required String path,
     required T Function(Map<String, dynamic>) fromMap,
   }) {
@@ -108,23 +109,25 @@ class FirestoreRepository implements Repository {
         (snapshot) => snapshot.docs.map((doc) => fromMap(doc.data())).toList());
   }
 
-  // TODO: Test and see if predicates work
+  // TODO: Revisit and research if you can create a more general method
+  // that takes in a predicate instead
   @override
-  Stream<List<T?>> getCollectionStreamWhere<T>({
+  Stream<List<T>> getCollectionStreamWhereGreaterThan<T>({
     required String path,
     required T Function(Map<String, dynamic>) fromMap,
-    required List<Predicate> predicates,
+    required String field,
+    required dynamic value,
   }) {
     return FirebaseFirestore.instance
         .collection(path)
-        .where(predicates)
+        .where(field, isGreaterThan: value)
         .snapshots()
         .map((snapshot) =>
             snapshot.docs.map((doc) => fromMap(doc.data())).toList());
   }
 
   @override
-  Stream<List<T?>> getCollectionStreamOrderBy<T>({
+  Stream<List<T>> getCollectionStreamOrderBy<T>({
     required String path,
     required T Function(Map<String, dynamic>) fromMap,
     required String field,
@@ -259,78 +262,6 @@ class FirestoreRepository implements Repository {
         'saltPerUnit': ingredient.saltPerUnit,
         'sugarPerUnit': ingredient.sugarsPerUnit,
       }, collection: ApiPaths.ingredients(uid));
-
-  @override
-  Stream<List<Meal>> getMeals(String uid) {
-    return _getCollectionStream(
-      path: ApiPaths.meals(uid),
-      fromMap: Meal.fromMap,
-    );
-  }
-
-  @override
-  Future<void> addMeal(Meal meal, String uid) async {
-    return _addDocument(
-      document: {
-        'id': meal.id,
-        'name': meal.name,
-        'imageUrl': meal.imageUrl,
-        'ingredients': meal.ingredients,
-        'instructions': meal.instuctions,
-        'calories': meal.calories,
-        'proteins': meal.proteins,
-        'fat': meal.fat,
-        'carbs': meal.carbs,
-      },
-      collection: ApiPaths.storedMeals(uid),
-      docId: meal.id,
-    );
-  }
-
-  @override
-  void logMeal({required Meal meal, required String uid, DateTime? time}) {
-    _addDocument(
-      document: {
-        'id': UniqueKey().toString(),
-        'name': meal.name,
-        'calories': meal.calories,
-        'proteins': meal.proteins,
-        'carbs': meal.carbs,
-        'instructions': meal.instuctions,
-        'ingredients': meal.ingredients,
-        'fat': meal.fat,
-        'time': time ?? DateTime.now(),
-        'imageUrl': meal.imageUrl,
-      },
-      collection: ApiPaths.log(uid),
-    );
-  }
-
-  @override
-  Future<void> deleteMeal(String uid, String mealId) =>
-      _deleteDocument('users/$uid/meals/$mealId');
-
-  @override
-  Stream<List<ConsumedMeal>> getLog(String uid) => _getCollectionStream(
-      path: ApiPaths.log(uid),
-      fromMap: ConsumedMeal.fromMap,
-      sortField: 'time',
-      descending: true);
-
-  @override
-  Stream<List<ConsumedMeal>> getTodaysMeals(String uid) {
-    DateTime today =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-
-    return FirebaseFirestore.instance
-        .collection(ApiPaths.log(uid))
-        .orderBy('time')
-        .where('time', isGreaterThan: today)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => ConsumedMeal.fromMap(doc.data()))
-            .toList());
-  }
 
   @override
   Future<String> uploadImage(File image, String path) async {
