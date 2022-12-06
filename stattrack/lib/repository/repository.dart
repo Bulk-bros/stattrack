@@ -217,4 +217,38 @@ abstract class Repository {
     required String field,
     bool descending = false,
   });
+
+  /// Uploads a file to firestore. Returns the download string when the file
+  /// is uploaded
+  ///
+  /// [path] to where the file should be uploaded
+  /// [file] the file to be uploaded
+  Future<String> uploadFile({
+    required String path,
+    required File file,
+  });
+
+  /// Uploades a file based on Uint8List data to the firesotre. Returns the
+  /// download string when the file is uploaded
+  ///
+  /// [path] the where the data should be uploaded
+  /// [data] the date to be uploaded
+  Future<String> uploadFileFromData({
+    required String path,
+    required Uint8List data,
+  });
+
+  /// Returns a file as data in Uint8List format
+  ///
+  /// [url] the url to the data to be returned
+  Future<Uint8List?> getFileAsData({
+    required String url,
+  });
+
+  /// Deletes a file from the firestore.
+  ///
+  /// [url] the download url of the file to be deleted
+  Future<void> deleteFile({
+    required String url,
+  });
 }

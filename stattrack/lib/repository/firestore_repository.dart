@@ -138,6 +138,46 @@ class FirestoreRepository implements Repository {
             snapshot.docs.map((doc) => fromMap(doc.data())).toList());
   }
 
+  @override
+  Future<String> uploadFile({
+    required String path,
+    required File file,
+  }) async {
+    Reference ref = FirebaseStorage.instance.ref().child(path);
+    await ref.putFile(file);
+    return ref.getDownloadURL();
+  }
+
+  @override
+  Future<String> uploadFileFromData({
+    required String path,
+    required Uint8List data,
+  }) async {
+    Reference ref = FirebaseStorage.instance.ref().child(path);
+    await ref.putData(data);
+    return ref.getDownloadURL();
+  }
+
+  @override
+  Future<Uint8List?> getFileAsData({
+    required String url,
+  }) async {
+    final String fileUrl =
+        Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
+
+    return FirebaseStorage.instance.ref().child(fileUrl).getData();
+  }
+
+  @override
+  Future<void> deleteFile({
+    required String url,
+  }) {
+    final String fileUrl =
+        Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
+
+    return FirebaseStorage.instance.ref().child(fileUrl).delete();
+  }
+
   // @override
   // Stream<User?> getUser(String uid) =>
   //     _getDocumentStream(ApiPaths.user(uid), User.fromMap);

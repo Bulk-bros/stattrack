@@ -14,12 +14,4 @@ class UserService {
       fromMap: User.fromMap,
     );
   }
-
-  Stream<List<User?>> getAllUSers() {
-    return _repo.getCollectionStreamWhere(
-      path: '/users/',
-      fromMap: User.fromMap,
-      predicates: [Predicate('name', isEqualtTo: 'joakim')],
-    );
-  }
 }
