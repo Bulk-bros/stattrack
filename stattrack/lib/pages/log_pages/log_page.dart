@@ -6,12 +6,11 @@ import 'package:stattrack/components/cards/clickable_card.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/stats/stat_card_layout.dart';
 import 'package:stattrack/models/consumed_meal.dart';
-import 'package:stattrack/pages/log_pages/graph_page.dart';
 import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:week_of_year/week_of_year.dart';
 

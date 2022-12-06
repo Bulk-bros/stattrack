@@ -15,9 +15,9 @@ import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_ingredient_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 

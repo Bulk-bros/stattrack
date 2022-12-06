@@ -14,9 +14,9 @@ import 'package:stattrack/pages/account_setup/account_setup_noob_vs_pro.dart';
 import 'package:stattrack/pages/account_setup/account_setup_pro.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:intl/intl.dart';
 

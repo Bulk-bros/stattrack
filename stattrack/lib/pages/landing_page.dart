@@ -6,8 +6,8 @@ import 'package:stattrack/pages/auth_pages/sign_in_page.dart';
 import 'package:stattrack/pages/nav_wrapper.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/models/user.dart' as app_user;
 
 class LandingPage extends ConsumerWidget {

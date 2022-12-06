@@ -10,8 +10,8 @@ import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart'
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 import 'package:http/http.dart' as http;
