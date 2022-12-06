@@ -1,14 +1,18 @@
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/repository/firestore_repository.dart';
 import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
+import 'package:stattrack/services/meal_service.dart';
 
 class UserService {
   final Repository _repo = FirestoreRepository();
+
+  final MealService _mealService = MealService();
 
   /// Returns a stream of a user
   ///
@@ -82,11 +86,11 @@ class UserService {
     }
 
     // Delete meal images
-    // TODO: replace _repo.getMeals with mealService.getMeals when that is
-    // implemented
-    List<Meal> meals = await _repo.getMeals(uid).first;
+    List<Meal?> meals = await _mealService.getMeals(uid).first;
     for (var meal in meals) {
-      await _repo.deleteFile(url: meal.imageUrl);
+      if (meal != null && meal.imageUrl != null) {
+        await _repo.deleteFile(url: meal.imageUrl!);
+      }
     }
 
     // Delete user log

@@ -43,6 +43,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{name: $name, height: $height, birthday: $birthday, dailyCalories: $dailyCalories, dailyProteins: $dailyProteins, dailyFat: $dailyFat}';
+    return 'User{name: $name, height: $height, birthday: $birthday, dailyCalories: $dailyCalories, dailyProteins: $dailyProteins, dailyFat: $dailyFat, dailyCarbs: $dailyCarbs}';
   }
 }

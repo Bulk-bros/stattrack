@@ -13,9 +13,13 @@ import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
+import 'package:stattrack/providers/log_service_provider.dart';
+import 'package:stattrack/providers/meal_service_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/providers/user_service_provider.dart';
 import 'package:stattrack/repository/repository.dart';
+import 'package:stattrack/services/log_service.dart';
+import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
@@ -80,17 +84,25 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       stream: userService.getUser(auth.currentUser!.uid),
       builder: ((context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              color: Palette.accent[400],
+            ),
           );
         }
         if (snapshot.hasError) {
-          return Text("Error: ${snapshot.error}");
+          return Center(child: Text("Error: ${snapshot.error}"));
         }
-        if (!snapshot.hasData) {
-          return const Text("No data");
+        if (!snapshot.hasData || snapshot.data == null) {
+          // TODO: Add sign out button
+          return const Center(
+            child:
+                Text("Something went wrong. Please sign out and try againg!"),
+          );
         }
         final User user = snapshot.data!;
+
+        print(user);
 
         return CustomBody(
           header: _buildUserInformation(
@@ -118,8 +130,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       stream: _mealStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              color: Palette.accent[400],
+            ),
           );
         }
         final meals = snapshot.data;
@@ -127,11 +141,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           return _buildErrorText(snapshot.hasError.toString());
         }
         return _buildMacroLayout(
-            macros: _calculateMacros(meals!),
-            dailyCalories: dailyCalories,
-            dailyProteins: dailyProteins,
-            dailyCarbs: dailyCarbs,
-            dailyFat: dailyFat);
+          macros: _calculateMacros(meals!),
+          dailyCalories: dailyCalories,
+          dailyProteins: dailyProteins,
+          dailyCarbs: dailyCarbs,
+          dailyFat: dailyFat,
+        );
       },
     );
   }
@@ -165,9 +180,9 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// returns a stream of meals from the firebase database
   Stream<List<ConsumedMeal>> _mealStream() {
-    final Repository repo = ref.read(repositoryProvider);
+    final LogService logService = ref.read(logServiceProvider);
     final AuthBase auth = ref.read(authProvider);
-    return repo.getTodaysMeals(auth.currentUser!.uid);
+    return logService.getTodaysLog(auth.currentUser!.uid);
   }
 
   /// Builds the macro layout

@@ -9,10 +9,13 @@ import 'package:stattrack/pages/meal_pages/create_meal_ingredients.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_instructions.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_overview.dart';
 import 'package:stattrack/providers/auth_provider.dart';
+import 'package:stattrack/providers/meal_service_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/meal_service.dart';
+import 'package:uuid/uuid.dart';
 
 enum SubPages {
   info,
@@ -53,24 +56,23 @@ class _CreateMealPageState extends ConsumerState<CreateMealPage> {
       print('something went wrong!!!');
     } else {
       final AuthBase auth = ref.read(authProvider);
-      final Repository repo = ref.read(repositoryProvider);
+      final MealService mealService = ref.read(mealServiceProvider);
 
-      String imageUrl = await repo.uploadFileAsBytes(_imageData!,
-          ApiPaths.mealImage(auth.currentUser!.uid, UniqueKey().toString()));
-
-      await repo.addMeal(
-          Meal(
-            id: UniqueKey().toString(),
-            name: _name!,
-            imageUrl: imageUrl,
-            ingredients: _ingredients,
-            instuctions: _instructions,
-            calories: _calories!,
-            fat: _fat!,
-            carbs: _carbs!,
-            proteins: _proteins!,
-          ),
-          auth.currentUser!.uid);
+      await mealService.addMeal(
+        meal: Meal(
+          id: const Uuid().v1(),
+          name: _name!,
+          imageUrl: null,
+          ingredients: _ingredients,
+          instuctions: _instructions,
+          calories: _calories!,
+          fat: _fat!,
+          carbs: _carbs!,
+          proteins: _proteins!,
+        ),
+        uid: auth.currentUser!.uid,
+        imageData: _imageData!,
+      );
 
       if (!mounted) return;
       Navigator.pop(context);
