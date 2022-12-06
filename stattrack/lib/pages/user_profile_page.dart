@@ -102,8 +102,6 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         }
         final User user = snapshot.data!;
 
-        print(user);
-
         return CustomBody(
           header: _buildUserInformation(
             context,
