@@ -23,6 +23,8 @@ class UserService {
   /// Adds a user to the database
   ///
   /// [user] the user to add
+  /// [profilePicture] if provided this file is uploaded and stored
+  /// as the user profile picture
   /// [weight] the current weight of the user
   /// [uid] the id of the user
   Future<void> addUser({

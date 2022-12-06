@@ -8,7 +8,7 @@ import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/providers/user_service_provider.dart';
 import 'package:stattrack/repository/repository.dart';
-import 'package:stattrack/repository/user_service.dart';
+import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/models/user.dart' as app_user;
 
