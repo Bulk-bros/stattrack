@@ -12,7 +12,9 @@ import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/user_service_provider.dart';
 import 'package:stattrack/repository/repository.dart';
+import 'package:stattrack/repository/user_service.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
@@ -183,7 +185,7 @@ class SettingsPage extends ConsumerWidget {
 
   Future<void> _deleteAccount(BuildContext context, WidgetRef ref) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     return showDialog(
         context: context,
@@ -201,7 +203,7 @@ class SettingsPage extends ConsumerWidget {
                 onPressed: () async {
                   try {
                     final User user = auth.currentUser!;
-                    await repo.deleteUser(user.uid);
+                    await userService.deleteUser(user.uid);
                     await auth.deleteUser(user);
 
                     Navigator.of(c).pop();

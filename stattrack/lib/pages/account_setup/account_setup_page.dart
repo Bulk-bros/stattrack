@@ -14,7 +14,9 @@ import 'package:stattrack/pages/account_setup/account_setup_noob_vs_pro.dart';
 import 'package:stattrack/pages/account_setup/account_setup_pro.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/user_service_provider.dart';
 import 'package:stattrack/repository/repository.dart';
+import 'package:stattrack/repository/user_service.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/palette.dart';
@@ -93,22 +95,15 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
 
   Future<void> _submit() async {
     final String uid = ref.read(authProvider).currentUser!.uid;
-    final Repository repo = ref.read(repositoryProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     // Convert datetime to timestamp
     final parsedBirthday = Timestamp.fromDate(_birth!);
 
-    // Upload profile picture
-    String? imageUrl;
-    if (_profileImg != null) {
-      imageUrl =
-          await repo.uploadImage(_profileImg!, ApiPaths.profilePicture(uid));
-    }
-
-    repo.addUser(
-      User(
+    userService.addUser(
+      user: User(
         name: _name!,
-        profilePictureUrl: imageUrl ?? '',
+        profilePictureUrl: null,
         birthday: parsedBirthday,
         height: _height!,
         dailyCalories: _calories!,
@@ -116,11 +111,12 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
         dailyCarbs: _carbs!,
         dailyFat: _fat!,
       ),
-      Weight(
+      profilePicture: _profileImg,
+      weight: Weight(
         value: _weight!,
         time: Timestamp.now(),
       ),
-      uid,
+      uid: uid,
     );
   }
 

@@ -14,7 +14,9 @@ import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/user_service_provider.dart';
 import 'package:stattrack/repository/repository.dart';
+import 'package:stattrack/repository/user_service.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
@@ -72,10 +74,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   /// Builds the body of the profile page
   Widget _buildBody(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     return StreamBuilder<User?>(
-      stream: repo.getUser(auth.currentUser!.uid),
+      stream: userService.getUser(auth.currentUser!.uid),
       builder: ((context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
           return const Center(
@@ -268,7 +270,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 
   /// Creates user information for the header in the custombody
-  Widget _buildUserInformation(BuildContext context, String profilePictureUrl,
+  Widget _buildUserInformation(BuildContext context, String? profilePictureUrl,
       String name, num age, num height) {
     return ColumnSuper(
       key: const Key("userInformation"),
@@ -436,8 +438,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   // [DecorationImage image = const DecorationImage(image: AssetImage("assets/images/eddyboy.jpeg"))]
 
-  Widget _buildProfileImage(String profilePictureUrl) {
-    if (profilePictureUrl != '') {
+  Widget _buildProfileImage(String? profilePictureUrl) {
+    if (profilePictureUrl != null) {
       return Container(
         width: 110,
         height: 110,

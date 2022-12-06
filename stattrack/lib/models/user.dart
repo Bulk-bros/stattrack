@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   final String name;
-  final String profilePictureUrl;
+  final String? profilePictureUrl;
   final num height;
   final Timestamp birthday;
   final num dailyCalories;
@@ -12,7 +12,7 @@ class User {
 
   User({
     required this.name,
-    required this.profilePictureUrl,
+    this.profilePictureUrl,
     required this.height,
     required this.birthday,
     required this.dailyCalories,
