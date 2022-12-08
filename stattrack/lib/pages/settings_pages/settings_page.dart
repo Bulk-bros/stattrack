@@ -241,7 +241,7 @@ class SettingsPage extends ConsumerWidget {
     double spacing = 31.0;
 
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         headerTitle: "Settings",
       ),
       body: Padding(
