@@ -30,6 +30,15 @@ abstract class Repository {
     String? docId,
   });
 
+  /// Updates a document
+  ///
+  /// [path] the path to the document to update
+  /// [document] the new version of the document to update the old on with
+  Future<void> updateDocument({
+    required String path,
+    required Map<String, dynamic> document,
+  });
+
   /// Updates a filed in a document
   ///
   /// [path] to the document to update
@@ -128,83 +137,4 @@ abstract class Repository {
   Future<void> deleteFile({
     required String url,
   });
-
-  // TODO: Refactor the following code to specific service classes
-
-  /// Updates the weight for a user
-  ///
-  /// [uid] the id of the user to update the weight
-  /// [value] the new value to set the weight to
-  void updateWeight(String uid, num value);
-
-  /// Returns a list of all stored weights for the given user
-  ///
-  /// [uid] the id of the user
-  Stream<List<Weight>> getWeights(String uid);
-
-  /// Returns a list of all stored weights the current month
-  /// for a given user
-  ///
-  /// [uid] the id of the user
-  Stream<List<Weight>> getWeightsThisMonth(String uid);
-
-  /// Updates the daily calorie consumption for a user
-  ///
-  /// [uid] the user id of the user to update
-  /// [value] the new value to set daily calorie consumption to
-  void updateDailyCalorieConsumption(String uid, num value);
-
-  /// Updates the daily protein consumption for a user
-  ///
-  /// [uid] the user id of the user to update
-  /// [value] the new value to set daily protein consumption to
-  void updateDailyProteinConsumption(String uid, num value);
-
-  /// Updates the daily carbs consumption for a user
-  ///
-  /// [uid] the user id of the user to update
-  /// [value] the new value to set daily carbs consumption to
-  void updateDailyCarbsConsumption(String uid, num value);
-
-  /// Updates the daily fat consumption for a user
-  ///
-  /// [uid] the user id of the user to update
-  /// [value] the new value to set daily fat consumption to
-  void updateDailyFatConsumption(String uid, num value);
-
-  /// Updates the profile picture path
-  ///
-  /// [uid] the user where the profile picture path should be updated
-  /// [url] the url of the picture to update to
-  void updateProfilePicturePath(String uid, String url);
-
-  /// Returns a stream with all ingredients stored for the user
-  /// with the given user id
-  ///
-  /// [uid] the user id of the user the get ingredients for
-  Stream<List<Ingredient>?> getIngredients(String uid);
-
-  /// Adds an ingredient to the database
-  ///
-  /// [ingredient] the ingredient to be added
-  /// [uid] the id of the user the meal should be added to
-  Future<void> addIngredient(Ingredient ingredient, String uid);
-
-  /// Uploads an image to the storage. The url of the image is returned
-  /// when the image is uploaded.
-  ///
-  /// [image] the image to upload
-  /// [path] the path to where the image should be uploaded
-  Future<String> uploadImage(File image, String path);
-
-  /// Uploads data to the firebase storage
-  ///
-  /// [byte] the bytes the data is made of
-  /// [path] the path to where the data should be uploaded
-  Future<String> uploadFileAsBytes(Uint8List bytes, String path);
-
-  /// Deletes an image from the storage.
-  ///
-  /// [url] url of the image to be deleted
-  Future<void> deleteImage(String url);
 }

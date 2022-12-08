@@ -9,9 +9,12 @@ import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/providers/auth_provider.dart';
+import 'package:stattrack/providers/ingredient_service_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/ingredient_service.dart';
+import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 import 'package:http/http.dart' as http;
@@ -66,7 +69,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
 
   bool _showError = false;
 
-  void _submit(AuthBase auth, Repository repo) async {
+  void _submit(AuthBase auth) async {
     setState(() {
       _isLoading = true;
     });
@@ -81,7 +84,11 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
           !_isValidSugar) {
         throw Exception('Invalid inputs');
       }
-      await repo.addIngredient(
+
+      final IngredientService ingredientService =
+          ref.read(ingredientServiceProvider);
+
+      await ingredientService.addIngredient(
           Ingredient(
             name: _name,
             unit: '100g',
@@ -332,14 +339,14 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                   decimal: true,
                 ),
                 textInputAction: TextInputAction.done,
-                onEditingComplete: () => _submit(auth, repo),
+                onEditingComplete: () => _submit(auth),
                 onChanged: (name) => _updateState(),
               ),
               const SizedBox(
                 height: 20.0,
               ),
               MainButton(
-                callback: !_isLoading ? () => _submit(auth, repo) : null,
+                callback: !_isLoading ? () => _submit(auth) : null,
                 label: 'Create Ingredient',
               ),
               const SizedBox(

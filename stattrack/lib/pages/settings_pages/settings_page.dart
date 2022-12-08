@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,14 +10,17 @@ import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
+import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/providers/user_service_provider.dart';
+import 'package:stattrack/providers/weight_service_provider.dart';
 import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/weight_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
@@ -49,15 +53,11 @@ class SettingsPage extends ConsumerWidget {
   }
 
   void _uploadImage(BuildContext context, WidgetRef ref, XFile image) async {
-    final Repository repo = ref.read(repositoryProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     try {
-      // Upload new image
-      String imageUrl = await repo.uploadImage(
-          File(image.path), ApiPaths.profilePicture(auth.currentUser!.uid));
-
-      // Update the path stored in the user document
-      repo.updateProfilePicturePath(auth.currentUser!.uid, imageUrl);
+      await userService.updateUserProfilePicture(
+          File(image.path), auth.currentUser!.uid);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -131,11 +131,12 @@ class SettingsPage extends ConsumerWidget {
   void _handleUpdateAction(BuildContext context, WidgetRef ref,
       UpdateAction updateAction, num value) {
     final String uid = auth.currentUser!.uid;
-    final Repository repo = ref.read(repositoryProvider);
+    final WeightService weightService = ref.read(weightServiceProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     switch (updateAction) {
       case UpdateAction.calories:
-        repo.updateDailyCalorieConsumption(uid, value);
+        userService.updateDailyCaloriConsumption(uid, value);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Daily calories consumption updated!'),
@@ -143,7 +144,7 @@ class SettingsPage extends ConsumerWidget {
         );
         break;
       case UpdateAction.proteins:
-        repo.updateDailyProteinConsumption(uid, value);
+        userService.updateDailyProteinConsumption(uid, value);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Daily proteins consumption updated!'),
@@ -151,7 +152,7 @@ class SettingsPage extends ConsumerWidget {
         );
         break;
       case UpdateAction.carbs:
-        repo.updateDailyCarbsConsumption(uid, value);
+        userService.updateDailyCarbsConsumption(uid, value);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Daily carbs consumption updated!'),
@@ -159,7 +160,7 @@ class SettingsPage extends ConsumerWidget {
         );
         break;
       case UpdateAction.fat:
-        repo.updateDailyFatConsumption(uid, value);
+        userService.updateDailyFatConsumption(uid, value);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Daily fat consumption updated!'),
@@ -167,7 +168,10 @@ class SettingsPage extends ConsumerWidget {
         );
         break;
       case UpdateAction.weight:
-        repo.updateWeight(uid, value);
+        weightService.logWeight(
+          Weight(value: value, time: Timestamp.now()),
+          uid,
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Weight updated!'),

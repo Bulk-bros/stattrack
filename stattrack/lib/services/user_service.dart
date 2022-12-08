@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/models/weight.dart';
@@ -104,5 +103,91 @@ class UserService {
 
     // Delete user
     await _repo.deleteDocument(path: ApiPaths.user(uid));
+  }
+
+  /// Updates the profile picture of a user
+  ///
+  /// [image] the image to update to
+  /// [uid] id of the user to update
+  Future<void> updateUserProfilePicture(File image, String uid) async {
+    // Upload new image
+    String imageUrl = await _repo.uploadFile(
+      path: ApiPaths.profilePicture(uid),
+      file: image,
+    );
+
+    await _repo.updateDocumentField(
+      path: ApiPaths.user(uid),
+      field: 'profilePicture',
+      value: imageUrl,
+    );
+  }
+
+  /// Updates a user
+  ///
+  /// [uid] the id of the user to update
+  /// [user] a User object containing the updated values
+  Future<void> updateUser(String uid, User user) {
+    return _repo.updateDocument(
+      path: ApiPaths.user(uid),
+      document: {
+        'name': user.name,
+        'profilePicture': user.profilePictureUrl,
+        'birthday': user.birthday,
+        'height': user.height,
+        'dailyCalories': user.dailyCalories,
+        'dailyProteins': user.dailyProteins,
+        'dailyCarbs': user.dailyCarbs,
+        'dailyFat': user.dailyFat,
+      },
+    );
+  }
+
+  /// Updates the daily calori consumption field for a user
+  ///
+  /// [uid] id of the user
+  /// [value] the value to update the field to
+  Future<void> updateDailyCaloriConsumption(String uid, num value) {
+    return _repo.updateDocumentField(
+      path: ApiPaths.user(uid),
+      field: 'dailyCalories',
+      value: value,
+    );
+  }
+
+  /// Updates the daily fat consumption field for a user
+  ///
+  /// [uid] id of the user
+  /// [value] the value to update the field to
+  Future<void> updateDailyFatConsumption(String uid, num value) {
+    return _repo.updateDocumentField(
+      path: ApiPaths.user(uid),
+      field: 'dailyFat',
+      value: value,
+    );
+  }
+
+  /// Updates the daily carbs consumption field for a user
+  ///
+  /// [uid] id of the user
+  /// [value] the value to update the field to
+  Future<void> updateDailyCarbsConsumption(String uid, num value) {
+    return _repo.updateDocumentField(
+      path: ApiPaths.user(uid),
+      field: 'dailyCarbs',
+      value: value,
+    );
+  }
+
+  /// Updates the daily proteins consumption field for a user
+  ///
+  /// [uid] id of the user
+  /// [value] the value to update the field to
+  Future<void> updateDailyProteinConsumption(String uid, num value) {
+    return _repo.updateDocumentField(
+      path: ApiPaths.user(uid),
+      field: 'dailyProteins',
+      value: value,
+    );
   }
 }

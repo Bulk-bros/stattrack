@@ -17,11 +17,13 @@ import 'package:stattrack/providers/log_service_provider.dart';
 import 'package:stattrack/providers/meal_service_provider.dart';
 import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/providers/user_service_provider.dart';
+import 'package:stattrack/providers/weight_service_provider.dart';
 import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/log_service.dart';
 import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/services/auth.dart';
+import 'package:stattrack/services/weight_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
@@ -389,10 +391,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   Widget _buildWeightComponent() {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final WeightService weightService = ref.read(weightServiceProvider);
 
     return StreamBuilder<List<Weight>>(
-      stream: repo.getWeights(auth.currentUser!.uid),
+      stream: weightService.getWeights(auth.currentUser!.uid),
       builder: (context, snapshot) {
         String value = '';
         bool progress = true;
