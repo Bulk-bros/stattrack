@@ -12,7 +12,7 @@ import 'package:stattrack/styles/font_styles.dart';
 /// [color] the color of both text strings in the layout, default set to black (Colors.black)
 ///
 class SingleStatLayout extends StatelessWidget {
-  SingleStatLayout({
+  const SingleStatLayout({
     Key? key,
     required this.categoryText,
     this.content,
@@ -24,14 +24,14 @@ class SingleStatLayout extends StatelessWidget {
     this.color = Colors.black,
   }) : super(key: key);
 
-  String categoryText;
-  Widget? content;
-  double categoryTextSize;
-  double amountTextSize;
-  Color color = Colors.black;
-  Icon? icon;
-  bool? progress;
-  String? amountText;
+  final String categoryText;
+  final Widget? content;
+  final double categoryTextSize;
+  final double amountTextSize;
+  final Color color;
+  final Icon? icon;
+  final bool? progress;
+  final String? amountText;
 
   @override
   Widget build(BuildContext context) {

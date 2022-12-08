@@ -10,12 +10,8 @@ import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart'
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/ingredient_service_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/ingredient_service.dart';
-import 'package:stattrack/services/user_service.dart';
-import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math' as math;
@@ -24,7 +20,8 @@ class CreateIngredientPage extends ConsumerStatefulWidget {
   const CreateIngredientPage({Key? key}) : super(key: key);
 
   @override
-  _CreateIngredientPageState createState() => _CreateIngredientPageState();
+  ConsumerState<CreateIngredientPage> createState() =>
+      _CreateIngredientPageState();
 }
 
 class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
@@ -64,10 +61,10 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
   bool get _isValidSaturatedFat => Validator.isPositiveFloat(_saturatedFat);
   bool get _isValidSugar => Validator.isPositiveFloat(_sugar);
 
-  bool _showInputErrors = false;
   bool _isLoading = false;
 
   bool _showError = false;
+  String _errorMsg = '';
 
   void _submit(AuthBase auth) async {
     setState(() {
@@ -105,7 +102,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
       Navigator.pop(context);
     } catch (e) {
       setState(() {
-        _showInputErrors = true;
+        _errorMsg = 'Something went wrong, please try again!';
+        _showError = true;
       });
     } finally {
       setState(() {
@@ -163,7 +161,6 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
       _showError = false;
     });
 
-    String barcode = "";
     return await FlutterBarcodeScanner.scanBarcode(
         "#ff51cf66", "Cancel", true, ScanMode.BARCODE);
   }
@@ -187,6 +184,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
       _saltController.text = ingredient.saltPerUnit.toString();
     } catch (e) {
       setState(() {
+        _errorMsg = 'Product not found, please enter nutriments manually :(';
         _showError = true;
       });
     }
@@ -202,7 +200,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
             angle: -90 * math.pi / 180,
             child: IconButton(
               onPressed: _handleBarcodeButton,
-              icon: Icon(Icons.document_scanner_outlined),
+              icon: const Icon(Icons.document_scanner_outlined),
             ),
           ),
         ],
@@ -213,7 +211,6 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
 
   Widget _buildBody() {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
 
     return SingleChildScrollView(
       child: Padding(
@@ -227,7 +224,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          'Product not found, please enter nutriments manually :(',
+                          _errorMsg,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.red[700],

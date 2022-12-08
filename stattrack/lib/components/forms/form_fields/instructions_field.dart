@@ -14,7 +14,7 @@ class InstructionsField extends StatefulWidget {
   final void Function(num) delete;
 
   @override
-  _InstructionsFieldState createState() => _InstructionsFieldState();
+  State<InstructionsField> createState() => _InstructionsFieldState();
 }
 
 class _InstructionsFieldState extends State<InstructionsField> {

@@ -15,7 +15,7 @@ class CreateMealInstructions extends StatefulWidget {
   final void Function(List<String>) onComplete;
 
   @override
-  _CreateMealInstructionsState createState() => _CreateMealInstructionsState();
+  State<CreateMealInstructions> createState() => _CreateMealInstructionsState();
 }
 
 class _CreateMealInstructionsState extends State<CreateMealInstructions> {

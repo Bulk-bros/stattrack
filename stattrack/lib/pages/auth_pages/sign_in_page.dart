@@ -43,9 +43,9 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         headerTitle: 'Stattrack',
-        key: const Key('signInPageTitle'),
+        key: Key('signInPageTitle'),
       ),
       body: _buildBody(context),
     );

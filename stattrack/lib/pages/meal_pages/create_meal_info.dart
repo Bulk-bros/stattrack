@@ -20,7 +20,7 @@ class CreateMealInfo extends StatefulWidget {
   final void Function(String, Uint8List) onComplete;
 
   @override
-  _CreateMealInfoState createState() => _CreateMealInfoState();
+  State<CreateMealInfo> createState() => _CreateMealInfoState();
 }
 
 class _CreateMealInfoState extends State<CreateMealInfo> {

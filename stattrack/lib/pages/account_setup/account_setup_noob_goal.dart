@@ -11,7 +11,7 @@ class AccountSetupNoobGoal extends StatefulWidget {
   final void Function(String) onComplete;
 
   @override
-  _AccountSetupNoobGoalState createState() => _AccountSetupNoobGoalState();
+  State<AccountSetupNoobGoal> createState() => _AccountSetupNoobGoalState();
 }
 
 class _AccountSetupNoobGoalState extends State<AccountSetupNoobGoal> {

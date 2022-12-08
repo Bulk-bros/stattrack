@@ -61,8 +61,6 @@ class Ingredient {
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> product = json["product"];
     final Map<String, dynamic> nutriments = product["nutriments"];
-    final dynamic calories = num.parse('${nutriments["energy-kcal_100g"]}');
-    print(calories);
     try {
       return Ingredient(
           name: product["product_name"],

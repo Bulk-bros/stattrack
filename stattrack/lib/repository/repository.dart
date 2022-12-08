@@ -1,13 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:stattrack/models/consumed_meal.dart';
-import 'package:stattrack/models/ingredient.dart';
-import 'package:stattrack/models/weight.dart';
-import 'package:stattrack/repository/firestore_repository.dart';
-
-import '../models/meal.dart';
-
 abstract class Repository {
   /// Returns a stream a document containing objects of type T
   ///

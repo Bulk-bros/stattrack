@@ -14,13 +14,9 @@ import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/log_service_provider.dart';
-import 'package:stattrack/providers/meal_service_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/providers/user_service_provider.dart';
 import 'package:stattrack/providers/weight_service_provider.dart';
-import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/log_service.dart';
-import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/weight_service.dart';
@@ -49,7 +45,7 @@ class UserProfilePage extends ConsumerStatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
 
   @override
-  _UserProfilePageState createState() => _UserProfilePageState();
+  ConsumerState<UserProfilePage> createState() => _UserProfilePageState();
 }
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
@@ -497,10 +493,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         if (meals!.isEmpty) {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+              children: const <Widget>[
                 spacing,
                 CustomCard(
-                  content: const SizedBox(
+                  content: SizedBox(
                     height: 120,
                     child: Text(
                       textAlign: TextAlign.center,

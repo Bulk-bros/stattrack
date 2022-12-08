@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/repository/repository.dart';
-import 'package:stattrack/services/api_paths.dart';
-import 'package:path/path.dart' as Path;
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as path;
 
 /// A class describing all the filter options available with firebase firestore
 ///
@@ -180,7 +179,7 @@ class FirestoreRepository implements Repository {
     required String url,
   }) async {
     final String fileUrl =
-        Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
+        Uri.decodeFull(path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
 
     return FirebaseStorage.instance.ref().child(fileUrl).getData();
   }
@@ -190,7 +189,7 @@ class FirestoreRepository implements Repository {
     required String url,
   }) {
     final String fileUrl =
-        Uri.decodeFull(Path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
+        Uri.decodeFull(path.basename(url)).replaceAll(RegExp(r'(\?alt).*'), '');
 
     return FirebaseStorage.instance.ref().child(fileUrl).delete();
   }

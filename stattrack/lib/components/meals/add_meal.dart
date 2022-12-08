@@ -9,8 +9,6 @@ import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/meal_service_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/styles/palette.dart';
@@ -19,7 +17,7 @@ class AddMeal extends ConsumerStatefulWidget {
   const AddMeal({Key? key}) : super(key: key);
 
   @override
-  _AddMealState createState() => _AddMealState();
+  ConsumerState<AddMeal> createState() => _AddMealState();
 }
 
 class _AddMealState extends ConsumerState<AddMeal> {

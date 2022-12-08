@@ -11,7 +11,7 @@ class MealService {
   final Repository _repo = FirestoreRepository();
 
   // Object used to generate random id
-  final uuid = Uuid();
+  final uuid = const Uuid();
 
   // Singleton
   static final MealService _mealService = MealService._internal();

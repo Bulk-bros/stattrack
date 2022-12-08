@@ -15,7 +15,7 @@ class EmailSignInPage extends StatefulWidget {
   final bool? showSignUp;
 
   @override
-  _EmailSignInPageState createState() => _EmailSignInPageState();
+  State<EmailSignInPage> createState() => _EmailSignInPageState();
 }
 
 class _EmailSignInPageState extends State<EmailSignInPage> {

@@ -10,8 +10,6 @@ import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/log_service_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/log_service.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:week_of_year/week_of_year.dart';
@@ -38,7 +36,7 @@ class LogPage extends ConsumerStatefulWidget {
   const LogPage({Key? key}) : super(key: key);
 
   @override
-  _LogPageState createState() => _LogPageState();
+  ConsumerState<LogPage> createState() => _LogPageState();
 }
 
 class _LogPageState extends ConsumerState<LogPage> {

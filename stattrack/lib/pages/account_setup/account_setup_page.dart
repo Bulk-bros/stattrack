@@ -13,14 +13,10 @@ import 'package:stattrack/pages/account_setup/account_setup_noob_goal.dart';
 import 'package:stattrack/pages/account_setup/account_setup_noob_vs_pro.dart';
 import 'package:stattrack/pages/account_setup/account_setup_pro.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/providers/user_service_provider.dart';
-import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/user_service.dart';
-import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/palette.dart';
-import 'package:intl/intl.dart';
 
 enum SubPages {
   generalInfo,
@@ -35,7 +31,7 @@ class AccountSetupPage extends ConsumerStatefulWidget {
   const AccountSetupPage({Key? key}) : super(key: key);
 
   @override
-  _AccountSetupPageState createState() => _AccountSetupPageState();
+  ConsumerState<AccountSetupPage> createState() => _AccountSetupPageState();
 }
 
 class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {

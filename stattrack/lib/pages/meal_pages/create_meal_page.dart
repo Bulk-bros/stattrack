@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -10,9 +9,6 @@ import 'package:stattrack/pages/meal_pages/create_meal_instructions.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_overview.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/meal_service_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/repository/repository.dart';
-import 'package:stattrack/services/api_paths.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/meal_service.dart';
 import 'package:uuid/uuid.dart';
@@ -28,7 +24,7 @@ class CreateMealPage extends ConsumerStatefulWidget {
   const CreateMealPage({Key? key}) : super(key: key);
 
   @override
-  _CreateMealPageState createState() => _CreateMealPageState();
+  ConsumerState<CreateMealPage> createState() => _CreateMealPageState();
 }
 
 class _CreateMealPageState extends ConsumerState<CreateMealPage> {
@@ -53,7 +49,7 @@ class _CreateMealPageState extends ConsumerState<CreateMealPage> {
         _fat == null ||
         _carbs == null ||
         _proteins == null) {
-      print('something went wrong!!!');
+      // TODO: Handle input errors
     } else {
       final AuthBase auth = ref.read(authProvider);
       final MealService mealService = ref.read(mealServiceProvider);

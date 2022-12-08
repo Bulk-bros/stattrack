@@ -11,7 +11,7 @@ class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
+  ConsumerState<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
 class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
@@ -76,7 +76,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     final AuthBase auth = ref.read(authProvider);
 
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         headerTitle: 'Forgot Password',
       ),
       body: _buildBody(context, auth),

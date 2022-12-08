@@ -1,4 +1,3 @@
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
@@ -6,8 +5,6 @@ import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/log_service_provider.dart';
 import 'package:stattrack/providers/meal_service_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/log_service.dart';
 import 'package:stattrack/services/meal_service.dart';
@@ -15,13 +12,14 @@ import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
 class MealShowcase extends ConsumerStatefulWidget {
-  MealShowcase({Key? key, required this.meal, this.width}) : super(key: key);
+  const MealShowcase({Key? key, required this.meal, this.width})
+      : super(key: key);
 
   final Meal meal;
-  double? width;
+  final double? width;
 
   @override
-  _MealShowcaseState createState() => _MealShowcaseState();
+  ConsumerState<MealShowcase> createState() => _MealShowcaseState();
 }
 
 class _MealShowcaseState extends ConsumerState<MealShowcase> {

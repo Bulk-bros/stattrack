@@ -4,9 +4,7 @@ import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
 import 'package:stattrack/providers/weight_service_provider.dart';
-import 'package:stattrack/repository/repository.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/weight_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
@@ -19,7 +17,7 @@ class GraphPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         headerTitle: 'Stats',
       ),
       body: _buildBody(ref),
