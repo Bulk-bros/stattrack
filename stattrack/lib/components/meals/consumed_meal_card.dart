@@ -95,9 +95,7 @@ class ConsumedMealCard extends StatelessWidget {
                           : const BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image:
-                                    AssetImage("assets/icons/image-solid.svg"),
-                                opacity: 0.4,
+                                image: AssetImage("assets/icons/meal-icon.png"),
                               ),
                             ),
                     ),

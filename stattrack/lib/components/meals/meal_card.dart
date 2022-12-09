@@ -40,7 +40,6 @@ class MealCard extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: AssetImage("assets/icons/meal-icon.png"),
-                          opacity: 1,
                         ),
                       ),
               ),

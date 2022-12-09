@@ -142,7 +142,6 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                             image: AssetImage("assets/icons/meal-icon.png"),
-                            opacity: 1,
                           ),
                         ),
                 ),
