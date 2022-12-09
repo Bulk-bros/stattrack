@@ -51,11 +51,8 @@ class MealService {
     if (imageData != null && imageFile != null) {
       throw Exception('Two image types not accepted. Please only provide one');
     }
-    if (imageData == null && imageFile == null) {
-      throw Exception('Needs to provide at least one image for the meal');
-    }
 
-    String imageUrl = '';
+    String? imageUrl;
     // Upload image
     if (imageData != null) {
       imageUrl = await _repo.uploadFileFromData(

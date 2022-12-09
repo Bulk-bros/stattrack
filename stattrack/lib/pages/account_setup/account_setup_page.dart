@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/pages/account_setup/account_setup_general_info.dart';
@@ -128,14 +129,9 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
           ),
         ),
         actions: <Widget>[
-          TextButton(
+          StattrackTextButton(
             onPressed: _signOut,
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                color: Palette.accent[400],
-              ),
-            ),
+            label: 'Cancel',
           ),
         ],
       ),

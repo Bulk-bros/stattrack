@@ -96,6 +96,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       padding: const EdgeInsets.all(31.0),
       child: Form(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextFormField(
               key: const Key('emailSignInEmailTextFormField'),

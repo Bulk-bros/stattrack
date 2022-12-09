@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/auth_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
 import 'package:stattrack/pages/auth_pages/email_sign_in_page.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/styles/font_styles.dart';
@@ -101,18 +102,11 @@ class SignInPage extends StatelessWidget {
             onPressed: () => _signInWithEmail(context, false),
           ),
           spacing,
-          TextButton(
+          StattrackTextButton(
             key: const Key('signInPageSignUpButton'),
             onPressed: () => _signInWithEmail(context, true),
-            child: Text(
-              "Don't have an account? Sign up here",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Palette.accent[200],
-                fontSize: 16.0,
-              ),
-            ),
-          ),
+            label: "Don't have an account? Sign up here",
+          )
         ],
       ),
     );

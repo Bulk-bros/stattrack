@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
@@ -97,14 +98,9 @@ class _CreateMealInstructionsState extends State<CreateMealInstructions> {
             fontWeight: FontStyles.fwTitle,
           ),
         ),
-        TextButton(
+        StattrackTextButton(
           onPressed: _handleComplete,
-          child: Text(
-            'Next',
-            style: TextStyle(
-              color: Palette.accent[400],
-            ),
-          ),
+          label: 'Next',
         )
       ],
     );

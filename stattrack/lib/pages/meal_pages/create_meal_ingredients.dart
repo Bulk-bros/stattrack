@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
 import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/models/IngredientAmount.dart';
 import 'package:stattrack/models/ingredient.dart';
@@ -194,14 +195,9 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
             fontWeight: FontStyles.fwTitle,
           ),
         ),
-        TextButton(
+        StattrackTextButton(
           onPressed: _handleComplete,
-          child: Text(
-            'Next',
-            style: TextStyle(
-              color: Palette.accent[400],
-            ),
-          ),
+          label: 'Next',
         )
       ],
     );
@@ -214,14 +210,9 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            TextButton(
+            StattrackTextButton(
               onPressed: () => _navToCreateIngredient(context),
-              child: Text(
-                'Create ingredient',
-                style: TextStyle(
-                  color: Palette.accent[400],
-                ),
-              ),
+              label: 'Create ingredient',
             ),
           ],
         ),

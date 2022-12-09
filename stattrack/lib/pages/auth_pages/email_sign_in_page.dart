@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
 import 'package:stattrack/components/forms/email_sign_in_form.dart';
 import 'package:stattrack/components/forms/email_sign_up_form.dart';
 import 'package:stattrack/pages/auth_pages/forgot_password_page.dart';
@@ -55,29 +56,16 @@ class _EmailSignInPageState extends State<EmailSignInPage> {
             _showSignUpForm
                 ? EmailSignUpForm(auth: widget.auth)
                 : EmailSignInForm(auth: widget.auth),
-            TextButton(
+            StattrackTextButton(
               onPressed: _toggleForm,
-              style: TextButton.styleFrom(foregroundColor: Palette.accent[400]),
-              child: Text(
-                _showSignUpForm
-                    ? 'Already have an account? Sign in here'
-                    : 'Don\'t have account? Sign up here',
-                style: const TextStyle(
-                  fontSize: 16.0,
-                ),
-              ),
+              label: _showSignUpForm
+                  ? 'Already have an account? Sign in here'
+                  : 'Don\'t have account? Sign up here',
             ),
             !_showSignUpForm
-                ? TextButton(
+                ? StattrackTextButton(
                     onPressed: () => _handleForgotPassword(context),
-                    style: TextButton.styleFrom(
-                        foregroundColor: Palette.accent[400]),
-                    child: const Text(
-                      "Forgot password",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
-                    ),
+                    label: 'Forgot password',
                   )
                 : const SizedBox(),
           ],

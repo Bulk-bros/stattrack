@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/buttons/danger_button.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/log_service_provider.dart';
@@ -111,14 +112,9 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextButton(
+        StattrackTextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              color: Palette.accent[400],
-            ),
-          ),
+          label: 'Cancel',
         ),
         Expanded(
           child: Column(
@@ -145,8 +141,8 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
                       : const BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: AssetImage("assets/icons/image-solid.svg"),
-                            opacity: 0.4,
+                            image: AssetImage("assets/icons/meal-icon.png"),
+                            opacity: 1,
                           ),
                         ),
                 ),

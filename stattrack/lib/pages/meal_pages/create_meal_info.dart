@@ -17,7 +17,7 @@ class CreateMealInfo extends StatefulWidget {
       : super(key: key);
 
   final void Function() navPrev;
-  final void Function(String, Uint8List) onComplete;
+  final void Function(String, Uint8List?) onComplete;
 
   @override
   State<CreateMealInfo> createState() => _CreateMealInfoState();
@@ -41,16 +41,22 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
   }
 
   void _handleComplete() async {
-    if (!_isValidName || _image == null) {
+    if (!_isValidName) {
       setState(() {
         _showError = true;
       });
     } else {
-      final imageData = await _cropController.onCropImage();
-
-      if (imageData != null) {
-        widget.onComplete(_name, imageData.bytes);
+      MemoryImage? imageData;
+      if (_image != null) {
+        imageData = await _cropController.onCropImage();
       }
+
+      Uint8List? imageBytes;
+      if (imageData != null) {
+        imageBytes = imageData.bytes;
+      }
+
+      widget.onComplete(_name, imageBytes);
     }
   }
 
