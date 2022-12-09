@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:stattrack/components/buttons/form_button.dart';
+import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/pages/auth_pages/terms_of_service_page.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/utils/validator.dart';
@@ -204,7 +204,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
             const SizedBox(
               height: 39.0,
             ),
-            FormButton(
+            MainButton(
               key: const Key('emailSignUpFormButton'),
               onPressed: enableSubmit ? _submit : null,
               label: 'Sign Up',
