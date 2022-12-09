@@ -62,7 +62,7 @@ class _AccountSetupNoobActivityState extends State<AccountSetupNoobActivity> {
           ],
         ),
         MainButton(
-          callback: _activityLevel != null
+          onPressed: _activityLevel != null
               ? () => widget.onComplete(_activityLevel!)
               : null,
           label: 'Next',

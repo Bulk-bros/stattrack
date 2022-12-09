@@ -250,11 +250,8 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             );
           }),
           MainButton(
-            callback: _addIngredient,
+            onPressed: _addIngredient,
             label: 'Add ingredient',
-            padding: const EdgeInsets.all(16.0),
-            backgroundColor: Colors.white,
-            color: Palette.accent[400],
           ),
           const SizedBox(
             height: sectionSpacing,
@@ -271,19 +268,15 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             );
           }),
           MainButton(
-            callback: _addInstruction,
+            onPressed: _addInstruction,
             label: 'Add instruction',
-            padding: const EdgeInsets.all(16.0),
-            backgroundColor: Colors.white,
-            color: Palette.accent[400],
           ),
           const SizedBox(
             height: 50.0,
           ),
           MainButton(
-            callback: () => _addMeal(context, auth, mealService),
+            onPressed: () => _addMeal(context, auth, mealService),
             label: 'Create meal',
-            padding: const EdgeInsets.all(16.0),
           ),
         ],
       ),

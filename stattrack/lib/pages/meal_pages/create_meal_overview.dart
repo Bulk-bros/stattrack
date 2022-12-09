@@ -79,7 +79,7 @@ class CreateMealOverview extends StatelessWidget {
             ],
           ),
           MainButton(
-            callback: () => _handleComplete(context),
+            onPressed: () => _handleComplete(context),
             label: 'Create meal',
           ),
         ],

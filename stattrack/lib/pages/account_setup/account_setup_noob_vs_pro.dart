@@ -27,21 +27,15 @@ class AccountSetupNoobVsPro extends StatelessWidget {
           height: 25.0,
         ),
         MainButton(
-          callback: toPro,
+          onPressed: toPro,
           label: 'Yes, let me set it myself',
-          fontWeight: FontStyles.fw400,
-          backgroundColor: Colors.white70,
-          color: Colors.black87,
         ),
         const SizedBox(
           height: 16.0,
         ),
         MainButton(
-          callback: toNoob,
+          onPressed: toNoob,
           label: 'No, take me through the setup',
-          fontWeight: FontStyles.fw400,
-          backgroundColor: Colors.white70,
-          color: Colors.black87,
         ),
       ],
     );

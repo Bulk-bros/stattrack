@@ -109,7 +109,8 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               height: 31.0,
             ),
             MainButton(
-              callback: !_isLoading ? () => _handleSubmit(context, auth) : null,
+              onPressed:
+                  !_isLoading ? () => _handleSubmit(context, auth) : null,
               label: "Send reset mail",
             ),
             const SizedBox(

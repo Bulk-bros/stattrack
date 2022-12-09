@@ -101,7 +101,7 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
                     elevation: 0,
                   )
                 : MainButton(
-                    callback: () => _logMeal(auth, logService),
+                    onPressed: () => _logMeal(auth, logService),
                     label: 'Eat meal',
                   ),
           ],

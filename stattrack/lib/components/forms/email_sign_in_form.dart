@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/form_button.dart';
+import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/utils/validator.dart';
 
@@ -132,7 +133,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
             const SizedBox(
               height: 39.0,
             ),
-            FormButton(
+            MainButton(
               key: const Key('emailSignInFormButton'),
               onPressed: enableButton ? _submit : null,
               label: 'Sign In',
