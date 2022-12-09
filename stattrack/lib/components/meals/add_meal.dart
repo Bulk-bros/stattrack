@@ -8,16 +8,16 @@ import 'package:stattrack/components/meals/meal_showcase.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/meal_service_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/styles/palette.dart';
 
 class AddMeal extends ConsumerStatefulWidget {
   const AddMeal({Key? key}) : super(key: key);
 
   @override
-  _AddMealState createState() => _AddMealState();
+  ConsumerState<AddMeal> createState() => _AddMealState();
 }
 
 class _AddMealState extends ConsumerState<AddMeal> {
@@ -55,7 +55,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final MealService mealService = ref.read(mealServiceProvider);
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -67,7 +67,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
           const SizedBox(
             height: 25.0,
           ),
-          _buildGrid(auth, repo, context),
+          _buildGrid(auth, mealService, context),
         ],
       ),
     );
@@ -106,9 +106,10 @@ class _AddMealState extends ConsumerState<AddMeal> {
     );
   }
 
-  Widget _buildGrid(AuthBase auth, Repository repo, BuildContext context) {
+  Widget _buildGrid(
+      AuthBase auth, MealService mealService, BuildContext context) {
     return StreamBuilder<List<Meal>>(
-      stream: repo.getMeals(auth.currentUser!.uid),
+      stream: mealService.getMeals(auth.currentUser!.uid),
       builder: ((context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
           return Center(

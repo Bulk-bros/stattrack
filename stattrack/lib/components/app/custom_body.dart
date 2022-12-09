@@ -8,11 +8,11 @@ import 'package:stattrack/styles/palette.dart';
 /// [bodyWidgets] A list of widgets that is to be placed in the body (ColumnSuper
 /// )
 class CustomBody extends StatelessWidget {
-  CustomBody({Key? key, required this.header, required this.bodyWidgets})
+  const CustomBody({Key? key, required this.header, required this.bodyWidgets})
       : super(key: key);
 
-  Widget header;
-  List<Widget> bodyWidgets;
+  final Widget header;
+  final List<Widget> bodyWidgets;
 
   @override
   Widget build(BuildContext context) {

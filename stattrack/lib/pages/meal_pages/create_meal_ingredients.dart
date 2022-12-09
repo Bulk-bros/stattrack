@@ -9,9 +9,9 @@ import 'package:stattrack/models/IngredientAmount.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/pages/meal_pages/create_ingredient_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/ingredient_service_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/services/ingredient_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
@@ -25,7 +25,8 @@ class CreateMealIngredients extends ConsumerStatefulWidget {
   final void Function(Map<String, num>, num, num, num, num) onComplete;
 
   @override
-  _CreateMealIngredientsState createState() => _CreateMealIngredientsState();
+  ConsumerState<CreateMealIngredients> createState() =>
+      _CreateMealIngredientsState();
 }
 
 class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
@@ -52,10 +53,12 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
     super.initState();
 
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final IngredientService ingredientService =
+        ref.read(ingredientServiceProvider);
 
-    _ingredientStreamSubscription =
-        repo.getIngredients(auth.currentUser!.uid).listen((ingredients) {
+    _ingredientStreamSubscription = ingredientService
+        .getIngredients(auth.currentUser!.uid)
+        .listen((ingredients) {
       setState(() {
         _storedIngredients = ingredients;
       });
@@ -313,9 +316,6 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
         .toList();
     List<num> indexes = _selectedIngredients.keys.toList();
 
-    const SizedBox separetor = SizedBox(
-      height: 6.0,
-    );
     return Expanded(
       child: SingleChildScrollView(
         child: Column(

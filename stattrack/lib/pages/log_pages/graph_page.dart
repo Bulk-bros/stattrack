@@ -4,9 +4,9 @@ import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/weight_service_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/services/weight_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -17,7 +17,7 @@ class GraphPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         headerTitle: 'Stats',
       ),
       body: _buildBody(ref),
@@ -40,10 +40,10 @@ class GraphPage extends ConsumerWidget {
 
   Widget _buildDefaultLineChart(WidgetRef ref) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final WeightService weightService = ref.read(weightServiceProvider);
 
     return StreamBuilder<List<Weight>>(
-      stream: repo.getWeightsThisMonth(auth.currentUser!.uid),
+      stream: weightService.getWeightsThisMonth(auth.currentUser!.uid),
       builder: ((context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
           return const Text('No connection');

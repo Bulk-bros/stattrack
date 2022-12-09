@@ -14,10 +14,9 @@ import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_ingredient_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/services/api_paths.dart';
+import 'package:stattrack/providers/meal_service_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
@@ -28,7 +27,7 @@ class CreateMealForm extends ConsumerStatefulWidget {
   final List<Ingredient> storedIngredients;
 
   @override
-  _CreateMealFormState createState() => _CreateMealFormState();
+  ConsumerState<CreateMealForm> createState() => _CreateMealFormState();
 }
 
 class _CreateMealFormState extends ConsumerState<CreateMealForm> {
@@ -79,7 +78,8 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
   }
 
   /// Adds a meal to the logged in user
-  void _addMeal(BuildContext context, AuthBase auth, Repository repo) async {
+  void _addMeal(
+      BuildContext context, AuthBase auth, MealService mealService) async {
     if (!_isValidName) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -127,22 +127,21 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             100;
       }
 
-      String imageUrl = await repo.uploadImage(File(_image!.path),
-          ApiPaths.mealImage(auth.currentUser!.uid, UniqueKey().toString()));
-
-      repo.addMeal(
-          Meal(
-            id: UniqueKey().toString(),
-            name: _name,
-            imageUrl: imageUrl,
-            ingredients: ingredients,
-            instuctions: _instructions.values.toList(),
-            calories: calories,
-            proteins: proteins,
-            fat: fat,
-            carbs: carbs,
-          ),
-          auth.currentUser!.uid);
+      mealService.addMeal(
+        meal: Meal(
+          id: UniqueKey().toString(),
+          name: _name,
+          imageUrl: null,
+          ingredients: ingredients,
+          instuctions: _instructions.values.toList(),
+          calories: calories,
+          proteins: proteins,
+          fat: fat,
+          carbs: carbs,
+        ),
+        uid: auth.currentUser!.uid,
+        imageFile: File(_image!.path),
+      );
 
       if (!mounted) return;
       Navigator.pop(context);
@@ -192,7 +191,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final MealService mealService = ref.read(mealServiceProvider);
 
     const elementSpacing = 10.0;
     const sectionSpacing = 25.0;
@@ -282,7 +281,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             height: 50.0,
           ),
           MainButton(
-            callback: () => _addMeal(context, auth, repo),
+            callback: () => _addMeal(context, auth, mealService),
             label: 'Create meal',
             padding: const EdgeInsets.all(16.0),
           ),

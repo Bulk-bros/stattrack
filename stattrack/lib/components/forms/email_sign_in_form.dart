@@ -10,7 +10,7 @@ class EmailSignInForm extends StatefulWidget {
   final AuthBase auth;
 
   @override
-  _EmailSignInFormState createState() => _EmailSignInFormState();
+  State<EmailSignInForm> createState() => _EmailSignInFormState();
 }
 
 class _EmailSignInFormState extends State<EmailSignInForm> {

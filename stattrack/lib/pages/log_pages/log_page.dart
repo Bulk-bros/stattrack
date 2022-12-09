@@ -6,12 +6,11 @@ import 'package:stattrack/components/cards/clickable_card.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
 import 'package:stattrack/components/stats/stat_card_layout.dart';
 import 'package:stattrack/models/consumed_meal.dart';
-import 'package:stattrack/pages/log_pages/graph_page.dart';
 import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/user_profile_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/providers/log_service_provider.dart';
+import 'package:stattrack/services/log_service.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:week_of_year/week_of_year.dart';
 
@@ -37,7 +36,7 @@ class LogPage extends ConsumerStatefulWidget {
   const LogPage({Key? key}) : super(key: key);
 
   @override
-  _LogPageState createState() => _LogPageState();
+  ConsumerState<LogPage> createState() => _LogPageState();
 }
 
 class _LogPageState extends ConsumerState<LogPage> {
@@ -125,8 +124,8 @@ class _LogPageState extends ConsumerState<LogPage> {
 
   /// Returns the body of the log page
   Widget _buildBody() {
-    final Repository repo = ref.read(repositoryProvider);
     final String uid = ref.read(authProvider).currentUser!.uid;
+    final LogService logService = ref.read(logServiceProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -137,7 +136,7 @@ class _LogPageState extends ConsumerState<LogPage> {
             height: 16.0,
           ),
           StreamBuilder<List<ConsumedMeal>>(
-            stream: repo.getLog(uid),
+            stream: logService.getLog(uid),
             builder: ((context, snapshot) {
               if (snapshot.connectionState != ConnectionState.active) {
                 return const Center(

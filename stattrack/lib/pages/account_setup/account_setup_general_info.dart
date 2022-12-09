@@ -9,7 +9,6 @@ import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/utils/validator.dart';
 
-// TODO: Check that keyboard navigation work, and that correct keyboard type is displayed
 class AccountSetupGeneralInfo extends StatefulWidget {
   const AccountSetupGeneralInfo({
     Key? key,
@@ -19,7 +18,7 @@ class AccountSetupGeneralInfo extends StatefulWidget {
   final void Function(String, DateTime, num, num, File?) onComplete;
 
   @override
-  _AccountSetupGeneralInfoState createState() =>
+  State<AccountSetupGeneralInfo> createState() =>
       _AccountSetupGeneralInfoState();
 }
 
@@ -72,10 +71,6 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
       widget.onComplete(_name, _selectedBirthday!, num.parse(_height),
           num.parse(_weight), image);
     }
-  }
-
-  void _updateState() {
-    setState(() {});
   }
 
   @override

@@ -1,20 +1,17 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_info.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_ingredients.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_instructions.dart';
 import 'package:stattrack/pages/meal_pages/create_meal_overview.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
-import 'package:stattrack/services/api_paths.dart';
+import 'package:stattrack/providers/meal_service_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
-import 'package:stattrack/styles/palette.dart';
+import 'package:stattrack/services/meal_service.dart';
+import 'package:uuid/uuid.dart';
 
 enum SubPages {
   info,
@@ -27,7 +24,7 @@ class CreateMealPage extends ConsumerStatefulWidget {
   const CreateMealPage({Key? key}) : super(key: key);
 
   @override
-  _CreateMealPageState createState() => _CreateMealPageState();
+  ConsumerState<CreateMealPage> createState() => _CreateMealPageState();
 }
 
 class _CreateMealPageState extends ConsumerState<CreateMealPage> {
@@ -52,27 +49,26 @@ class _CreateMealPageState extends ConsumerState<CreateMealPage> {
         _fat == null ||
         _carbs == null ||
         _proteins == null) {
-      print('something went wrong!!!');
+      // TODO: Handle input errors
     } else {
       final AuthBase auth = ref.read(authProvider);
-      final Repository repo = ref.read(repositoryProvider);
+      final MealService mealService = ref.read(mealServiceProvider);
 
-      String imageUrl = await repo.uploadFileAsBytes(_imageData!,
-          ApiPaths.mealImage(auth.currentUser!.uid, UniqueKey().toString()));
-
-      await repo.addMeal(
-          Meal(
-            id: UniqueKey().toString(),
-            name: _name!,
-            imageUrl: imageUrl,
-            ingredients: _ingredients,
-            instuctions: _instructions,
-            calories: _calories!,
-            fat: _fat!,
-            carbs: _carbs!,
-            proteins: _proteins!,
-          ),
-          auth.currentUser!.uid);
+      await mealService.addMeal(
+        meal: Meal(
+          id: const Uuid().v1(),
+          name: _name!,
+          imageUrl: null,
+          ingredients: _ingredients,
+          instuctions: _instructions,
+          calories: _calories!,
+          fat: _fat!,
+          carbs: _carbs!,
+          proteins: _proteins!,
+        ),
+        uid: auth.currentUser!.uid,
+        imageData: _imageData!,
+      );
 
       if (!mounted) return;
       Navigator.pop(context);

@@ -5,9 +5,9 @@ import 'package:stattrack/pages/account_setup/account_setup_page.dart';
 import 'package:stattrack/pages/auth_pages/sign_in_page.dart';
 import 'package:stattrack/pages/nav_wrapper.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/user_service_provider.dart';
+import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
 import 'package:stattrack/models/user.dart' as app_user;
 
 class LandingPage extends ConsumerWidget {
@@ -16,7 +16,7 @@ class LandingPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     // Check if user is signed in
     // If not, redirect to sign in page
@@ -32,7 +32,7 @@ class LandingPage extends ConsumerWidget {
             // If yes, redirect to profile page
             // If no, redirect to account setup page
             return StreamBuilder<app_user.User?>(
-                stream: repo.getUser(auth.currentUser!.uid),
+                stream: userService.getUser(auth.currentUser!.uid),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState != ConnectionState.active) {
                     return const Center(

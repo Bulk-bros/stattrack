@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 /// [size] Size of the card, default is set to 100px
 ///
 class CustomCard extends StatelessWidget {
-  CustomCard(
-      {Key? key,
-      required this.content,
-      this.size,
-      this.padded = true,
-      this.color = Colors.white})
-      : super(key: key);
+  const CustomCard({
+    Key? key,
+    required this.content,
+    this.size,
+    this.padded = true,
+    this.color = Colors.white,
+  }) : super(key: key);
 
-  Widget content;
-  double? size;
-  bool? padded;
-  Color? color;
+  final Widget content;
+  final double? size;
+  final bool? padded;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

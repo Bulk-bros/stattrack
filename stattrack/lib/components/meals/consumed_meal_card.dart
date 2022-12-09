@@ -4,7 +4,7 @@ import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
 class ConsumedMealCard extends StatelessWidget {
-  ConsumedMealCard({
+  const ConsumedMealCard({
     Key? key,
     required this.meal,
     this.timeValue,
@@ -13,12 +13,12 @@ class ConsumedMealCard extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  ConsumedMeal meal;
+  final ConsumedMeal meal;
 
-  String? timeValue; //change to date later on
+  final String? timeValue; //change to date later on
 
-  Color? backgroundColor;
-  Color? color;
+  final Color? backgroundColor;
+  final Color? color;
   final void Function(ConsumedMeal) onPressed;
 
   void _handlePressed() {
@@ -84,13 +84,22 @@ class ConsumedMealCard extends StatelessWidget {
                     child: Container(
                       width: 200,
                       height: 200,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(meal.imageUrl),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      decoration: meal.imageUrl != null
+                          ? BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(meal.imageUrl!),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image:
+                                    AssetImage("assets/icons/image-solid.svg"),
+                                opacity: 0.4,
+                              ),
+                            ),
                     ),
                   ),
                   Text(

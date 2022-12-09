@@ -6,9 +6,9 @@ import 'package:stattrack/models/consumed_meal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 
 class MealDetails extends StatelessWidget {
-  MealDetails({Key? key, required this.meal}) : super(key: key);
+  const MealDetails({Key? key, required this.meal}) : super(key: key);
 
-  ConsumedMeal meal;
+  final ConsumedMeal meal;
 
   final spacing = const SizedBox(
     height: 5,
@@ -51,13 +51,21 @@ class MealDetails extends StatelessWidget {
                   child: Container(
                     width: 200,
                     height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(meal.imageUrl),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    decoration: meal.imageUrl != null
+                        ? BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(meal.imageUrl!),
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage("assets/icons/image-solid.svg"),
+                              opacity: 0.4,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(

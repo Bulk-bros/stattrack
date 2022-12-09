@@ -10,7 +10,7 @@ class AccountSetupNoobActivity extends StatefulWidget {
   final void Function(int) onComplete;
 
   @override
-  _AccountSetupNoobActivityState createState() =>
+  State<AccountSetupNoobActivity> createState() =>
       _AccountSetupNoobActivityState();
 }
 

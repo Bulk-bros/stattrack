@@ -12,7 +12,7 @@ class TermsOfServicePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(headerTitle: 'Terms of Service'),
+      appBar: const CustomAppBar(headerTitle: 'Terms of Service'),
       body: _buildBody(),
     );
   }

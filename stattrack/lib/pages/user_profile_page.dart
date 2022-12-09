@@ -13,9 +13,13 @@ import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/pages/log_pages/log_details.dart';
 import 'package:stattrack/pages/settings_pages/settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/log_service_provider.dart';
+import 'package:stattrack/providers/user_service_provider.dart';
+import 'package:stattrack/providers/weight_service_provider.dart';
+import 'package:stattrack/services/log_service.dart';
+import 'package:stattrack/services/user_service.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/services/weight_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:stattrack/components/app/custom_body.dart';
@@ -41,7 +45,7 @@ class UserProfilePage extends ConsumerStatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
 
   @override
-  _UserProfilePageState createState() => _UserProfilePageState();
+  ConsumerState<UserProfilePage> createState() => _UserProfilePageState();
 }
 
 class _UserProfilePageState extends ConsumerState<UserProfilePage> {
@@ -72,21 +76,27 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   /// Builds the body of the profile page
   Widget _buildBody(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     return StreamBuilder<User?>(
-      stream: repo.getUser(auth.currentUser!.uid),
+      stream: userService.getUser(auth.currentUser!.uid),
       builder: ((context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              color: Palette.accent[400],
+            ),
           );
         }
         if (snapshot.hasError) {
-          return Text("Error: ${snapshot.error}");
+          return Center(child: Text("Error: ${snapshot.error}"));
         }
-        if (!snapshot.hasData) {
-          return const Text("No data");
+        if (!snapshot.hasData || snapshot.data == null) {
+          // TODO: Add sign out button
+          return const Center(
+            child:
+                Text("Something went wrong. Please sign out and try againg!"),
+          );
         }
         final User user = snapshot.data!;
 
@@ -116,8 +126,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
       stream: _mealStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: CircularProgressIndicator(
+              color: Palette.accent[400],
+            ),
           );
         }
         final meals = snapshot.data;
@@ -125,11 +137,12 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
           return _buildErrorText(snapshot.hasError.toString());
         }
         return _buildMacroLayout(
-            macros: _calculateMacros(meals!),
-            dailyCalories: dailyCalories,
-            dailyProteins: dailyProteins,
-            dailyCarbs: dailyCarbs,
-            dailyFat: dailyFat);
+          macros: _calculateMacros(meals!),
+          dailyCalories: dailyCalories,
+          dailyProteins: dailyProteins,
+          dailyCarbs: dailyCarbs,
+          dailyFat: dailyFat,
+        );
       },
     );
   }
@@ -163,9 +176,9 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   /// returns a stream of meals from the firebase database
   Stream<List<ConsumedMeal>> _mealStream() {
-    final Repository repo = ref.read(repositoryProvider);
+    final LogService logService = ref.read(logServiceProvider);
     final AuthBase auth = ref.read(authProvider);
-    return repo.getTodaysMeals(auth.currentUser!.uid);
+    return logService.getTodaysLog(auth.currentUser!.uid);
   }
 
   /// Builds the macro layout
@@ -268,7 +281,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   }
 
   /// Creates user information for the header in the custombody
-  Widget _buildUserInformation(BuildContext context, String profilePictureUrl,
+  Widget _buildUserInformation(BuildContext context, String? profilePictureUrl,
       String name, num age, num height) {
     return ColumnSuper(
       key: const Key("userInformation"),
@@ -374,10 +387,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   Widget _buildWeightComponent() {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final WeightService weightService = ref.read(weightServiceProvider);
 
     return StreamBuilder<List<Weight>>(
-      stream: repo.getWeights(auth.currentUser!.uid),
+      stream: weightService.getWeights(auth.currentUser!.uid),
       builder: (context, snapshot) {
         String value = '';
         bool progress = true;
@@ -436,8 +449,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
 
   // [DecorationImage image = const DecorationImage(image: AssetImage("assets/images/eddyboy.jpeg"))]
 
-  Widget _buildProfileImage(String profilePictureUrl) {
-    if (profilePictureUrl != '') {
+  Widget _buildProfileImage(String? profilePictureUrl) {
+    if (profilePictureUrl != null) {
       return Container(
         width: 110,
         height: 110,
@@ -480,10 +493,10 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         if (meals!.isEmpty) {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+              children: const <Widget>[
                 spacing,
                 CustomCard(
-                  content: const SizedBox(
+                  content: SizedBox(
                     height: 120,
                     child: Text(
                       textAlign: TextAlign.center,

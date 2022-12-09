@@ -12,7 +12,7 @@ class EmailSignUpForm extends StatefulWidget {
   final AuthBase auth;
 
   @override
-  _EmailSignUpFormState createState() => _EmailSignUpFormState();
+  State<EmailSignUpForm> createState() => _EmailSignUpFormState();
 }
 
 class _EmailSignUpFormState extends State<EmailSignUpForm> {

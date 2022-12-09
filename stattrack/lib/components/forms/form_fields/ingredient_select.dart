@@ -18,7 +18,7 @@ class IngredientSelect extends StatefulWidget {
   final void Function(num) delete;
 
   @override
-  _IngredientSelectState createState() => _IngredientSelectState();
+  State<IngredientSelect> createState() => _IngredientSelectState();
 }
 
 class _IngredientSelectState extends State<IngredientSelect> {

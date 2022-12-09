@@ -11,7 +11,7 @@ class ChangePasswordPage extends ConsumerStatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
 
   @override
-  _ChangePasswordPageState createState() => _ChangePasswordPageState();
+  ConsumerState<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
 class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
@@ -102,7 +102,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
     final AuthBase auth = ref.read(authProvider);
 
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         headerTitle: 'Change Password',
       ),
       body: _buildForm(context, auth),

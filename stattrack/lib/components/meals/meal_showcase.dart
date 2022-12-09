@@ -1,23 +1,25 @@
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
-import 'package:stattrack/providers/repository_provider.dart';
+import 'package:stattrack/providers/log_service_provider.dart';
+import 'package:stattrack/providers/meal_service_provider.dart';
 import 'package:stattrack/services/auth.dart';
-import 'package:stattrack/services/repository.dart';
+import 'package:stattrack/services/log_service.dart';
+import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
 class MealShowcase extends ConsumerStatefulWidget {
-  MealShowcase({Key? key, required this.meal, this.width}) : super(key: key);
+  const MealShowcase({Key? key, required this.meal, this.width})
+      : super(key: key);
 
   final Meal meal;
-  double? width;
+  final double? width;
 
   @override
-  _MealShowcaseState createState() => _MealShowcaseState();
+  ConsumerState<MealShowcase> createState() => _MealShowcaseState();
 }
 
 class _MealShowcaseState extends ConsumerState<MealShowcase> {
@@ -29,9 +31,9 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
     });
   }
 
-  void _logMeal(AuthBase auth, Repository repo) {
+  void _logMeal(AuthBase auth, LogService logService) {
     try {
-      repo.logMeal(meal: widget.meal, uid: auth.currentUser!.uid);
+      logService.logMeal(widget.meal, auth.currentUser!.uid);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -44,16 +46,10 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
   }
 
   Future<void> _deleteMeal(
-      BuildContext context, AuthBase auth, Repository repo) async {
+      BuildContext context, AuthBase auth, MealService mealService) async {
     try {
-      // Get image reference
-      String imgUrl = widget.meal.imageUrl;
-
       // Delete meal
-      await repo.deleteMeal(auth.currentUser!.uid, widget.meal.id);
-
-      // Delete img
-      await repo.deleteImage(imgUrl);
+      await mealService.deleteMeal(auth.currentUser!.uid, widget.meal);
 
       Navigator.of(context).pop();
     } catch (e) {
@@ -68,7 +64,8 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
   @override
   Widget build(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
-    final Repository repo = ref.read(repositoryProvider);
+    final MealService mealService = ref.read(mealServiceProvider);
+    final LogService logService = ref.read(logServiceProvider);
 
     const SizedBox separetor = SizedBox(
       height: 25.0,
@@ -96,7 +93,7 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
             ),
             _editable
                 ? MainButton(
-                    callback: () => _deleteMeal(context, auth, repo),
+                    callback: () => _deleteMeal(context, auth, mealService),
                     label: 'Delete meal',
                     backgroundColor: Colors.white,
                     borderColor: Colors.red,
@@ -104,7 +101,7 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
                     elevation: 0,
                   )
                 : MainButton(
-                    callback: () => _logMeal(auth, repo),
+                    callback: () => _logMeal(auth, logService),
                     label: 'Eat meal',
                   ),
           ],
@@ -140,13 +137,21 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
                 child: Container(
                   width: 200,
                   height: 200,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(widget.meal.imageUrl),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  decoration: widget.meal.imageUrl != null
+                      ? BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(widget.meal.imageUrl!),
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage("assets/icons/image-solid.svg"),
+                            opacity: 0.4,
+                          ),
+                        ),
                 ),
               ),
               const SizedBox(

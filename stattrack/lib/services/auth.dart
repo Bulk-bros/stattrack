@@ -125,7 +125,7 @@ class Auth implements AuthBase {
     switch (response.status) {
       case FacebookLoginStatus.success:
         final accessToken = response.accessToken;
-        final userCredential;
+        final dynamic userCredential;
         if (accessToken != null) {
           userCredential = await _firebaseAuth.signInWithCredential(
               FacebookAuthProvider.credential(accessToken.token));

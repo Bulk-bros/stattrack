@@ -10,7 +10,7 @@ class AccountSetupPro extends StatefulWidget {
   final Future<void> Function(num, num, num, num) onComplete;
 
   @override
-  _AccountSetupProState createState() => _AccountSetupProState();
+  State<AccountSetupPro> createState() => _AccountSetupProState();
 }
 
 class _AccountSetupProState extends State<AccountSetupPro> {

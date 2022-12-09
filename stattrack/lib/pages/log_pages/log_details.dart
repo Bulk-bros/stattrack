@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
@@ -12,11 +10,11 @@ import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
 class LogDetails extends StatelessWidget {
-  LogDetails({Key? key, required this.meals, required this.time})
+  const LogDetails({Key? key, required this.meals, required this.time})
       : super(key: key);
 
-  List<ConsumedMeal> meals;
-  String time;
+  final List<ConsumedMeal> meals;
+  final String time;
 
   final spacing = const SizedBox(
     height: 5,
