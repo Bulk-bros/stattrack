@@ -135,7 +135,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
             ),
             MainButton(
               key: const Key('emailSignInFormButton'),
-              callback: enableButton ? _submit : null,
+              onPressed: enableButton ? _submit : null,
               label: 'Sign In',
             ),
             Column(

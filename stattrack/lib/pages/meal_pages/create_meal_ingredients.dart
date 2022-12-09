@@ -269,7 +269,7 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
           ],
         ),
         MainButton(
-          callback: _addIngredient,
+          onPressed: _addIngredient,
           label: 'Add ingredient',
         ),
         _showError

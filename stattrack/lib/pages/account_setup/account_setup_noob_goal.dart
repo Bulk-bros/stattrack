@@ -57,7 +57,7 @@ class _AccountSetupNoobGoalState extends State<AccountSetupNoobGoal> {
           ],
         ),
         MainButton(
-          callback: _goal != null ? () => widget.onComplete(_goal!) : null,
+          onPressed: _goal != null ? () => widget.onComplete(_goal!) : null,
           label: 'Next',
         ),
       ],

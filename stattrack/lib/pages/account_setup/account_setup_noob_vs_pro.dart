@@ -27,14 +27,14 @@ class AccountSetupNoobVsPro extends StatelessWidget {
           height: 25.0,
         ),
         MainButton(
-          callback: toPro,
+          onPressed: toPro,
           label: 'Yes, let me set it myself',
         ),
         const SizedBox(
           height: 16.0,
         ),
         MainButton(
-          callback: toNoob,
+          onPressed: toNoob,
           label: 'No, take me through the setup',
         ),
       ],

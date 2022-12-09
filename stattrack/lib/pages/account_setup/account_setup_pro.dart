@@ -145,7 +145,7 @@ class _AccountSetupProState extends State<AccountSetupPro> {
             height: 20.0,
           ),
           MainButton(
-            callback: _isLoading ? null : _submit,
+            onPressed: _isLoading ? null : _submit,
             label: 'Complete setup',
           )
         ],

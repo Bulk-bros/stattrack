@@ -93,11 +93,11 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
             ),
             _editable
                 ? MainButton(
-                    callback: () => _deleteMeal(context, auth, mealService),
+                    onPressed: () => _deleteMeal(context, auth, mealService),
                     label: 'Delete meal',
                   )
                 : MainButton(
-                    callback: () => _logMeal(auth, logService),
+                    onPressed: () => _logMeal(auth, logService),
                     label: 'Eat meal',
                   ),
           ],

@@ -271,7 +271,7 @@ class SettingsPage extends ConsumerWidget {
                 height: 31.0,
               ),
               MainButton(
-                callback: () => _signOut(context),
+                onPressed: () => _signOut(context),
                 label: "Log out",
               ),
             ],
@@ -396,7 +396,7 @@ class SettingsPage extends ConsumerWidget {
           height: spacing,
         ),
         MainButton(
-          callback: () => _deleteAccount(context, ref),
+          onPressed: () => _deleteAccount(context, ref),
           label: 'Delete account',
         ),
       ],

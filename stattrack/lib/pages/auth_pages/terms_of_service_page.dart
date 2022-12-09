@@ -34,7 +34,7 @@ class TermsOfServicePage extends StatelessWidget {
             'By creating a account you accept that during the lifespan of your account your soul is sold to us at bulk bros :)'
           ]),
           MainButton(
-            callback: onAccept,
+            onPressed: onAccept,
             label: 'Accept',
           ),
         ],

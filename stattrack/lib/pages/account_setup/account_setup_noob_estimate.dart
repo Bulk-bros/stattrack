@@ -162,7 +162,7 @@ class AccountSetupNoobEstimate extends StatelessWidget {
           ],
         ),
         MainButton(
-          callback: () => onComplete(_getCalories().round(),
+          onPressed: () => onComplete(_getCalories().round(),
               _getProteins().round(), _getCarbs().round(), _getFat().round()),
           label: 'Complete setup',
         )

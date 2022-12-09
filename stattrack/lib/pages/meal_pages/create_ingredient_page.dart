@@ -343,7 +343,7 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 height: 20.0,
               ),
               MainButton(
-                callback: !_isLoading ? () => _submit(auth) : null,
+                onPressed: !_isLoading ? () => _submit(auth) : null,
                 label: 'Create Ingredient',
               ),
               const SizedBox(

@@ -5,16 +5,16 @@ import 'package:stattrack/styles/palette.dart';
 class MainButton extends StatelessWidget {
   const MainButton({
     Key? key,
-    required this.callback,
+    required this.onPressed,
     required this.label,
   }) : super(key: key);
 
-  final VoidCallback? callback;
+  final VoidCallback? onPressed;
   final String label;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: callback,
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         elevation: 2,
         backgroundColor: Palette.accent[400],
