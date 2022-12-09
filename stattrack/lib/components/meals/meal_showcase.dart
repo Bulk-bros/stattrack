@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stattrack/components/buttons/danger_button.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
@@ -92,7 +93,7 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
               ],
             ),
             _editable
-                ? MainButton(
+                ? DangerButton(
                     onPressed: () => _deleteMeal(context, auth, mealService),
                     label: 'Delete meal',
                   )

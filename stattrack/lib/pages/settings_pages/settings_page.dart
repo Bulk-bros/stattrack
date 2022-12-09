@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/buttons/danger_button.dart';
 import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
@@ -395,7 +396,7 @@ class SettingsPage extends ConsumerWidget {
         SizedBox(
           height: spacing,
         ),
-        MainButton(
+        DangerButton(
           onPressed: () => _deleteAccount(context, ref),
           label: 'Delete account',
         ),
