@@ -22,8 +22,8 @@ class MainButton extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: Palette.main[0],
           fontWeight: FontStyles.fw600,
           fontSize: FontStyles.fs400,
         ),

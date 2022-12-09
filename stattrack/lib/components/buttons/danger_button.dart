@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/styles/font_styles.dart';
+import 'package:stattrack/styles/palette.dart';
 
 class DangerButton extends StatefulWidget {
   const DangerButton({
@@ -17,19 +18,18 @@ class DangerButton extends StatefulWidget {
 
 class _DangerButtonState extends State<DangerButton> {
   Color textColor = Colors.red[600]!;
-  // TODO: Implement main color palette and use it
-  Color backgroundColor = Colors.white;
+  Color backgroundColor = Palette.main[0]!;
 
   void _setHoverState(bool hover) {
     if (hover) {
       setState(() {
-        textColor = Colors.white;
+        textColor = Palette.main[0]!;
         backgroundColor = Colors.red[600]!;
       });
     } else {
       setState(() {
         textColor = Colors.red[600]!;
-        backgroundColor = Colors.white;
+        backgroundColor = Palette.main[0]!;
       });
     }
   }
