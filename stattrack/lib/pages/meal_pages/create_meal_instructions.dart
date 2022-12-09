@@ -120,7 +120,7 @@ class _CreateMealInstructionsState extends State<CreateMealInstructions> {
           onChanged: (value) => _updateState,
         ),
         MainButton(
-          onPressed: _addInstruction,
+          callback: _addInstruction,
           label: 'Add instruction',
         ),
         _showError

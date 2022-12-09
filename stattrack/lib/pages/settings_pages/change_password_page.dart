@@ -165,8 +165,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
               height: 31.0,
             ),
             MainButton(
-              onPressed:
-                  !_isLoading ? () => _handleSubmit(context, auth) : null,
+              callback: !_isLoading ? () => _handleSubmit(context, auth) : null,
               label: "Change Password",
             ),
             const SizedBox(

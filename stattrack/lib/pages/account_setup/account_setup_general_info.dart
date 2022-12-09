@@ -149,7 +149,7 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
             height: 20.0,
           ),
           MainButton(
-            onPressed: _submit,
+            callback: _submit,
             label: 'Next',
           ),
         ],

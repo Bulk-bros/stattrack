@@ -95,13 +95,9 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
                 ? MainButton(
                     callback: () => _deleteMeal(context, auth, mealService),
                     label: 'Delete meal',
-                    backgroundColor: Colors.white,
-                    borderColor: Colors.red,
-                    color: Colors.red,
-                    elevation: 0,
                   )
                 : MainButton(
-                    onPressed: () => _logMeal(auth, logService),
+                    callback: () => _logMeal(auth, logService),
                     label: 'Eat meal',
                   ),
           ],

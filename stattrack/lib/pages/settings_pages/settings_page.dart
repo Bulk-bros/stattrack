@@ -271,7 +271,7 @@ class SettingsPage extends ConsumerWidget {
                 height: 31.0,
               ),
               MainButton(
-                onPressed: () => _signOut(context),
+                callback: () => _signOut(context),
                 label: "Log out",
               ),
             ],
@@ -396,13 +396,8 @@ class SettingsPage extends ConsumerWidget {
           height: spacing,
         ),
         MainButton(
-          onPressed: () => _deleteAccount(context, ref),
+          callback: () => _deleteAccount(context, ref),
           label: 'Delete account',
-          padding: const EdgeInsets.all(16.0),
-          backgroundColor: Colors.white,
-          color: Colors.red,
-          borderColor: Colors.red,
-          elevation: 0,
         ),
       ],
     );

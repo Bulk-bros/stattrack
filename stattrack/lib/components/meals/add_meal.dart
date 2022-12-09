@@ -134,7 +134,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
                 height: 16.0,
               ),
               MainButton(
-                onPressed: () => _goToCreateMeal(context),
+                callback: () => _goToCreateMeal(context),
                 label: 'Create a new meal',
               ),
             ],

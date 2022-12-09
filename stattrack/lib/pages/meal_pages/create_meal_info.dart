@@ -99,7 +99,7 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
           height: 16.0,
         ),
         MainButton(
-          onPressed: _handleComplete,
+          callback: _handleComplete,
           label: 'Next',
         ),
         _showError

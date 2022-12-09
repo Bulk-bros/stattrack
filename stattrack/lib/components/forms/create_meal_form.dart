@@ -250,7 +250,7 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             );
           }),
           MainButton(
-            onPressed: _addIngredient,
+            callback: _addIngredient,
             label: 'Add ingredient',
           ),
           const SizedBox(
@@ -268,14 +268,14 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
             );
           }),
           MainButton(
-            onPressed: _addInstruction,
+            callback: _addInstruction,
             label: 'Add instruction',
           ),
           const SizedBox(
             height: 50.0,
           ),
           MainButton(
-            onPressed: () => _addMeal(context, auth, mealService),
+            callback: () => _addMeal(context, auth, mealService),
             label: 'Create meal',
           ),
         ],
