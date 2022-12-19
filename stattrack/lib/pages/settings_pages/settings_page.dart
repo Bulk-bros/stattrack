@@ -32,9 +32,11 @@ enum UpdateAction {
 }
 
 class SettingsPage extends ConsumerWidget {
-  const SettingsPage({Key? key, required this.auth}) : super(key: key);
+  const SettingsPage({Key? key, required this.auth, required this.userService})
+      : super(key: key);
 
   final AuthBase auth;
+  final UserService userService;
 
   void _signOut(BuildContext context) {
     auth.signOut();
@@ -132,7 +134,10 @@ class SettingsPage extends ConsumerWidget {
       context,
       PageTransition(
         type: PageTransitionType.rightToLeft,
-        child: ProfileSettingsPage(auth: auth),
+        child: ProfileSettingsPage(
+          auth: auth,
+          userService: userService,
+        ),
       ),
     );
   }

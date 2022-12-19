@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/models/user.dart';
 import 'package:stattrack/models/weight.dart';

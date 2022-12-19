@@ -56,12 +56,16 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   /// [context] the build context to show the settings page over
   void _showSettings(BuildContext context) {
     final AuthBase auth = ref.read(authProvider);
+    final UserService userService = ref.read(userServiceProvider);
 
     Navigator.push(
       context,
       PageTransition(
         type: PageTransitionType.rightToLeft,
-        child: SettingsPage(auth: auth),
+        child: SettingsPage(
+          auth: auth,
+          userService: userService,
+        ),
       ),
     );
   }

@@ -27,12 +27,17 @@ enum UpdateAction {
   fat,
   carbs,
   weight,
+  height,
+  birthdate,
 }
 
 class ProfileSettingsPage extends ConsumerWidget {
-  const ProfileSettingsPage({Key? key, required this.auth}) : super(key: key);
+  const ProfileSettingsPage(
+      {Key? key, required this.auth, required this.userService})
+      : super(key: key);
 
   final AuthBase auth;
+  final UserService userService;
 
   void _signOut(BuildContext context) {
     auth.signOut();
@@ -267,13 +272,6 @@ class ProfileSettingsPage extends ConsumerWidget {
                   _buildDangerZone(context, ref),
                 ],
               ),
-              const SizedBox(
-                height: 31.0,
-              ),
-              MainButton(
-                callback: () => _signOut(context),
-                label: "Log out",
-              ),
             ],
           ),
         ),
@@ -301,10 +299,32 @@ class ProfileSettingsPage extends ConsumerWidget {
         _buildDialogButton(
           context: context,
           ref: ref,
-          label: 'Update weight',
+          label: 'Weight',
           dialogTitle: 'Update weight',
           dialogHint: 'New weight',
           updateAction: UpdateAction.weight,
+        ),
+        SizedBox(
+          height: spacing,
+        ),
+        _buildDialogButton(
+          context: context,
+          ref: ref,
+          label: 'Height',
+          dialogTitle: 'Update height',
+          dialogHint: 'New height',
+          updateAction: UpdateAction.height,
+        ),
+        SizedBox(
+          height: spacing,
+        ),
+        _buildDialogButton(
+          context: context,
+          ref: ref,
+          label: 'Date of birth',
+          dialogTitle: 'Update date of birth',
+          dialogHint: 'New birth date',
+          updateAction: UpdateAction.birthdate,
         ),
         SizedBox(
           height: spacing,
@@ -336,7 +356,7 @@ class ProfileSettingsPage extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _buildSectionHeading('Daily consumption settings'),
+        _buildSectionHeading('Daily consumption'),
         SizedBox(
           height: spacing,
         ),
@@ -426,16 +446,8 @@ class ProfileSettingsPage extends ConsumerWidget {
     required String dialogTitle,
     required String dialogHint,
     required UpdateAction updateAction,
-    String? currentInfo,
+    String currentInfo = "",
   }) {
-    Widget currentInfoText = Text(
-      label,
-      style: const TextStyle(
-        color: Colors.black38,
-        fontSize: 16.0,
-      ),
-    );
-
     return SecondaryButton(
       callback: () => _showDialog(
         context: context,
@@ -455,7 +467,13 @@ class ProfileSettingsPage extends ConsumerWidget {
               fontSize: 16.0,
             ),
           ),
-          currentInfo!=null : currentInfoText ? null,
+          Text(
+            currentInfo,
+            style: const TextStyle(
+              color: Colors.black38,
+              fontSize: 16.0,
+            ),
+          ),
           const Icon(Icons.edit, color: Colors.black87),
         ],
       ),
