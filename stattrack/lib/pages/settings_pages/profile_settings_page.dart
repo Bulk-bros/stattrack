@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -13,7 +12,6 @@ import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/models/weight.dart';
 import 'package:stattrack/pages/settings_pages/change_password_page.dart';
-import 'package:stattrack/pages/settings_pages/profile_settings_page.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/user_service_provider.dart';
 import 'package:stattrack/providers/weight_service_provider.dart';
@@ -31,8 +29,8 @@ enum UpdateAction {
   weight,
 }
 
-class SettingsPage extends ConsumerWidget {
-  const SettingsPage({Key? key, required this.auth}) : super(key: key);
+class ProfileSettingsPage extends ConsumerWidget {
+  const ProfileSettingsPage({Key? key, required this.auth}) : super(key: key);
 
   final AuthBase auth;
 
@@ -124,16 +122,6 @@ class SettingsPage extends ConsumerWidget {
           ],
         );
       },
-    );
-  }
-
-  void _navigateToProfileSettings(BuildContext context) {
-    Navigator.push(
-      context,
-      PageTransition(
-        type: PageTransitionType.rightToLeft,
-        child: ProfileSettingsPage(auth: auth),
-      ),
     );
   }
 
@@ -254,7 +242,7 @@ class SettingsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: const CustomAppBar(
-        headerTitle: "Settings",
+        headerTitle: "Profile Settings",
       ),
       body: Padding(
         padding: const EdgeInsets.all(31.0),
@@ -268,11 +256,15 @@ class SettingsPage extends ConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  _buildGeneralSettings(context, ref),
+                  _buildProfileSettings(context, ref),
                   SizedBox(
                     height: spacing,
                   ),
-                  _buildOtherOptions(context, ref),
+                  _buildConsumptionSettings(context, ref),
+                  SizedBox(
+                    height: spacing,
+                  ),
+                  _buildDangerZone(context, ref),
                 ],
               ),
               const SizedBox(
@@ -289,77 +281,48 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildGeneralSettings(BuildContext context, WidgetRef ref) {
+  Widget _buildProfileSettings(BuildContext context, WidgetRef ref) {
     double spacing = 16.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _buildSectionHeading('General'),
+        _buildSectionHeading('Personal information'),
+        SizedBox(
+          height: spacing,
+        ),
+        ImagePickerInput(
+          onImagePicked: (image) => _uploadImage(context, ref, image),
+          label: 'Change profile image',
+        ),
+        SizedBox(
+          height: spacing,
+        ),
+        _buildDialogButton(
+          context: context,
+          ref: ref,
+          label: 'Update weight',
+          dialogTitle: 'Update weight',
+          dialogHint: 'New weight',
+          updateAction: UpdateAction.weight,
+        ),
         SizedBox(
           height: spacing,
         ),
         SecondaryButton(
-          callback: () => _navigateToProfileSettings(context),
+          callback: () => _handleChangePassword(context),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: const <Widget>[
               Text(
-                "Profile settings",
+                "Change password",
                 style: TextStyle(
                   color: Colors.black87,
                   fontSize: 16.0,
                 ),
               ),
-              Icon(Icons.person, color: Colors.black87),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: spacing,
-        ),
-        SecondaryButton(
-          callback: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const <Widget>[
-              Text(
-                "Change theme",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16.0,
-                ),
-              ),
-              Icon(Icons.dark_mode, color: Colors.black87),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: spacing,
-        ),
-        SecondaryButton(
-          callback: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                "Color theme",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16.0,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-                width: 24,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 4),
-                  color: Palette.accent[400],
-                ),
-              ),
+              Icon(Icons.edit, color: Colors.black87),
             ],
           ),
         ),
@@ -367,92 +330,79 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildOtherOptions(BuildContext context, WidgetRef ref) {
+  Widget _buildConsumptionSettings(BuildContext context, WidgetRef ref) {
     double spacing = 16.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _buildSectionHeading('Other options'),
+        _buildSectionHeading('Daily consumption settings'),
         SizedBox(
           height: spacing,
         ),
-        SecondaryButton(
-          callback: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const <Widget>[
-              Text(
-                "Terms of Service",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16.0,
-                ),
-              ),
-              Icon(Icons.menu_book, color: Colors.black87),
-            ],
-          ),
+        _buildDialogButton(
+          context: context,
+          ref: ref,
+          label: 'Calorie consumption',
+          dialogTitle: 'Change daily calorie consumption',
+          dialogHint: 'Daily calorie consumption',
+          updateAction: UpdateAction.calories,
         ),
         SizedBox(
           height: spacing,
         ),
-        SecondaryButton(
-          callback: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const <Widget>[
-              Text(
-                "Privacy Policy",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16.0,
-                ),
-              ),
-              Icon(Icons.fingerprint, color: Colors.black87),
-            ],
-          ),
+        _buildDialogButton(
+          context: context,
+          ref: ref,
+          label: 'Protein consumption',
+          dialogTitle: 'Change daily protein consumption',
+          dialogHint: 'Daily protein consumption',
+          updateAction: UpdateAction.proteins,
         ),
         SizedBox(
           height: spacing,
         ),
-        SecondaryButton(
-          callback: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const <Widget>[
-              Text(
-                "Share Feedback",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16.0,
-                ),
-              ),
-              Icon(Icons.feedback, color: Colors.black87),
-            ],
-          ),
+        _buildDialogButton(
+          context: context,
+          ref: ref,
+          label: 'Carbs consumption',
+          dialogTitle: 'Change daily carbs consumption',
+          dialogHint: 'Daily carbs consumption',
+          updateAction: UpdateAction.carbs,
         ),
         SizedBox(
           height: spacing,
         ),
-        SecondaryButton(
-          callback: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const <Widget>[
-              Text(
-                "Report a bug",
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16.0,
-                ),
-              ),
-              Icon(Icons.bug_report, color: Colors.black87),
-            ],
-          ),
+        _buildDialogButton(
+          context: context,
+          ref: ref,
+          label: 'Fat consumption',
+          dialogTitle: 'Change daily fat consumption',
+          dialogHint: 'Daily fat consumption',
+          updateAction: UpdateAction.fat,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDangerZone(BuildContext context, WidgetRef ref) {
+    double spacing = 16.0;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        _buildSectionHeading('Danger zone'),
+        SizedBox(
+          height: spacing,
+        ),
+        MainButton(
+          callback: () => _deleteAccount(context, ref),
+          label: 'Delete account',
+          padding: const EdgeInsets.all(16.0),
+          backgroundColor: Colors.white,
+          color: Colors.red,
+          borderColor: Colors.red,
+          elevation: 0,
         ),
       ],
     );
@@ -476,7 +426,16 @@ class SettingsPage extends ConsumerWidget {
     required String dialogTitle,
     required String dialogHint,
     required UpdateAction updateAction,
+    String? currentInfo,
   }) {
+    Widget currentInfoText = Text(
+      label,
+      style: const TextStyle(
+        color: Colors.black38,
+        fontSize: 16.0,
+      ),
+    );
+
     return SecondaryButton(
       callback: () => _showDialog(
         context: context,
@@ -496,6 +455,7 @@ class SettingsPage extends ConsumerWidget {
               fontSize: 16.0,
             ),
           ),
+          currentInfo!=null : currentInfoText ? null,
           const Icon(Icons.edit, color: Colors.black87),
         ],
       ),
