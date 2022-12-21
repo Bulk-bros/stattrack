@@ -50,6 +50,7 @@ class StattrackTextInput extends StatelessWidget {
           ),
         ),
         errorText: errorText,
+        errorMaxLines: 3,
         filled: true,
         fillColor: Palette.main[100],
         enabledBorder: OutlineInputBorder(
