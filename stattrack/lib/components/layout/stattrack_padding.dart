@@ -5,7 +5,18 @@ import 'package:flutter/material.dart';
 /// [direction] the direction the padding should be applied. Either [x] for
 /// horizontal, [y] for vertical or [xy] for both directions.
 /// [amount] a keyword describing the amount to add to the
-/// padding: [xtiny, tiny, xxs, xs, s, m, l, xl, xxl, huge, xhuge]
+/// padding:
+///   `xt = 2.0`
+///   `t = 4.0`
+///   `xxs = 8.0`
+///   `xs = 10.0`
+///   `s = 13.0`
+///   `m = 16.0`
+///   `l = 20.0`
+///   `xl = 25.0`
+///   `xxl = 31.0`
+///   `h = 39.0`
+///   `xh = 48.0`
 class StattrackPadding extends StatelessWidget {
   const StattrackPadding({
     Key? key,

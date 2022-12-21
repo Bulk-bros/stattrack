@@ -2,10 +2,21 @@ import 'package:flutter/material.dart';
 
 /// A layout component for spacing
 ///
-/// [direction] the direction the spacing should occupy. Either [x] for
-/// horizontal, [y] for vertical or [xy] for both directions.
+/// [direction] the direction the spacing should occupy. Either `x` for
+/// horizontal, `y` for vertical or `xy` for both directions.
 /// [amount] a keyword describing the amount to add to the
-/// spacing: [xtiny, tiny, xxs, xs, s, m, l, xl, xxl, huge, xhuge]
+/// spacing:
+///   `xt = 2.0`
+///   `t = 4.0`
+///   `xxs = 8.0`
+///   `xs = 10.0`
+///   `s = 13.0`
+///   `m = 16.0`
+///   `l = 20.0`
+///   `xl = 25.0`
+///   `xxl = 31.0`
+///   `h = 39.0`
+///   `xh = 48.0`
 class Spacing extends StatelessWidget {
   const Spacing({
     Key? key,
@@ -21,10 +32,10 @@ class Spacing extends StatelessWidget {
     // Deside spacing value
     double spacing;
     switch (amount) {
-      case 'xtiny':
+      case 'xt':
         spacing = 2.0;
         break;
-      case 'tiny':
+      case 't':
         spacing = 4.0;
         break;
       case 'xxs':
@@ -48,10 +59,10 @@ class Spacing extends StatelessWidget {
       case 'xxl':
         spacing = 31.0;
         break;
-      case 'huge':
+      case 'h':
         spacing = 39.0;
         break;
-      case 'xhuge':
+      case 'xh':
         spacing = 48.0;
         break;
       default:
