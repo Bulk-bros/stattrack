@@ -34,4 +34,17 @@ class Palette {
       900: Color(0xff212529),
     },
   );
+
+  static const MaterialColor error = MaterialColor(0xfa5252, <int, Color>{
+    0: Color(0xfffff5f5),
+    100: Color(0xffffe3e3),
+    200: Color(0xffffc9c9),
+    300: Color(0xffffa8a8),
+    400: Color(0xffff8787),
+    500: Color(0xffff6b6b),
+    600: Color(0xfffa5252),
+    700: Color(0xfff03e3e),
+    800: Color(0xffe03131),
+    900: Color(0xffc92a2a),
+  });
 }
