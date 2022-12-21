@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 ///
 /// [direction] the direction the spacing should occupy. Either [x] for
 /// horizontal, [y] for vertical or [xy] for both directions.
-/// [amount]
+/// [amount] a keyword describing the amount to add to the
+/// spacing: [xtiny, tiny, xxs, xs, s, m, l, xl, xxl, huge, xhuge]
 class Spacing extends StatelessWidget {
   const Spacing({
     Key? key,
