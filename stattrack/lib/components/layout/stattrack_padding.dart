@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
-/// A layout component for spacing
+/// A layout component for padding
 ///
-/// [direction] the direction the spacing should occupy. Either [x] for
+/// [direction] the direction the padding should be applied. Either [x] for
 /// horizontal, [y] for vertical or [xy] for both directions.
 /// [amount] a keyword describing the amount to add to the
-/// spacing: [xtiny, tiny, xxs, xs, s, m, l, xl, xxl, huge, xhuge]
-class Spacing extends StatelessWidget {
-  const Spacing({
+/// padding: [xtiny, tiny, xxs, xs, s, m, l, xl, xxl, huge, xhuge]
+class StattrackPadding extends StatelessWidget {
+  const StattrackPadding({
     Key? key,
     required this.direction,
     required this.amount,
+    required this.child,
   }) : super(key: key);
 
   final String direction;
   final String amount;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -62,17 +64,19 @@ class Spacing extends StatelessWidget {
     // Return correct direction
     switch (direction) {
       case 'x':
-        return SizedBox(
-          width: spacing,
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: spacing),
+          child: child,
         );
       case 'y':
-        return SizedBox(
-          height: spacing,
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: spacing),
+          child: child,
         );
       default:
-        return SizedBox(
-          width: spacing,
-          height: spacing,
+        return Padding(
+          padding: EdgeInsets.all(spacing),
+          child: child,
         );
     }
   }
