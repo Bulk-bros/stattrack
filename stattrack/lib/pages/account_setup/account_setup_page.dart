@@ -36,7 +36,7 @@ class AccountSetupPage extends ConsumerStatefulWidget {
 }
 
 class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
-  SubPages _activePage = SubPages.generalInfo;
+  SubPages _activePage = SubPages.noobGoal;
 
   String? _name;
   DateTime? _birth;
