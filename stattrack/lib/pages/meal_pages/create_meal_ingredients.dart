@@ -229,10 +229,6 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
                 style: const TextStyle(
                   color: Colors.black87,
                 ),
-                underline: Container(
-                  height: 1,
-                  color: Colors.black87,
-                ),
                 borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 isExpanded: true,
                 onChanged: (Ingredient? value) => setState(() {
