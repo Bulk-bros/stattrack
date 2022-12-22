@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
 import 'package:stattrack/components/forms/form_fields/ingredient_select.dart';
 import 'package:stattrack/components/forms/form_fields/instructions_field.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 import 'package:stattrack/models/IngredientAmount.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/models/meal.dart';
@@ -204,9 +204,9 @@ class _CreateMealFormState extends ConsumerState<CreateMealForm> {
           const SizedBox(
             height: elementSpacing,
           ),
-          BorderedTextInput(
+          StattrackTextInput(
+            label: 'Name',
             controller: _nameController,
-            hintText: 'Name',
             textInputAction: TextInputAction.done,
             onEditingComplete: () => FocusScope.of(context).unfocus(),
             onChanged: (name) => _updateState,

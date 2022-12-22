@@ -5,8 +5,8 @@ import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
@@ -76,13 +76,22 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
         const SizedBox(
           height: 20.0,
         ),
-        BorderedTextInput(
-          titleText: 'Name:',
-          hintText: 'Name',
+        StattrackTextInput(
+          label: 'Name:',
           controller: _nameController,
           errorText: _showError && !_isValidName ? 'Cannot be empty' : null,
           textInputAction: TextInputAction.done,
           onChanged: (value) => _updateState(),
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        ImagePickerInput(
+          label: _image == null ? 'Upload image' : 'Change image',
+          onImagePicked: (img) => _updateImage(img),
+        ),
+        const SizedBox(
+          height: 16.0,
         ),
         _image != null
             ? Expanded(
@@ -96,17 +105,6 @@ class _CreateMealInfoState extends State<CreateMealInfo> {
               ),
         const SizedBox(
           height: 16.0,
-        ),
-        ImagePickerInput(
-          label: _image == null ? 'Upload image' : 'Change image',
-          onImagePicked: (img) => _updateImage(img),
-        ),
-        const SizedBox(
-          height: 16.0,
-        ),
-        MainButton(
-          onPressed: _handleComplete,
-          label: 'Next',
         ),
         _showError
             ? _buildError()

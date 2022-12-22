@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/buttons/stattrack_text_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 import 'package:stattrack/models/IngredientAmount.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/pages/meal_pages/create_ingredient_page.dart';
@@ -14,7 +14,6 @@ import 'package:stattrack/providers/ingredient_service_provider.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/ingredient_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
-import 'package:stattrack/styles/palette.dart';
 import 'package:stattrack/utils/validator.dart';
 
 class CreateMealIngredients extends ConsumerStatefulWidget {
@@ -247,8 +246,8 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
             ),
             SizedBox(
               width: 120.0,
-              child: BorderedTextInput(
-                hintText: 'Amount (g)',
+              child: StattrackTextInput(
+                label: 'Amount (g)',
                 controller: _controller,
                 onChanged: (value) => _updateState,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -258,6 +257,9 @@ class _CreateMealIngredientsState extends ConsumerState<CreateMealIngredients> {
               ),
             ),
           ],
+        ),
+        const SizedBox(
+          height: 20.0,
         ),
         MainButton(
           onPressed: _addIngredient,

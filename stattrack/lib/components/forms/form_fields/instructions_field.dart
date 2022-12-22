@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 
 class InstructionsField extends StatefulWidget {
   const InstructionsField(
@@ -28,9 +28,9 @@ class _InstructionsFieldState extends State<InstructionsField> {
         Row(
           children: <Widget>[
             Flexible(
-              child: BorderedTextInput(
+              child: StattrackTextInput(
+                label: 'Instruction',
                 controller: _controller,
-                hintText: 'Instruction',
                 textInputAction: TextInputAction.done,
                 onEditingComplete: () => FocusScope.of(context).unfocus(),
                 onChanged: (value) => widget.onChange(widget.index, value),

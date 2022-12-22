@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/buttons/stattrack_text_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/meals/meal_showcase.dart';
 import 'package:stattrack/models/meal.dart';
@@ -91,8 +91,8 @@ class _AddMealState extends ConsumerState<AddMeal> {
   }
 
   Widget _buildSearch() {
-    return BorderedTextInput(
-      hintText: 'Search...',
+    return StattrackTextInput(
+      label: 'Search...',
       onChanged: (value) => _updateSearchWord(value),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/utils/validator.dart';
 
@@ -91,9 +91,9 @@ class _IngredientSelectState extends State<IngredientSelect> {
               width: 20.0,
             ),
             Flexible(
-              child: BorderedTextInput(
+              child: StattrackTextInput(
+                label: 'Amount (g)',
                 controller: _controller,
-                hintText: 'Amount (g)',
                 textInputAction: TextInputAction.done,
                 keyboardType: const TextInputType.numberWithOptions(
                     decimal: true, signed: true),
