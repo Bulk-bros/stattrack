@@ -51,7 +51,8 @@ class _AddMealState extends ConsumerState<AddMeal> {
               horizontal: 25.0,
               vertical: 20.0,
             ),
-            content: MealShowcase(meal: meal, width: modalContentWidth),
+            content: MealShowcase(
+                meal: meal, width: modalContentWidth, context: context),
           );
         });
   }
