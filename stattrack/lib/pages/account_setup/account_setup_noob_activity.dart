@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/layout/stattrack_column.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
@@ -20,49 +21,45 @@ class _AccountSetupNoobActivityState extends State<AccountSetupNoobActivity> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
+        StattrackColumn(
+          gap: 'xl',
+          children: [
             const Text(
               'How active are you on a regular basis? Select one of the options belove.',
               style: TextStyle(
                 fontWeight: FontStyles.fwTitle,
               ),
             ),
-            const SizedBox(
-              height: 25.0,
-            ),
-            _buildButton(
-              id: 1,
-              title: 'Inactive',
-              text:
-                  'If you have an office job, or another job where you sit still for most of the day.',
-            ),
-            const SizedBox(
-              height: 16.0,
-            ),
-            _buildButton(
-              id: 2,
-              title: 'Moderate',
-              text:
-                  'You have a job where you stand still for most of the day. E.g. teacher, receptionist, etc...',
-            ),
-            const SizedBox(
-              height: 16.0,
-            ),
-            _buildButton(
-              id: 3,
-              title: 'Active',
-              text:
-                  'You have a job where you are activly using your body. E.g. carpenter, warehouseworker, etc...',
+            StattrackColumn(
+              gap: 's',
+              children: <Widget>[
+                _buildButton(
+                  id: 1,
+                  title: 'Inactive',
+                  text:
+                      'If you have an office job, or another job where you sit still for most of the day.',
+                ),
+                _buildButton(
+                  id: 2,
+                  title: 'Moderate',
+                  text:
+                      'You have a job where you stand still for most of the day. E.g. teacher, receptionist, etc...',
+                ),
+                _buildButton(
+                  id: 3,
+                  title: 'Active',
+                  text:
+                      'You have a job where you are activly using your body. E.g. carpenter, warehouseworker, etc...',
+                ),
+              ],
             ),
           ],
         ),
         MainButton(
-          callback: _activityLevel != null
+          onPressed: _activityLevel != null
               ? () => widget.onComplete(_activityLevel!)
               : null,
           label: 'Next',
@@ -71,8 +68,12 @@ class _AccountSetupNoobActivityState extends State<AccountSetupNoobActivity> {
     );
   }
 
-  Widget _buildButton(
-      {required int id, required String title, required String text}) {
+  // TODO: Refactor into component, or use clickable component
+  Widget _buildButton({
+    required int id,
+    required String title,
+    required String text,
+  }) {
     return ElevatedButton(
       onPressed: () => setState(() {
         _activityLevel = id;

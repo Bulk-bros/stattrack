@@ -42,7 +42,6 @@ class _CreateMealPageState extends ConsumerState<CreateMealPage> {
 
   Future<void> _handleSubmit() async {
     if (_name == null ||
-        _imageData == null ||
         _ingredients.isEmpty ||
         _instructions.isEmpty ||
         _calories == null ||
@@ -67,7 +66,7 @@ class _CreateMealPageState extends ConsumerState<CreateMealPage> {
           proteins: _proteins!,
         ),
         uid: auth.currentUser!.uid,
-        imageData: _imageData!,
+        imageData: _imageData,
       );
 
       if (!mounted) return;

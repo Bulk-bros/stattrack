@@ -115,7 +115,7 @@ class _LogPageState extends ConsumerState<LogPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         headerTitle: 'Log',
       ),
       body: _buildBody(),

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
 import 'package:stattrack/components/forms/form_fields/image_picker_input.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
+import 'package:stattrack/components/layout/spacing.dart';
+import 'package:stattrack/components/layout/stattrack_column.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/utils/validator.dart';
 
@@ -73,6 +75,10 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
     }
   }
 
+  void _updateState() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -85,78 +91,79 @@ class _AccountSetupGeneralInfoState extends State<AccountSetupGeneralInfo> {
               fontWeight: FontStyles.fwTitle,
             ),
           ),
-          const SizedBox(
-            height: 25.0,
+          const Spacing(
+            direction: 'y',
+            amount: 'xl',
           ),
-          BorderedTextInput(
-            hintText: "Your full name",
-            titleText: "Name",
-            controller: _nameController,
-            focusNode: _nameFocusNode,
-            errorText: _showError && !_isValidName ? 'Cannot be empty' : null,
-            textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.name,
-            onEditingComplete: _nameEditingComplete,
-          ),
-          _buildDatePicker(),
-          BorderedTextInput(
-            hintText: 'Your height in cm',
-            titleText: "Height",
-            controller: _heightController,
-            focusNode: _heightFocusNode,
-            errorText: _showError && !_isValidHeight
-                ? 'Only decimal numbers. Use "." instead of ","'
-                : null,
-            textInputAction: TextInputAction.next,
-            keyboardType: const TextInputType.numberWithOptions(
-              decimal: true,
-              signed: true,
-            ),
-            onEditingComplete: _heightEditingComplete,
-          ),
-          BorderedTextInput(
-            hintText: 'Your Weight in kg',
-            titleText: "Weight",
-            controller: _weightController,
-            focusNode: _weightFocusNode,
-            errorText: _showError && !_isValidHeight
-                ? 'Only decimal numbers. Use "." instead of ","'
-                : null,
-            textInputAction: TextInputAction.done,
-            keyboardType: const TextInputType.numberWithOptions(
-              decimal: true,
-              signed: true,
-            ),
-            onEditingComplete: _submit,
-          ),
-          const Text(
-            'Image (Optional)',
-            style: TextStyle(
-              color: Colors.black87,
-              fontWeight: FontStyles.fwTitle,
-            ),
-          ),
-          const SizedBox(
-            height: 8.0,
-          ),
-          ImagePickerInput(
-            label: 'Upload profile picture',
-            onImagePicked: (image) => setState(() {
-              _image = image;
-            }),
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          MainButton(
-            callback: _submit,
-            label: 'Next',
+          StattrackColumn(
+            gap: 'm',
+            children: <Widget>[
+              StattrackTextInput(
+                label: 'Name',
+                errorText:
+                    _showError && !_isValidName ? 'Cannot be empty' : null,
+                controller: _nameController,
+                focusNode: _nameFocusNode,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.name,
+                onEditingComplete: _nameEditingComplete,
+                onChanged: (name) => _updateState(),
+              ),
+              _buildDatePicker(),
+              StattrackTextInput(
+                label: 'Height',
+                errorText: _showError && !_isValidHeight
+                    ? 'Only decimal numbers. Use "." instead of ","'
+                    : null,
+                controller: _heightController,
+                focusNode: _heightFocusNode,
+                textInputAction: TextInputAction.next,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                  signed: true,
+                ),
+                onEditingComplete: _heightEditingComplete,
+                onChanged: (height) => _updateState(),
+              ),
+              StattrackTextInput(
+                label: 'Weight',
+                errorText: _showError && !_isValidWeight
+                    ? 'Only decimal numbers. Use "." instead of ","'
+                    : null,
+                controller: _weightController,
+                focusNode: _weightFocusNode,
+                textInputAction: TextInputAction.done,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                  signed: true,
+                ),
+                onChanged: (weight) => _updateState(),
+              ),
+              const Text(
+                'Image (Optional)',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontStyles.fwTitle,
+                ),
+              ),
+              ImagePickerInput(
+                label: 'Upload profile picture',
+                onImagePicked: (image) => setState(() {
+                  _image = image;
+                }),
+              ),
+              MainButton(
+                onPressed: _submit,
+                label: 'Next',
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
+  // TODO: Refactore into component
   Widget _buildDatePicker() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

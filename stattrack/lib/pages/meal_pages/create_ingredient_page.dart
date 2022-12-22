@@ -6,7 +6,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
+import 'package:stattrack/components/layout/stattrack_column.dart';
 import 'package:stattrack/models/ingredient.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/ingredient_service_provider.dart';
@@ -216,8 +217,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
       child: Padding(
         padding: const EdgeInsets.all(31.0),
         child: Form(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: StattrackColumn(
+            gap: 'l',
             children: <Widget>[
               _showError
                   ? Column(
@@ -239,18 +240,16 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                   : const SizedBox(
                       height: 0,
                     ),
-              BorderedTextInput(
-                titleText: "Ingredient name",
-                hintText: "Ingredient name",
+              StattrackTextInput(
+                label: "Ingredient name",
                 controller: _nameController,
                 focusNode: _nameFocusNode,
                 textInputAction: TextInputAction.next,
                 onEditingComplete: _nameEditingComplete,
                 onChanged: (name) => _updateState(),
               ),
-              BorderedTextInput(
-                titleText: "Calories",
-                hintText: "Calories per 100g",
+              StattrackTextInput(
+                label: "Calories",
                 controller: _caloriesController,
                 focusNode: _caloriesFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -261,9 +260,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 onEditingComplete: _caloriesEditingComplete,
                 onChanged: (name) => _updateState(),
               ),
-              BorderedTextInput(
-                titleText: "Fat",
-                hintText: "Fat per 100g",
+              StattrackTextInput(
+                label: "Fat",
                 controller: _fatController,
                 focusNode: _fatFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -274,9 +272,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 onEditingComplete: _fatEditingComplete,
                 onChanged: (name) => _updateState(),
               ),
-              BorderedTextInput(
-                titleText: "Saturated fat",
-                hintText: "Saturated fat per 100g",
+              StattrackTextInput(
+                label: "Saturated fat",
                 controller: _saturatedFatController,
                 focusNode: _saturatedFatFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -287,9 +284,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 onEditingComplete: _saturatedFatEditingComplete,
                 onChanged: (name) => _updateState(),
               ),
-              BorderedTextInput(
-                titleText: "Carbs",
-                hintText: "Carbs per 100g",
+              StattrackTextInput(
+                label: "Carbs",
                 controller: _carbsController,
                 focusNode: _carbsFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -300,9 +296,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 onEditingComplete: _carbsEditingComplete,
                 onChanged: (name) => _updateState(),
               ),
-              BorderedTextInput(
-                titleText: "Sugars",
-                hintText: "Sugars per 100g",
+              StattrackTextInput(
+                label: "Sugars",
                 controller: _sugarController,
                 focusNode: _sugarFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -313,9 +308,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 onEditingComplete: _sugarEditingComplete,
                 onChanged: (name) => _updateState(),
               ),
-              BorderedTextInput(
-                titleText: "Proteins",
-                hintText: "Proteins per 100g",
+              StattrackTextInput(
+                label: "Proteins",
                 controller: _proteinsController,
                 focusNode: _proteinsFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -326,9 +320,8 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 onEditingComplete: () => _proteinEditingComplete(),
                 onChanged: (name) => _updateState(),
               ),
-              BorderedTextInput(
-                titleText: "Salt",
-                hintText: "Salts per 100g",
+              StattrackTextInput(
+                label: "Salt",
                 controller: _saltController,
                 focusNode: _saltFocusNode,
                 keyboardType: const TextInputType.numberWithOptions(
@@ -339,15 +332,9 @@ class _CreateIngredientPageState extends ConsumerState<CreateIngredientPage> {
                 onEditingComplete: () => _submit(auth),
                 onChanged: (name) => _updateState(),
               ),
-              const SizedBox(
-                height: 20.0,
-              ),
               MainButton(
-                callback: !_isLoading ? () => _submit(auth) : null,
+                onPressed: !_isLoading ? () => _submit(auth) : null,
                 label: 'Create Ingredient',
-              ),
-              const SizedBox(
-                height: 20.0,
               ),
             ],
           ),

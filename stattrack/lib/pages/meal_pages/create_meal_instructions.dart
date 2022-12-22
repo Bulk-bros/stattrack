@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 import 'package:stattrack/styles/font_styles.dart';
-import 'package:stattrack/styles/palette.dart';
 
 class CreateMealInstructions extends StatefulWidget {
   const CreateMealInstructions({
@@ -73,6 +73,9 @@ class _CreateMealInstructionsState extends State<CreateMealInstructions> {
           height: 20.0,
         ),
         _buildHeader(),
+        const SizedBox(
+          height: 20.0,
+        ),
         _buildForm(),
         const SizedBox(
           height: 20.0,
@@ -97,14 +100,9 @@ class _CreateMealInstructionsState extends State<CreateMealInstructions> {
             fontWeight: FontStyles.fwTitle,
           ),
         ),
-        TextButton(
+        StattrackTextButton(
           onPressed: _handleComplete,
-          child: Text(
-            'Next',
-            style: TextStyle(
-              color: Palette.accent[400],
-            ),
-          ),
+          label: 'Next',
         )
       ],
     );
@@ -114,13 +112,16 @@ class _CreateMealInstructionsState extends State<CreateMealInstructions> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BorderedTextInput(
-          hintText: 'Instruction',
+        StattrackTextInput(
+          label: 'Instruction',
           controller: _controller,
           onChanged: (value) => _updateState,
         ),
+        const SizedBox(
+          height: 16.0,
+        ),
         MainButton(
-          callback: _addInstruction,
+          onPressed: _addInstruction,
           label: 'Add instruction',
         ),
         _showError

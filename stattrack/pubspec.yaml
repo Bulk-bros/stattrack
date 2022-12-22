@@ -106,7 +106,7 @@ flutter:
     - assets/images/foodstockpic.jpg
     - assets/images/default-profile-picture.png
     - assets/gifs/loading.gif
-    - assets/icons/image-solid.svg
+    - assets/icons/meal-icon.png
 
   fonts:
     - family: Inter

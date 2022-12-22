@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stattrack/components/buttons/danger_button.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
+import 'package:stattrack/components/feedback/loading_modal.dart';
+import 'package:stattrack/components/layout/stattrack_column.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/log_service_provider.dart';
@@ -9,13 +13,17 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/log_service.dart';
 import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
-import 'package:stattrack/styles/palette.dart';
 
 class MealShowcase extends ConsumerStatefulWidget {
-  const MealShowcase({Key? key, required this.meal, this.width})
-      : super(key: key);
+  const MealShowcase({
+    Key? key,
+    required this.meal,
+    required this.context,
+    this.width,
+  }) : super(key: key);
 
   final Meal meal;
+  final BuildContext context;
   final double? width;
 
   @override
@@ -31,34 +39,52 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
     });
   }
 
-  void _logMeal(AuthBase auth, LogService logService) {
+  void _logMeal(
+      BuildContext context, AuthBase auth, LogService logService) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const LoadingModal();
+      },
+      barrierDismissible: false,
+    );
     try {
-      logService.logMeal(widget.meal, auth.currentUser!.uid);
+      await logService.logMeal(widget.meal, auth.currentUser!.uid);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(widget.context).showSnackBar(
         const SnackBar(
-          content: Text('Profile picture was succesfully changed!'),
+          content: Text('Something went wrong, please try again!'),
         ),
       );
     } finally {
       Navigator.of(context).pop();
+      Navigator.of(widget.context).pop();
     }
   }
 
   Future<void> _deleteMeal(
       BuildContext context, AuthBase auth, MealService mealService) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const LoadingModal();
+      },
+      barrierDismissible: false,
+    );
     try {
       // Delete meal
       await mealService.deleteMeal(auth.currentUser!.uid, widget.meal);
-
-      Navigator.of(context).pop();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Could not delete meal. Please try again!'),
         ),
       );
+    } finally {
+      Navigator.of(context).pop();
     }
+    if (!mounted) return;
+    Navigator.of(widget.context).pop();
   }
 
   @override
@@ -67,41 +93,28 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
     final MealService mealService = ref.read(mealServiceProvider);
     final LogService logService = ref.read(logServiceProvider);
 
-    const SizedBox separetor = SizedBox(
-      height: 25.0,
-    );
-
     return SizedBox(
       width: widget.width,
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: StattrackColumn(
+          gap: 'h',
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            StattrackColumn(
+              gap: 'xl',
               children: <Widget>[
                 _buildHeader(),
-                separetor,
                 _buildNutrients(),
-                separetor,
                 _buildIngredients(),
-                separetor,
                 _buildInstructions(),
-                separetor,
               ],
             ),
             _editable
-                ? MainButton(
-                    callback: () => _deleteMeal(context, auth, mealService),
+                ? DangerButton(
+                    onPressed: () => _deleteMeal(context, auth, mealService),
                     label: 'Delete meal',
-                    backgroundColor: Colors.white,
-                    borderColor: Colors.red,
-                    color: Colors.red,
-                    elevation: 0,
                   )
                 : MainButton(
-                    callback: () => _logMeal(auth, logService),
+                    onPressed: () => _logMeal(context, auth, logService),
                     label: 'Eat meal',
                   ),
           ],
@@ -114,14 +127,9 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextButton(
+        StattrackTextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              color: Palette.accent[400],
-            ),
-          ),
+          label: 'Cancel',
         ),
         Expanded(
           child: Column(
@@ -148,8 +156,7 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
                       : const BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: AssetImage("assets/icons/image-solid.svg"),
-                            opacity: 0.4,
+                            image: AssetImage("assets/icons/meal-icon.png"),
                           ),
                         ),
                 ),

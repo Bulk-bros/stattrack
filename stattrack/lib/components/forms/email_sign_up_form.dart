@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:stattrack/components/buttons/form_button.dart';
+import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/feedback/error_text.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
+import 'package:stattrack/components/layout/spacing.dart';
+import 'package:stattrack/components/layout/stattrack_padding.dart';
 import 'package:stattrack/pages/auth_pages/terms_of_service_page.dart';
 import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/utils/validator.dart';
@@ -112,61 +116,62 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
     // when all criterias are met
     bool enableSubmit = !_isLoading;
 
-    return Padding(
-      padding: const EdgeInsets.all(31.0),
+    return StattrackPadding(
+      direction: 'xy',
+      amount: 'xl',
       child: Form(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            TextFormField(
+            StattrackTextInput(
               key: const Key('emailSignUpEmailTextFormField'),
+              label: 'Email',
+              errorText:
+                  _showInputErrors && !_isValidEmail ? 'Invalid email' : null,
               controller: _emailController,
               focusNode: _emailFocusNode,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Your email address',
-                errorText:
-                    _showInputErrors && !_isValidEmail ? 'Invalid email' : null,
-              ),
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.emailAddress,
               onEditingComplete: _emailEditingComplete,
               onChanged: (email) => _updateState(),
             ),
-            TextFormField(
+            const Spacing(
+              direction: 'y',
+              amount: 'm',
+            ),
+            StattrackTextInput(
               key: const Key('emailSignUpPasswordTextFormField'),
+              label: 'Password',
+              errorText: _showInputErrors && !_isValidPassword
+                  ? '8-20 characters, lower and uppercase, atleast one number and one symbol'
+                  : null,
               controller: _passwordController,
               focusNode: _passwordFocusNode,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Your password',
-                errorText: _showInputErrors && !_isValidPassword
-                    ? '8-20 characters, lower and uppercase, \natleast one number and one symbol'
-                    : null,
-              ),
-              obscureText: true,
               textInputAction: TextInputAction.next,
+              obscureText: true,
               onEditingComplete: _passwordEditingComplete,
               onChanged: (pwd) => _updateState(),
             ),
-            TextFormField(
+            const Spacing(
+              direction: 'y',
+              amount: 'm',
+            ),
+            StattrackTextInput(
               key: const Key('emailSignUpPasswordConfirmTextFormField'),
+              label: 'Confirm password',
+              errorText: _showInputErrors && !_isValidPasswordConfirm
+                  ? 'Both passwords must match'
+                  : null,
               controller: _passwordConfirmController,
               focusNode: _passwordConfirmFocusNode,
-              decoration: InputDecoration(
-                labelText: 'Confirm password',
-                hintText: 'Confirm password',
-                errorText: _showInputErrors && !_isValidPasswordConfirm
-                    ? 'Both passwords must match'
-                    : null,
-              ),
-              obscureText: true,
               textInputAction: TextInputAction.done,
+              obscureText: true,
               onEditingComplete: _submit,
-              onChanged: (pwdConfirm) => _updateState(),
+              onChanged: (pwd) => _updateState(),
             ),
-            const SizedBox(
-              height: 39.0,
+            const Spacing(
+              direction: 'y',
+              amount: 'xl',
             ),
             Row(
               children: <Widget>[
@@ -179,32 +184,35 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                     });
                   },
                 ),
-                TextButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: TermsOfServicePage(
-                        onAccept: () => setState(() {
-                          _isChecked = true;
-                          Navigator.of(context).pop();
-                        }),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: TermsOfServicePage(
+                          onAccept: () => setState(() {
+                            _isChecked = true;
+                            Navigator.of(context).pop();
+                          }),
+                        ),
                       ),
                     ),
-                  ),
-                  child: const Text(
-                    'I have read and agree with the \nTerms of Service',
-                    style: TextStyle(
-                      color: Colors.black87,
+                    child: const Text(
+                      'I have read and agree with the Terms of Service',
+                      style: TextStyle(
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(
-              height: 39.0,
+            const Spacing(
+              direction: 'y',
+              amount: 'xl',
             ),
-            FormButton(
+            MainButton(
               key: const Key('emailSignUpFormButton'),
               onPressed: enableSubmit ? _submit : null,
               label: 'Sign Up',
@@ -215,13 +223,9 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
                       const SizedBox(
                         height: 25.0,
                       ),
-                      Text(
-                        _showAuthError ? _authErrorMsg : '',
-                        style: const TextStyle(
-                          color: Colors.redAccent,
-                          fontSize: 14.0,
-                        ),
-                      ),
+                      ErrorText(
+                        text: _authErrorMsg,
+                      )
                     ]
                   : [],
             ),

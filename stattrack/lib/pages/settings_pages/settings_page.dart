@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:stattrack/components/buttons/danger_button.dart';
 import 'package:stattrack/components/buttons/secondary_button.dart';
 import 'package:stattrack/components/app/custom_app_bar.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
@@ -271,7 +272,7 @@ class SettingsPage extends ConsumerWidget {
                 height: 31.0,
               ),
               MainButton(
-                callback: () => _signOut(context),
+                onPressed: () => _signOut(context),
                 label: "Log out",
               ),
             ],
@@ -395,14 +396,9 @@ class SettingsPage extends ConsumerWidget {
         SizedBox(
           height: spacing,
         ),
-        MainButton(
-          callback: () => _deleteAccount(context, ref),
+        DangerButton(
+          onPressed: () => _deleteAccount(context, ref),
           label: 'Delete account',
-          padding: const EdgeInsets.all(16.0),
-          backgroundColor: Colors.white,
-          color: Colors.red,
-          borderColor: Colors.red,
-          elevation: 0,
         ),
       ],
     );

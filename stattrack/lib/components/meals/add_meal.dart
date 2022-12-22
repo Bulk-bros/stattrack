@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
-import 'package:stattrack/components/forms/form_fields/bordered_text_input.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
+import 'package:stattrack/components/forms/form_fields/stattrack_text_input.dart';
 import 'package:stattrack/components/meals/meal_card.dart';
 import 'package:stattrack/components/meals/meal_showcase.dart';
 import 'package:stattrack/models/meal.dart';
@@ -46,8 +47,12 @@ class _AddMealState extends ConsumerState<AddMeal> {
         builder: (context) {
           return AlertDialog(
             insetPadding: const EdgeInsets.all(20.0),
-            contentPadding: const EdgeInsets.all(16.0),
-            content: MealShowcase(meal: meal, width: modalContentWidth),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 25.0,
+              vertical: 20.0,
+            ),
+            content: MealShowcase(
+                meal: meal, width: modalContentWidth, context: context),
           );
         });
   }
@@ -77,31 +82,21 @@ class _AddMealState extends ConsumerState<AddMeal> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        TextButton(
+        StattrackTextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              color: Palette.accent[400],
-            ),
-          ),
+          label: 'Cancel',
         ),
-        TextButton(
+        StattrackTextButton(
           onPressed: () => _goToCreateMeal(context),
-          child: Text(
-            'Create new meal',
-            style: TextStyle(
-              color: Palette.accent[400],
-            ),
-          ),
+          label: 'Create new meal',
         ),
       ],
     );
   }
 
   Widget _buildSearch() {
-    return BorderedTextInput(
-      hintText: 'Search...',
+    return StattrackTextInput(
+      label: 'Search...',
       onChanged: (value) => _updateSearchWord(value),
     );
   }
@@ -134,7 +129,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
                 height: 16.0,
               ),
               MainButton(
-                callback: () => _goToCreateMeal(context),
+                onPressed: () => _goToCreateMeal(context),
                 label: 'Create a new meal',
               ),
             ],

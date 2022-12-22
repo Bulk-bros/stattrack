@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
+import 'package:stattrack/components/buttons/stattrack_text_button.dart';
+import 'package:stattrack/components/feedback/loading_modal.dart';
 import 'package:stattrack/styles/font_styles.dart';
 import 'package:stattrack/styles/palette.dart';
 
@@ -31,17 +33,9 @@ class CreateMealOverview extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          content: SizedBox(
-            height: 100,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: Palette.accent[400],
-              ),
-            ),
-          ),
-        );
+        return const LoadingModal();
       },
+      barrierDismissible: false,
     );
     await onComplete();
     Navigator.of(context).pop();
@@ -79,7 +73,7 @@ class CreateMealOverview extends StatelessWidget {
             ],
           ),
           MainButton(
-            callback: () => _handleComplete(context),
+            onPressed: () => _handleComplete(context),
             label: 'Create meal',
           ),
         ],
@@ -108,14 +102,9 @@ class CreateMealOverview extends StatelessWidget {
                 fontWeight: FontStyles.fwTitle,
               ),
             ),
-            TextButton(
+            StattrackTextButton(
               onPressed: () => _handleComplete(context),
-              child: Text(
-                'Next',
-                style: TextStyle(
-                  color: Palette.accent[400],
-                ),
-              ),
+              label: 'Next',
             )
           ],
         ),

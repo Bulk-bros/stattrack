@@ -22,8 +22,6 @@ class AuthButton extends StatelessWidget {
     required this.iconAlt,
     this.bgColor,
     this.textColor,
-    this.height = 50.0,
-    this.borderRadius = 5,
   }) : super(key: key);
 
   final String label;
@@ -31,21 +29,19 @@ class AuthButton extends StatelessWidget {
   final String iconAlt;
   final Color? bgColor;
   final Color? textColor;
-  final double height;
-  final double borderRadius;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: 50.0,
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: bgColor,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(borderRadius),
+                Radius.circular(5.0),
               ),
             ),
           ),

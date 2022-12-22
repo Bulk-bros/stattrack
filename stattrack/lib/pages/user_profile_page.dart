@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:stattrack/components/cards/custom_card.dart';
+import 'package:stattrack/components/feedback/loading_modal.dart';
 
 import 'package:stattrack/components/meals/consumed_meal_card.dart';
 
