@@ -47,7 +47,10 @@ class _AddMealState extends ConsumerState<AddMeal> {
         builder: (context) {
           return AlertDialog(
             insetPadding: const EdgeInsets.all(20.0),
-            contentPadding: const EdgeInsets.all(16.0),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 25.0,
+              vertical: 20.0,
+            ),
             content: MealShowcase(meal: meal, width: modalContentWidth),
           );
         });

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stattrack/components/buttons/danger_button.dart';
 import 'package:stattrack/components/buttons/main_button.dart';
 import 'package:stattrack/components/buttons/stattrack_text_button.dart';
+import 'package:stattrack/components/layout/stattrack_column.dart';
 import 'package:stattrack/models/meal.dart';
 import 'package:stattrack/providers/auth_provider.dart';
 import 'package:stattrack/providers/log_service_provider.dart';
@@ -11,7 +12,6 @@ import 'package:stattrack/services/auth.dart';
 import 'package:stattrack/services/log_service.dart';
 import 'package:stattrack/services/meal_service.dart';
 import 'package:stattrack/styles/font_styles.dart';
-import 'package:stattrack/styles/palette.dart';
 
 class MealShowcase extends ConsumerStatefulWidget {
   const MealShowcase({Key? key, required this.meal, this.width})
@@ -69,28 +69,19 @@ class _MealShowcaseState extends ConsumerState<MealShowcase> {
     final MealService mealService = ref.read(mealServiceProvider);
     final LogService logService = ref.read(logServiceProvider);
 
-    const SizedBox separetor = SizedBox(
-      height: 25.0,
-    );
-
     return SizedBox(
       width: widget.width,
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: StattrackColumn(
+          gap: 'h',
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            StattrackColumn(
+              gap: 'xl',
               children: <Widget>[
                 _buildHeader(),
-                separetor,
                 _buildNutrients(),
-                separetor,
                 _buildIngredients(),
-                separetor,
                 _buildInstructions(),
-                separetor,
               ],
             ),
             _editable
