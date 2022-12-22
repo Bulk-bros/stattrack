@@ -124,6 +124,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             StattrackTextInput(
+              key: const Key('emailSignUpEmailTextFormField'),
               label: 'Email',
               errorText:
                   _showInputErrors && !_isValidEmail ? 'Invalid email' : null,
@@ -139,6 +140,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               amount: 'm',
             ),
             StattrackTextInput(
+              key: const Key('emailSignUpPasswordTextFormField'),
               label: 'Password',
               errorText: _showInputErrors && !_isValidPassword
                   ? '8-20 characters, lower and uppercase, atleast one number and one symbol'
@@ -155,6 +157,7 @@ class _EmailSignUpFormState extends State<EmailSignUpForm> {
               amount: 'm',
             ),
             StattrackTextInput(
+              key: const Key('emailSignUpPasswordConfirmTextFormField'),
               label: 'Confirm password',
               errorText: _showInputErrors && !_isValidPasswordConfirm
                   ? 'Both passwords must match'
